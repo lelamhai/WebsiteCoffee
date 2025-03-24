@@ -31,17 +31,19 @@
                 </div>
                 
                 <div class="mt-5">
-                   <div class="mb-4">
-                        <input type="text" class="form-control form-control-lg" placeholder="Tên đăng nhập">
-                    </div>
+                    <form action="login" method="post">
+                        <div class="mb-4">
+                             <input type="text" name ="username" class="form-control form-control-lg" placeholder="Tên đăng nhập">
+                         </div>
+
+                         <div class="mb-4">
+                             <input type="text" name ="password" class="form-control form-control-lg" placeholder="Mặt Khẩu">
+                         </div>
                     
-                    <div class="mb-4">
-                        <input type="text" class="form-control form-control-lg" placeholder="Mặt Khẩu">
-                    </div>
-                    
-                    <button class="btn btn-primary w-100 btn-continue">
-                        Tiếp tục
-                    </button>
+                        <button class="btn btn-primary w-100 btn-continue">
+                            Tiếp tục
+                        </button>
+                    </form>
                 </div>
             </div>
             <div class="col-lg-1 text-center illustration">
