@@ -1,6 +1,6 @@
 <%-- 
     Document   : home
-    Created on : Mar 13, 2025, 10:49:48 AM
+    Created on : Mar 24, 2025, 9:06:13 AM
     Author     : ADMIN
 --%>
 
@@ -9,10 +9,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="css/style.css"/>
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Thông điệp từ Servlet: ${message}</h1>
-        <h1>LLH</h1>
+       <a href="login">Login</a>
     </body>
 </html>
