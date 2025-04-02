@@ -11,6 +11,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  *
@@ -31,7 +36,6 @@ public class MenuAdminControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -47,8 +51,49 @@ public class MenuAdminControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        String apiUrl = "http://localhost:8080/products/";
+
+        String result = sendPostRequest(apiUrl, request, response);
+        request.setAttribute("message", result);
+        
+        
+        
+        
+        
         request.getRequestDispatcher("MenuAdmin.jsp").forward(request, response);
     }
+    
+    private String sendPostRequest(String apiUrl,HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            URL url = new URL(apiUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            
+            int responseCode = conn.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String inputLine;
+                StringBuilder apiResponse = new StringBuilder();
+                
+                while ((inputLine = in.readLine()) != null) {
+                    apiResponse.append(inputLine);
+                }
+                in.close();
+                
+                return apiResponse.toString();
+               
+            } else {
+                response.getWriter().write("API call failed with code: " + responseCode);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+    
+    
+    
+     
 
     /**
      * Handles the HTTP <code>POST</code> method.

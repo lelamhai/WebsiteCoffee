@@ -17,83 +17,7 @@
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <style>
-      .table-responsive {
-  overflow-x: auto;
-}
-
-.warp-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  border-radius: 8px;
-  overflow: hidden;
-  background: white;
-}
-
-.table-header {
-  background: #98A2B3;
-}
-
-.warp-table th, .warp-table td {
-  padding: 12px 16px;
-  text-align: left;
-  border-bottom: 1px solid #dee2e6;
-}
-
-.warp-table th {
-  color: #ffffff;
-}
-
-.warp-table tbody tr:hover {
-  background: #f8f9fa;
-}
-
-.product-image {
-  width: 40px;
-  height: 40px;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-.status-badge {
-  padding: 6px 12px;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.status-out {
-  background: #f8d7da;
-  color: #dc3545;
-}
-
-.status-in {
-  background: #d4edda;
-  color: #28a745;
-}
-
-.action-button {
-  border: none;
-  background: transparent;
-  color: #dc3545;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.action-button:hover {
-  color: #a71d2a;
-}
-
-.warp-table th:first-child,
-.warp-table td:first-child {
-  width: 120px; /* Điều chỉnh độ rộng nhỏ hơn */
-  text-align: center;
-}
-
-.product-image {
-  width: 35px;
-  height: 35px;
-}
+      
   </style>
 </head>
 <body>
@@ -164,6 +88,8 @@
     <!-- Content Area -->
     <div class="content-area">
       <h1 class="h4 fw-bold mb-4">Danh sách</h1>
+      <h1>${message}</h1>
+      
       
       <div class="d-flex justify-content-between mb-4 flex-wrap">
         <div class="mb-2">

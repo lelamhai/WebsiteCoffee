@@ -11,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.awt.SystemColor;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -36,17 +37,6 @@ public class LoginControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
             response.setContentType("text/html; charset=UTF-8");
-            String user = request.getParameter("username");
-            String pass = request.getParameter("password");
-            
-            String apiUrl = "http://localhost:8080/api/v1/users/login";
-            
-            String jsonInputString = String.format("{ \"username\": \"%s\", \"password\": \"%s\" }", user, pass);
-
-            String result = sendPostRequest(apiUrl, jsonInputString);
-
-            response.setContentType("application/json");
-            response.getWriter().write(result);
            
     }
     
@@ -108,8 +98,20 @@ public class LoginControl extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        
-        
+            String user = request.getParameter("username");
+            String pass = request.getParameter("password");
+            
+            String apiUrl = "http://localhost:8080/api/v1/users/login";
+            String jsonInputString = String.format("{ \"username\": \"%s\", \"password\": \"%s\" }", user, pass);
+            String result = sendPostRequest(apiUrl, jsonInputString);
+            response.setContentType("application/json");
+
+            if(result.trim() != "")
+            {
+                HttpSession session = request.getSession();
+                session.setAttribute("Token", result);
+                response.sendRedirect(request.getContextPath() + "/menu");
+            }
     }
 
     /**
