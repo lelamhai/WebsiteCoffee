@@ -1,0 +1,10 @@
+com\mycompany\websitecoffee\JakartaRestConfiguration.class
+com\mycompany\websitecoffee\resources\JakartaEE10Resource.class
+models\ProductModel.class
+models\ProductVariant.class
+control\HomeControl.class
+control\MenuAdminControl.class
+models\Category.class
+models\Size.class
+control\MenuAdminControl$1.class
+control\LoginControl.class
