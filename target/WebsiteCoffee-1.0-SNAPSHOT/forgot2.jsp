@@ -1,7 +1,7 @@
 <%-- 
     Document   : Login
     Created on : Mar 23, 2025, 11:19:07 PM
-    Author     : ADMIN
+    Author     : LDL
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -15,7 +15,17 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Custom CSS -->
         <style>
-
+            .password-container-liem {
+                position: relative;
+            }
+            .toggle-visibility-liem {
+                position: absolute;
+                right: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: pointer;
+                font-size: 20px;
+            }
         </style>
     </head>
     <body>
@@ -32,22 +42,25 @@
 
                     <div class="mt-5">
                         <form action="login" method="post">
-                            <div class="mb-4">
-                                <input type="text" name="otp" class="form-control form-control-lg liem-forgot" id="otp" placeholder="Nhập mã OTP" required>
-                                <!--<input type="text" name ="username" class="form-control form-control-lg" placeholder="Tên đăng nhập">-->
+                            <!-- Trường nhập OTP -->
+                            <div class="mb-4 password-container-liem">
+                                <input type="text" name="otp" class="form-control form-control-lg liem-forgot pe-5" id="otp" placeholder="Nhập mã OTP" required>
+                                <span class="toggle-visibility-liem" onclick="toggleVisibilityforgot2('otp', this)">🚫</span>
                             </div>
 
-                            <div class="mb-4">
-                                <input type="password" name="newPass" class="form-control form-control-lg liem-forgot" id="newPass" placeholder="Nhập mật khẩu mới" required>
-                                <!--<input type="text" name ="password" class="form-control form-control-lg" placeholder="Mật Khẩu">-->
-                            </div>
-                            
-                            <div class="mb-4">
-                                <input type="password" name="confirmPass" class="form-control form-control-lg liem-forgot" id="confirmPass" placeholder="Xác nhận mật khẩu mới" required>
-                                <!--<input type="text" name ="password" class="form-control form-control-lg" placeholder="Mặt Khẩu">-->
+                            <!-- Trường nhập mật khẩu mới -->
+                            <div class="mb-4 password-container-liem">
+                                <input type="password" name="newPass" class="form-control form-control-lg liem-forgot pe-5" id="newPass" placeholder="Nhập mật khẩu mới" required>
+                                <span class="toggle-visibility-liem" onclick="toggleVisibilityforgot2('newPass', this)">🚫</span>
                             </div>
 
-                            <button class="btn btn-primary w-100 btn-continue">
+                            <!-- Trường xác nhận mật khẩu -->
+                            <div class="mb-4 password-container-liem">
+                                <input type="password" name="confirmPass" class="form-control form-control-lg liem-forgot pe-5" id="confirmPass" placeholder="Xác nhận mật khẩu mới" required>
+                                <span class="toggle-visibility-liem" onclick="toggleVisibilityforgot2('confirmPass', this)">🚫</span>
+                            </div>
+
+                            <button class="btn btn-primary w-100 btn-continue rounded-pill">
                                 Xát nhận
                             </button>
                         </form>
@@ -64,5 +77,18 @@
 
         <!-- Bootstrap 5 JS Bundle with Popper -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            function toggleVisibilityforgot2(fieldId, icon) {
+                let inputField = document.getElementById(fieldId);
+                if (inputField.type === "password") {
+                    inputField.type = "text";
+                    icon.innerHTML = "👁"; // Đổi sang trạng thái hiển thị
+                } else {
+                    inputField.type = "password";
+                icon.innerHTML = "🚫"; // Đổi sang trạng thái ẩn
+                }
+            }
+        </script>
+
     </body>
 </html>
