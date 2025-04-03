@@ -10,4 +10,5 @@ models\ProductModel.class
 control\RegisterControl.class
 control\Forgot2Control.class
 control\MenuAdminControl$1.class
+control\Forgot1Control.class
 control\ForgotControl.class

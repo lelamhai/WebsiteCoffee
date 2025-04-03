@@ -36,7 +36,7 @@
                         <h1 class="fw-bold fs-2">Nhập Mật Khẩu</h1>
                         <p class="text-muted">
                             Vui lòng nhập mã xác thực được gửi qua email cùng với mật khẩu mới của bạn.
-                            <!--<a href="#" class="create-account">Tạo tài khoản</a>-->
+                            <!--<a href="#" class="create-new-account">Tạo tài khoản mới</a>-->
                         </p>
                     </div>
 

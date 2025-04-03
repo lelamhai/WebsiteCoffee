@@ -13,7 +13,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 .toggle-visibility-liem {
     position: absolute;
     right: 15px;
-    top: 50%;
+    top: 23px;
     transform: translateY(-50%);
     cursor: pointer;
     font-size: 20px;
@@ -21,20 +21,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 
 .error-message {
     color: red;
-    font-size: 14px;
     display: none;
 }
 
 body {
+
     min-height: 100vh;
     display: flex;
     align-items: center;
     background-color: #fff;
-}
-
-/* Lớp dùng để đánh dấu các thành phần đặc thù của trang forgot */
-.liem-forgot {
-
 }
 
 .logo-container {

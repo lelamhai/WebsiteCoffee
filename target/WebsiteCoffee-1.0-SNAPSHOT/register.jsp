@@ -1,5 +1,5 @@
 <%-- 
-    Document   : Login
+    Document   : Register
     Created on : Mar 31, 2025, 17:59:07 PM
     Author     : Liem
 --%>
@@ -9,27 +9,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="css/forgot2.css"/>
+        <link rel="stylesheet" href="css/register.css"/>
         <title>Register</title>
         <!-- Bootstrap 5 CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Custom CSS -->
         <style>
-            .password-container-liem {
-                position: relative;
-            }
-            .toggle-visibility-liem {
-                position: absolute;
-                right: 15px;
-                top: 23px;
-                transform: translateY(-50%);
-                cursor: pointer;
-                font-size: 20px;
-            }
-            .error-message {
-                color: red;
-                display: none;
-            }
+
         </style>
     </head>
     <body>
@@ -109,6 +95,7 @@
                 } else {
                     error1.style.display = "none";
                 }
+                /*
                 // Kiểm tra ít nhất 1 chữ, 1 số, 1 ký tự đặc biệt
                 let regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/;
                 if (!regex.test(password)) {
@@ -116,7 +103,7 @@
                     isValid = false;
                 } else {
                     error2.style.display = "none";
-                }
+                }*/
                 return isValid;
             }
 

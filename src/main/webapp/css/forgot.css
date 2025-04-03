@@ -6,12 +6,35 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     Created on : Mar 25, 2025, 5:21:46 PM
     Author     : LDL
 */
+.password-container-liem {
+    position: relative;
+}
+
+.toggle-visibility-liem {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    display: none;
+}
+
 body {
-    
     min-height: 100vh;
     display: flex;
     align-items: center;
     background-color: #fff;
+}
+
+/* Lớp dùng để đánh dấu các thành phần đặc thù của trang forgot */
+.liem-forgot {
+
 }
 
 .logo-container {

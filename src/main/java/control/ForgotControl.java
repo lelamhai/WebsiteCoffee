@@ -36,46 +36,49 @@ public class ForgotControl extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Thiết lập định dạng dữ liệu trả về ban đầu (HTML)
         response.setContentType("text/html;charset=UTF-8");
-        // Lấy dữ liệu từ form
+        
+        // Lấy dữ liệu từ form: username và newPass (confirmPass đã được kiểm tra ở phía client)
         String username = request.getParameter("username");
-        String email = request.getParameter("email");
-        // Địa chỉ API phục vụ chức năng khôi phục mật khẩu (có thể chỉnh sửa sau)
-        String apiUrl = "http://localhost:8080/api/v1/users/forgot";
-
-        // Tạo dữ liệu JSON từ các thông tin thu được
-        String jsonInputString = String.format("{ \"username\": \"%s\", \"email\": \"%s\" }", username, email);
+        String newPass = request.getParameter("newPass");
+        
+        // Địa chỉ API phục vụ chức năng quên mật khẩu (có thể chỉnh sửa sau)
+        String apiUrl = "http://localhost:8081/api/v1/users/reset-password";
+        
+        // Tạo dữ liệu JSON từ username và mật khẩu mới
+        String jsonInputString = String.format("{ \"username\": \"%s\", \"password\": \"%s\" }", username, newPass);
 
         // Gửi yêu cầu POST đến API
-        String result = sendPostRequest(apiUrl, jsonInputString);
+        String result = sendPutRequest(apiUrl, jsonInputString);
 
         // Trả về kết quả cho client (ở dạng JSON)
         response.setContentType("application/json");
         response.getWriter().write(result);
     }
 
-    private String sendPostRequest(String apiUrl, String jsonInputString) throws IOException {
+    private String sendPutRequest(String apiUrl, String jsonInputString) throws IOException {
         URL url = new URL(apiUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
+        conn.setRequestMethod("PUT");
         conn.setRequestProperty("Content-Type", "application/json");
         conn.setRequestProperty("Accept", "application/json");
         conn.setDoOutput(true);
-
+        
         try (OutputStream os = conn.getOutputStream()) {
             byte[] input = jsonInputString.getBytes("utf-8");
             os.write(input, 0, input.length);
         }
-
+        
         int responseCode = conn.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK) {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
-                StringBuilder response = new StringBuilder();
+                StringBuilder responseContent = new StringBuilder();
                 String responseLine;
                 while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
+                    responseContent.append(responseLine.trim());
                 }
-                return response.toString();
+                return responseContent.toString();
             }
         } else {
             return "{\"error\":\"Failed to process forgot request\"}";
@@ -94,7 +97,7 @@ public class ForgotControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // Chuyển hướng hiển thị trang forgot.jsp
         request.getRequestDispatcher("forgot.jsp").forward(request, response);
     }
 
