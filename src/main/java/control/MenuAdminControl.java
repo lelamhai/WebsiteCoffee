@@ -4,8 +4,7 @@
  */
 package control;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,12 +14,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import models.ProductModel;
-import org.json.JSONObject;
+import models.Person;
+import models.Product;
+import models.ProductResponse;
+
 /**
  *
  * @author ADMIN
@@ -57,14 +57,14 @@ public class MenuAdminControl extends HttpServlet {
         processRequest(request, response);
         String apiUrl = "http://localhost:8080/products/";
         String jsonString = sendPostRequest(apiUrl, request, response);
-        
-        
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<ProductModel> products = objectMapper.readValue(jsonString, new TypeReference<List<ProductModel>>() {});
        
+        String json = "{\"content\":[{\"productCode\":\"NC\",\"productName\":\"Nước cam\",\"categoryName\":\"Nước ép trái cây\",\"basePrice\":50000.00,\"isAvailable\":true}],\"pageable\":{\"pageNumber\":0,\"pageSize\":10,\"sort\":{\"sorted\":false,\"unsorted\":true,\"empty\":true},\"offset\":0,\"unpaged\":false,\"paged\":true},\"last\":true,\"totalPages\":1,\"totalElements\":1,\"first\":true,\"numberOfElements\":1,\"size\":10,\"number\":0,\"sort\":{\"sorted\":false,\"unsorted\":true,\"empty\":true},\"empty\":false}";
         
+        Gson gson = new Gson();
+        ProductResponse model = gson.fromJson(json, models.ProductResponse.class);
+        List<Product> listProduct = model.getContent();
         
-        request.setAttribute("Products", products);
+        request.setAttribute("Products", listProduct);
         request.getRequestDispatcher("menu.jsp").forward(request, response);
     }
     
