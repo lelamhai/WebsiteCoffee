@@ -240,7 +240,7 @@
             Xuất dữ liệu
           </button>
           
-          <button class="btn btn-primary add-button mb-2">
+          <button class="btn btn-primary add-button mb-2" data-bs-toggle="modal" data-bs-target="#create-modal">
             <i class="bi bi-plus"></i> Thêm
           </button>
         </div>
@@ -534,10 +534,6 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-            </div>
         </div>
     </div>
 </div>
@@ -549,53 +545,109 @@
         <div class="modal-content" style="height: 100%;">
             <div class="modal-header">
                 <div class="wrap-header-modal">
-                    <div style="font-size: 18px; font-weight: 600;">Cà phê sữa</div>
-                    <div style="font-size: 12px;">Còn</div>
+                    <h5>Thêm nước</h5>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
             </div>
             
+            
             <style>
-                .titile-modal-llh {
-                    font-size: 12px;
-                    font-weight: 400;
-                    color: #4E5A73;
-                }
-                
-                .content-modal-llh {
-                    font-size: 16px;
-                    font-weight: 400;
-                    color: #021337;
-                    padding-bottom: 30px;
+                .form-label {
+                    font-size: 14px;
+                    color: #10182899;
                 }
             </style>
             
             <div class="modal-body" >
-                <div class="row" style="padding: 15px">
-                    <div class="col-md-6">
-                        <div class="titile-modal-llh">Danh muc</div>
-                        <div class="content-modal-llh">Cà phê</div>
+               <form>
+                    <div class="mb-3">
+                      <label for="productName" class="form-label required">Tên</label>
+                      <input type="text" class="form-control" id="productName" value="">
                     </div>
-                    
-                    <div class="col-md-6">
-                        <div class="titile-modal-llh">Giá</div>
-                        <div class="content-modal-llh">10.000đ</div>
+
+                    <div class="mb-3">
+                      <label for="category" class="form-label">Danh mục</label>
+                      <select class="form-select" id="category">
+                        <option selected>Cà phê</option>
+                        <option>Trà sữa</option>
+                        <option>Nước ép</option>
+                        <option>Sinh tố</option>
+                      </select>
                     </div>
-                    
-                    <div class="col-md-6">
-                        <div class="titile-modal-llh">Loại</div>
-                        <div class="content-modal-llh">Lạnh</div>
+                   
+                    <div class="mb-3">
+                      <label for="price" class="form-label">Giá</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" id="price" value="" style="width: 100%">
+                        <span class="" style="position: fixed; right: 7%; padding-top: 5px; z-index: 99;">đ</span>
+                      </div>
                     </div>
-                    
-                    <div class="col-md-6">
-                        <div class="titile-modal-llh">Kích cỡ</div>
-                        <div class="content-modal-llh">S</div>
+                   
+                   <div class="mb-3">
+                      <label for="size" class="form-label">Kích cỡ</label>
+                      <div class="row" style="padding: 0 15px;">
+                          <select class="form-select col-md-6" id="size" style="width: 48%; margin-right: 2%;">
+                            <option selected>S</option>
+                            <option>M</option>
+                            <option>L</option>
+                          </select>
+                      
+                       <input type="text" class="form-control  col-md-6" id="price" value="" style="width: 48%; margin-left: 2%">
+                       <span style="position: fixed; right: -88%; padding-top: 5px;">đ</span>
+                      </div>
+                      
                     </div>
+                   
+                    <div class="mb-3">
+                      <label for="type" class="form-label">Loại</label>
+                      <div style="display: flex;">
+                          <div class="form-check form-check-inline" style="width: 50%;">
+                          <input class="form-check-input" type="checkbox" name="availability" id="c-available" value="available" checked>
+                            <label class="form-check-label" for="c-available">Nóng</label>
+                          </div>
+                          <div class="form-check form-check-inline" style="width: 50%;">
+                            <input class="form-check-input" type="checkbox" name="availability" id="c-outOfStock" value="outOfStock">
+                            <label class="form-check-label" for="c-outOfStock">Lạnh</label>
+                          </div>
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Trạng thái</label>
+                        <div style="display: flex;">
+                            <div class="form-check form-check-inline" style="width: 50%;">
+                              <input class="form-check-input" type="radio" name="availability" id="r-available" value="available" checked>
+                              <label class="form-check-label" for="r-available">Còn</label>
+                            </div>
+                            <div class="form-check form-check-inline" style="width: 50%;">
+                              <input class="form-check-input" type="radio" name="availability" id="r-outOfStock" value="outOfStock">
+                              <label class="form-check-label" for="r-outOfStock">Hết</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Mô tả hình ảnh</label>
+                        <div class="image-upload-container row">
+                            <div class="col-md-2 update-load-imgs">
+                                <img src="imgs/Button.png" alt="alt"/>
+                            </div>
+                            <div class="col-md-2 update-load-imgs"><img src="imgs/Button.png" alt="alt"/></div>
+                            <div class="col-md-2 update-load-imgs"><img src="imgs/Button.png" alt="alt"/></div>
+                            <div class="col-md-2 update-load-imgs"><img src="imgs/Button.png" alt="alt"/></div>
+                            <div class="col-md-2 update-load-imgs"><img src="imgs/Button.png" alt="alt"/></div>
+                            <div class="col-md-2 update-load-imgs"><img src="imgs/Button.png" alt="alt"/></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <input class="form-check-input" type="checkbox" name="availability" id="buy" value="available">
+                        <label class="form-check-label" for="buy">Bán trực tiếp</label>
+                    </div>
+                  </form>
                 </div>
-            </div>
             
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #1F75FF">Tạo</button>
             </div>
         </div>
     </div>
