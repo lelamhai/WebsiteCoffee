@@ -64,7 +64,7 @@ public class LoginControl extends HttpServlet {
                 return response.toString();
             }
         } else {
-            return "{\"error\":\"Failed to login\"}";
+            return "";
         }
     }
     
@@ -106,12 +106,16 @@ public class LoginControl extends HttpServlet {
             String result = sendPostRequest(apiUrl, jsonInputString);
             response.setContentType("application/json");
 
+            response.getWriter().write(result);
             if(result.trim() != "")
             {
                 HttpSession session = request.getSession();
                 session.setAttribute("Token", result);
                 response.sendRedirect(request.getContextPath() + "/menu");
+            } else {
+                request.getRequestDispatcher("login.jsp").forward(request, response);
             }
+           
     }
 
     /**
