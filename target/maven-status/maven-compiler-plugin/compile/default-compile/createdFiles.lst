@@ -1,11 +1,12 @@
+control\OrderControl.class
+control\HomeControl.class
+control\MenuAdminControl.class
+models\ProductResponse.class
+control\LoginControl.class
 com\mycompany\websitecoffee\JakartaRestConfiguration.class
 com\mycompany\websitecoffee\resources\JakartaEE10Resource.class
 models\Person.class
 control\RegisterControl.class
-control\HomeControl.class
 models\Product.class
-control\MenuAdminControl.class
-models\ProductResponse.class
 control\ForgotControl.class
-control\LoginControl.class
 models\Pageable.class
