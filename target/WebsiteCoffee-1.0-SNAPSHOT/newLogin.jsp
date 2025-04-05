@@ -1,7 +1,7 @@
 <%-- 
     Document   : Login
     Created on : Mar 23, 2025, 11:19:07 PM
-    Author     : ADMIN
+    Author     : LDL
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -9,23 +9,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="css/style.css"/>
-        <title>JSP Page</title>
+        <link rel="stylesheet" href="css/login.css"/>
+        <title>Đăng nhập</title>
         <!-- Bootstrap 5 CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Custom CSS -->
         <style>
-            .password-container-liem {
-                position: relative;
-            }
-            .toggle-visibility-liem {
-                position: absolute;
-                right: 15px;
-                top: 50%;
-                transform: translateY(-50%);
-                cursor: pointer;
-                font-size: 20px;
-            }
+
         </style>
     </head>
     <body>
@@ -39,7 +29,7 @@
                             <a href="./register.jsp" class="create-account">Tạo tài khoản</a>
                         </p>
                     </div>
-
+                    
                     <div class="mt-5">
                         <form action="login" method="post">
                             <!-- Trường nhập tên đang nhập -->
@@ -59,9 +49,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-lg-1 text-center illustration">
-
-                </div>
+                <div class="col-lg-1 text-center illustration"></div>
                 <div class="col-lg-3 text-center illustration">
                     <img src="imgs/Cover.png" alt="CMS Illustration" class="img-fluid">
                 </div>

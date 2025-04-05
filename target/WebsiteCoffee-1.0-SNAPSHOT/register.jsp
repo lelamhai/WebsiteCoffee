@@ -24,6 +24,10 @@
                 <div class="col-lg-8 liem-forgot">
                     <div class="mb-4 liem-forgot">
                         <h1 class="fw-bold fs-2">Tạo tài khoản</h1>
+                        <p class="text-muted">
+                            Bạn đã có tài khoản? 
+                            <a href="./login.jsp" class="register-account">Đăng nhập</a>
+                        </p>
                     </div>
                     <div class="mt-5">
                         <form id="registerForm" action="register" method="post" onsubmit=" return validateForm();">

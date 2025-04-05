@@ -3,25 +3,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
 */
 /* 
-    Created on : Mar 25, 2025, 5:21:46 PM
-    Author     : LDL
+    Created on : Mar 23, 2025, 4:20:58 PM
+    Author     : ADMIN
 */
 .password-container-liem {
     position: relative;
 }
-
 .toggle-visibility-liem {
     position: absolute;
     right: 15px;
-    top: 23px;
+    top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
     font-size: 20px;
 }
-
+/* Cải tiến: Thêm CSS cho thông báo lỗi */
 .error-message {
     color: red;
-    display: none;
+    font-weight: bold;
+    margin-bottom: 15px;
 }
 
 body {
@@ -104,11 +104,11 @@ body {
     height: 48px;
 }
 
-.register-account {
+.create-account {
     color: #3b82f6;
     text-decoration: none;
 }
 
-.register-account:hover {
+.create-account:hover {
     text-decoration: underline;
 }

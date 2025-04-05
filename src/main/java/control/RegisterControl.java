@@ -45,7 +45,7 @@ public class RegisterControl extends HttpServlet {
         String newPass = request.getParameter("newPass");
 
         // Địa chỉ API phục vụ chức năng đăng ký (có thể thay đổi sau)
-        String apiUrl = "http://localhost:8080/api/v1/users/register";
+        String apiUrl = "http://localhost:8081/api/v1/users/register";
 
         // Tạo dữ liệu JSON từ username và mật khẩu mới
         String jsonInputString = String.format("{ \"username\": \"%s\", \"password\": \"%s\" }", username, newPass);
@@ -98,6 +98,7 @@ public class RegisterControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // response.setContentType("text/html;charset=UTF-8");
         // processRequest(request, response);
         // Chuyển hướng hiển thị trang register.jsp
         request.getRequestDispatcher("register.jsp").forward(request, response);

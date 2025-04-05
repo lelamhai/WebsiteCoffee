@@ -18,12 +18,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-/**
- *
- * @author ADMIN
- */
-@WebServlet(name = "LoginControl", urlPatterns = {"/login"})
-public class LoginControl extends HttpServlet {
+
+// Cải tiến: Sử dụng thư viện JSON (ví dụ org.json) để parse phản hồi từ API
+import org.json.JSONObject;
+
+@WebServlet(name = "newLoginControl", urlPatterns = {"/newlogin"})
+public class newLoginControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,10 +36,36 @@ public class LoginControl extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            response.setContentType("text/html; charset=UTF-8");
-           
+        // Thiết lập kiểu nội dung cho response
+        response.setContentType("text/html; charset=UTF-8");
+
+        // Lấy dữ liệu từ form: username và password
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        // Địa chỉ API phục vụ chức năng đăng nhập (có thể thay đổi sau)
+        String apiUrl = "http://localhost:8081/api/v1/users/login";
+
+        // Tạo dữ liệu JSON từ username và password
+        String jsonInputString = String.format("{ \"username\": \"%s\", \"password\": \"%s\" }", username, password);
+
+        // Gửi yêu cầu POST đến API
+        String result = sendPostRequest(apiUrl, jsonInputString);
+
+        // Kiểm tra kết quả trả về (theo cấu trúc cũ, nếu result không rỗng thì đăng nhập thành công)
+        if (result != null && !result.trim().isEmpty()) {
+            // Nếu đăng nhập thành công, lưu token vào session
+            HttpSession session = request.getSession();
+            session.setAttribute("Token", result);
+            // Chuyển hướng đến trang menu
+            response.sendRedirect(request.getContextPath() + "/menu");
+        } else {
+            // Nếu đăng nhập thất bại, trả về kết quả cho client (ở dạng JSON)
+            response.setContentType("application/json");
+            response.getWriter().write(result);
+        }
     }
-    
+
     private String sendPostRequest(String apiUrl, String jsonInputString) throws IOException {
         URL url = new URL(apiUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -48,6 +74,7 @@ public class LoginControl extends HttpServlet {
         conn.setRequestProperty("Accept", "application/json");
         conn.setDoOutput(true);
 
+        // Gửi dữ liệu JSON tới API
         try (OutputStream os = conn.getOutputStream()) {
             byte[] input = jsonInputString.getBytes("utf-8");
             os.write(input, 0, input.length);
@@ -55,6 +82,7 @@ public class LoginControl extends HttpServlet {
 
         int responseCode = conn.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK) {
+            // Đọc dữ liệu phản hồi nếu status OK
             try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
                 StringBuilder response = new StringBuilder();
                 String responseLine;
@@ -64,10 +92,10 @@ public class LoginControl extends HttpServlet {
                 return response.toString();
             }
         } else {
+            // Nếu API trả về lỗi, trả về chuỗi rỗng
             return "";
         }
     }
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -81,8 +109,7 @@ public class LoginControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        request.getRequestDispatcher("newLogin.jsp").forward(request, response);
 
     }
 
@@ -98,24 +125,6 @@ public class LoginControl extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-            String user = request.getParameter("username");
-            String pass = request.getParameter("password");
-            
-            String apiUrl = "http://localhost:8081/api/v1/users/login";
-            String jsonInputString = String.format("{ \"username\": \"%s\", \"password\": \"%s\" }", user, pass);
-            String result = sendPostRequest(apiUrl, jsonInputString);
-            response.setContentType("application/json");
-
-            response.getWriter().write(result);
-            if(result.trim() != "")
-            {
-                HttpSession session = request.getSession();
-                session.setAttribute("Token", result);
-                response.sendRedirect(request.getContextPath() + "/menu");
-            } else {
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-            }
-           
     }
 
     /**
@@ -125,7 +134,7 @@ public class LoginControl extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Servlet xử lý đăng nhập người dùng";
     }// </editor-fold>
 
 }
