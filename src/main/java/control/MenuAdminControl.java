@@ -99,10 +99,6 @@ public class MenuAdminControl extends HttpServlet {
         return "";
     }
     
-    
-    
-     
-
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -115,6 +111,34 @@ public class MenuAdminControl extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        String productID = request.getParameter("productID");
+         
+        String apiUrl = "http://localhost:8081/products/" + productID;
+        
+         try {
+            URL url = new URL(apiUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("DELETE");
+            
+            int responseCode = conn.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String inputLine;
+                StringBuilder apiResponse = new StringBuilder();
+                
+                while ((inputLine = in.readLine()) != null) {
+                    apiResponse.append(inputLine);
+                }
+                in.close();
+                response.getWriter().write("{\"status\": \"success\", \"message\": \"Đã xóa sản phẩm có ID: " + productID + "\"}");
+            } else {
+                response.getWriter().write("{\"status\": \"error\", \"message\": \"Xóa sản phẩm " + productID + " thất bại\"}");
+                response.getWriter().write("API call failed with code: " + responseCode);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().write("{\"status\": \"error\", \"message\": \"Server error\"}");
+        }
     }
 
     /**
