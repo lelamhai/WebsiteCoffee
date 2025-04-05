@@ -17,10 +17,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import models.Person;
 import models.Product;
 import models.ProductResponse;
-
 /**
  *
  * @author ADMIN
@@ -58,13 +56,18 @@ public class MenuAdminControl extends HttpServlet {
         String apiUrl = "http://localhost:8080/products/";
         String jsonString = sendPostRequest(apiUrl, request, response);
        
-        String json = "{\"content\":[{\"productCode\":\"NC\",\"productName\":\"Nước cam\",\"categoryName\":\"Nước ép trái cây\",\"basePrice\":50000.00,\"isAvailable\":true}],\"pageable\":{\"pageNumber\":0,\"pageSize\":10,\"sort\":{\"sorted\":false,\"unsorted\":true,\"empty\":true},\"offset\":0,\"unpaged\":false,\"paged\":true},\"last\":true,\"totalPages\":1,\"totalElements\":1,\"first\":true,\"numberOfElements\":1,\"size\":10,\"number\":0,\"sort\":{\"sorted\":false,\"unsorted\":true,\"empty\":true},\"empty\":false}";
-        
         Gson gson = new Gson();
-        ProductResponse model = gson.fromJson(json, models.ProductResponse.class);
-        List<Product> listProduct = model.getContent();
+        ProductResponse model = gson.fromJson(jsonString, models.ProductResponse.class);
+        List<Product> listProduct = model.getContents();
+        int currentPage = model.getPageNumber();
+        int totalPage = model.getTotalPages();
+        int pageSize = model.getPageSize();
         
         request.setAttribute("Products", listProduct);
+        request.setAttribute("CurrentPage", currentPage);
+        request.setAttribute("TotalPage", totalPage);
+        request.setAttribute("PageSize", pageSize);
+        
         request.getRequestDispatcher("menu.jsp").forward(request, response);
     }
     

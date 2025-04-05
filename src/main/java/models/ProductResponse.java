@@ -11,45 +11,64 @@ import java.util.List;
  * @author ADMIN
  */
 public class ProductResponse {
-    private List<Product> content;
-//    private Pageable pageable;
-//    private boolean last;
-//    private boolean first;
-//    private int totalPages;
-//    private int totalElements;
-//    private int size;
-//    private int number;
-//    private int numberOfElements;
-//    private boolean empty;
+    private List<Product> contents;
+    private int pageNumber;
+    private int pageSize;
+    private int totalPages;
+    private int totalElements;
+    private int numberOfElements;
 
-    // Getters and Setters
-    public List<Product> getContent() { return content; }
-    public void setContent(List<Product> content) { this.content = content; }
+    // Getter và Setter cho contents
+    public List<Product> getContents() {
+        return contents;
+    }
 
-//    public Pageable getPageable() { return pageable; }
-//    public void setPageable(Pageable pageable) { this.pageable = pageable; }
-//    
-//    public boolean isLast() { return last; }
-//    public void setLast(boolean last) { this.last = last; }
-//    
-//    public boolean isFirst() { return first; }
-//    public void setFirst(boolean first) { this.first = first; }
-//    
-//    public int getTotalPages() { return totalPages; }
-//    public void setTotalPages(int totalPages) { this.totalPages = totalPages; }
-//    
-//    public int getTotalElements() { return totalElements; }
-//    public void setTotalElements(int totalElements) { this.totalElements = totalElements; }
-//    
-//    public int getSize() { return size; }
-//    public void setSize(int size) { this.size = size; }
-//    
-//    public int getNumber() { return number; }
-//    public void setNumber(int number) { this.number = number; }
-//    
-//    public int getNumberOfElements() { return numberOfElements; }
-//    public void setNumberOfElements(int numberOfElements) { this.numberOfElements = numberOfElements; }
-//    
-//    public boolean isEmpty() { return empty; }
-//    public void setEmpty(boolean empty) { this.empty = empty; }
+    public void setContents(List<Product> contents) {
+        this.contents = contents;
+    }
+
+    // Getter và Setter cho pageNumber
+    public int getPageNumber() {
+        return pageNumber;
+    }
+
+    public void setPageNumber(int pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+
+    // Getter và Setter cho pageSize
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    // Getter và Setter cho totalPages
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
+    }
+
+    // Getter và Setter cho totalElements
+    public int getTotalElements() {
+        return totalElements;
+    }
+
+    public void setTotalElements(int totalElements) {
+        this.totalElements = totalElements;
+    }
+
+    // Getter và Setter cho numberOfElements
+    public int getNumberOfElements() {
+        return numberOfElements;
+    }
+
+    public void setNumberOfElements(int numberOfElements) {
+        this.numberOfElements = numberOfElements;
+    }
 }

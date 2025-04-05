@@ -247,7 +247,7 @@
       </div>
       
       <div class="d-flex justify-content-between text-muted small mb-2">
-        <div>1 - 20 trong số 10</div>
+        <div> ${CurrentPage} - ${TotalPage} trong số ${PageSize} </div>
         <div class="d-flex gap-2 align-items-center">
           <button class="btn btn-sm btn-light">
             <i class="bi bi-chevron-left"></i>
@@ -277,186 +277,43 @@
               <th>Tên</th>
               <th>Danh mục</th>
               <th>Kích cỡ</th>
-              <th>Loại</th>
               <th>Giá</th>
               <th>Trạng thái</th>
               <th>Thao tác</th>
             </tr>
           </thead>
           <tbody>
-              
-              <%
-                    List<Product> products = (List<Product>) request.getAttribute("Products");
-              %>
-                     <tr  data-bs-toggle="modal" data-bs-target="#slideModal">
-              <%
-                    for (Product product : products) {
-                    %>
-                       <td>
+             <% 
+                   List<Product> listProducts = (List<Product>) request.getAttribute("Products");
+            %>
+           
+                <%
+                if (listProducts != null) {
+                    for (Product product : listProducts) {
+                        %>
+                    <tr  data-bs-toggle="modal" data-bs-target="#slideModal">
+                        <td>
                             <img src="imgs/product-image.png" alt="Cà phê sữa" class="product-image">
                         </td>
-                        <td class="id-product" hidden="none">1</td>
+                        <td class="id-product" hidden="none"><%= product.getProductId()%></td>
                         <td class="name-product"><%= product.getProductName()%></td>
                         <td><%= product.getCategoryName() %></td>
-                        <td>M</td>
-                        <td>Nóng hoặc Lạnh</td>
-                        <td><%= product.getBasePrice() %></td>
-                        <td><span class="status-badge status-in"><%= product.getBasePrice()%></span></td>
+                        <td><%= product.getSizes() %></td>
+                        <td><%= product.getListPrice() %></td>
+                        <td><%= product.isAvailable() %></td>
                         <td>
+                             <button class="action-button" data-bs-toggle="modal" data-bs-target="#aa" >
+                                <i class="bi bi-pencil" style="color: black;"></i>
+                             </button>
                             <button class="action-button" data-bs-toggle="modal" data-bs-target="#confirmationModal" >
                                 <i class="bi bi-trash"></i>
                             </button>
                         </td>
-
-                       
-                    <%}%>
                     </tr>
-              
-              
-            <tr  data-bs-toggle="modal" data-bs-target="#slideModal">
-              <td>
-                  <img src="imgs/product-image.png" alt="Cà phê sữa" class="product-image">
-              </td>
-              <td>Cà phê sữa</td>
-              <td>Cà phê</td>
-              <td>M</td>
-              <td>Lạnh</td>
-              <td>10.000đ</td>
-              <td><span class="status-badge status-in">Còn</span></td>
-              <td>
-                <button class="action-button">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                  <img src="imgs/product-image.png" alt="Cà phê sữa" class="product-image">
-              </td>
-              <td>Cà phê đen</td>
-              <td>Cà phê</td>
-              <td>S</td>
-              <td>Lạnh</td>
-              <td>10.000đ</td>
-              <td><span class="status-badge status-in">Còn</span></td>
-              <td>
-                <button class="action-button">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                  <img src="imgs/product-image.png" alt="Cà phê sữa" class="product-image">
-              </td>
-              <td>Cà phê đen</td>
-              <td>Cà phê</td>
-              <td>M</td>
-              <td>Lạnh</td>
-              <td>10.000đ</td>
-              <td><span class="status-badge status-in">Còn</span></td>
-              <td>
-                <button class="action-button">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                  <img src="imgs/product-image.png" alt="Cà phê sữa" class="product-image">
-              </td>
-              <td>Bạc xỉu</td>
-              <td>Cà phê</td>
-              <td>S</td>
-              <td>Lạnh</td>
-              <td>10.000đ</td>
-              <td><span class="status-badge status-in">Còn</span></td>
-              <td>
-                <button class="action-button">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                  <img src="imgs/product-image.png" alt="Cà phê sữa" class="product-image">
-              </td>
-              <td>Trà sữa truyền thống</td>
-              <td>Trà sữa & Trà trái cây</td>
-              <td>S</td>
-              <td>Lạnh</td>
-              <td>10.000đ</td>
-              <td><span class="status-badge status-in">Còn</span></td>
-              <td>
-                <button class="action-button">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                  <img src="imgs/product-image.png" alt="Cà phê sữa" class="product-image">
-              </td>
-              <td>Trà sữa Oolong</td>
-              <td>Trà sữa & Trà trái cây</td>
-              <td>S</td>
-              <td>Lạnh</td>
-              <td>10.000đ</td>
-              <td><span class="status-badge status-in">Còn</span></td>
-              <td>
-                <button class="action-button">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                  <img src="imgs/product-image.png" alt="Cà phê sữa" class="product-image">
-              </td>
-              <td>Trà sữa Ô long rang chảy</td>
-              <td>Trà sữa & Trà trái cây</td>
-              <td>S</td>
-              <td>Lạnh</td>
-              <td>10.000đ</td>
-              <td><span class="status-badge status-in">Còn</span></td>
-              <td>
-                <button class="action-button">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                  <img src="imgs/product-image.png" alt="Cà phê sữa" class="product-image">
-              </td>
-              <td>Trà sữa đen (Hồng trà sữa)</td>
-              <td>Trà sữa & Trà trái cây</td>
-              <td>S</td>
-              <td>Lạnh</td>
-              <td>10.000đ</td>
-              <td><span class="status-badge status-in">Còn</span></td>
-              <td>
-                <button class="action-button">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                  <img src="imgs/product-image.png" alt="Cà phê sữa" class="product-image">
-              </td>
-              <td>Trà sữa xanh (Lục trà sữa)</td>
-              <td>Trà sữa & Trà trái cây</td>
-              <td>S</td>
-              <td>Lạnh</td>
-              <td>10.000đ</td>
-              <td><span class="status-badge status-in">Còn</span></td>
-              <td>
-                <button class="action-button">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </td>
-            </tr>
+                        <%
+                    }
+                }%>        
+                    
           </tbody>
         </table>
       </div>

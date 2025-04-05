@@ -101,7 +101,7 @@ public class LoginControl extends HttpServlet {
             String user = request.getParameter("username");
             String pass = request.getParameter("password");
             
-            String apiUrl = "http://localhost:8081/api/v1/users/login";
+            String apiUrl = "http://localhost:8080/api/v1/users/login";
             String jsonInputString = String.format("{ \"username\": \"%s\", \"password\": \"%s\" }", user, pass);
             String result = sendPostRequest(apiUrl, jsonInputString);
             response.setContentType("application/json");
