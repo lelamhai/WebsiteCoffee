@@ -114,11 +114,13 @@
         </div>
         
         <div class="d-flex gap-2 flex-wrap">
-          <div class="search-container mb-2">
-            <i class="bi bi-search"></i>
-            <input type="text" class="form-control search-input" placeholder="Tìm kiếm">
-          </div>
-          
+            <form action="menu"  method="GET">
+                <div class="search-container mb-2">
+                  <i class="bi bi-search"></i>
+                      <input type="text" value="${search}" name="search" class="form-control search-input" placeholder="Tìm kiếm">
+                </div>
+            </form>
+
           <button class="btn btn-outline-secondary mb-2">
             Xuất dữ liệu
           </button>
@@ -132,12 +134,18 @@
       <div class="d-flex justify-content-between text-muted small mb-2">
         <div> ${CurrentPage} - ${TotalPage} trong số ${PageSize} </div>
         <div class="d-flex gap-2 align-items-center">
-          <button class="btn btn-sm btn-light">
-            <i class="bi bi-chevron-left"></i>
-          </button>
-          <button class="btn btn-sm btn-light">
-            <i class="bi bi-chevron-right"></i>
-          </button>
+            <form action="menu"  method="GET">
+                <input value="0" name="page" hidden/>
+                <button class="btn btn-sm btn-light">
+                  <i class="bi bi-chevron-left"></i>
+                </button>
+            </form>
+            <form action="menu" method="GET">
+                <input value="1" name="page" hidden/>
+                <button class="btn btn-sm btn-light">
+                  <i class="bi bi-chevron-right"></i>
+                </button>
+            </form>
           <button class="btn btn-sm btn-light">
             <i class="bi bi-funnel"></i>
           </button>
@@ -176,7 +184,7 @@
                         <td><%= product.getCategoryName() %></td>
                         <td><%= product.getSizes() %></td>
                         <td><%= product.getListPrice() %></td>
-                        <td><%= product.isAvailable() %></td>
+                        <td><%= product.isAvailable() ? "Còn" : "Hết" %></td>
                         <td>
                             <button class="action-button" data-bs-toggle="modal" data-bs-target="#edit-modal" data-id="<%= product.getProductId()%>" >
                                 <i class="bi bi-pencil" style="color: black;"></i>
@@ -189,26 +197,6 @@
                         <%
                     }
                 }%>
-                
-                                <tr  data-bs-toggle="modal" data-bs-target="#slideModal">
-                        <td>
-                            <img src="imgs/product-image.png" alt="Cà phê sữa" class="product-image">
-                        </td>
-                        <td class="id-product" hidden="none">1</td>
-                        <td class="name-product">ABC</td>
-                        <td>Tem</td>
-                        <td>da</td>
-                        <td>đâsd</td>
-                        <td>ád</td>
-                        <td>
-                            <button class="action-button" data-bs-toggle="modal" data-bs-target="#edit-modal" data-id="1" >
-                                <i class="bi bi-pencil" style="color: black;"></i>
-                            </button>
-                            <button class="action-button delete-btn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-id="1">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
           </tbody>
         </table>
       </div>

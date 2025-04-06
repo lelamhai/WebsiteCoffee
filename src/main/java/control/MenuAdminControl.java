@@ -53,7 +53,20 @@ public class MenuAdminControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        String apiUrl = "http://localhost:8080/products/";
+        
+        String root = "http://localhost:8080/products/";
+
+         // Các tham số từ request
+        String keyword = request.getParameter("search");
+        String page = request.getParameter("page");
+        String size = request.getParameter("size");
+        
+        String query = String.format("?keyword=%s&page=%s&size=%s", 
+                keyword != null ? keyword : "", 
+                page != null ? page : "1", 
+                size != null ? size : "1");
+        String apiUrl = root + query;
+        
         String jsonString = sendPostRequest(apiUrl, request, response);
        
         Gson gson = new Gson();
@@ -62,6 +75,8 @@ public class MenuAdminControl extends HttpServlet {
         int currentPage = model.getPageNumber();
         int totalPage = model.getTotalPages();
         int pageSize = model.getPageSize();
+        
+        request.setAttribute("search", keyword);
         
         request.setAttribute("Products", listProduct);
         request.setAttribute("CurrentPage", currentPage);
