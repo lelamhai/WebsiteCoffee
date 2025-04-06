@@ -18,6 +18,22 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+        .modal.right .modal-dialog {
+            position: fixed;
+            margin: auto;
+            width: 30%;
+            height: 100%;
+            right: 0;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            height: 100%;
+        }
+        
+        .modal.right.show .modal-dialog {
+            transform: translateX(0);
+        }
+  </style>
 </head>
 <body>
   <!-- Sidebar -->
