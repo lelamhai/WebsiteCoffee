@@ -290,3 +290,36 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
         display: block !important;
       }
     }
+    
+     .modal.right .modal-dialog {
+            position: fixed;
+            margin: auto;
+            width: 30%;
+            height: 100%;
+            right: 0;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            height: 100%;
+        }
+        
+        .modal.right.show .modal-dialog {
+            transform: translateX(0);
+        }
+        
+         .titile-modal-llh {
+                    font-size: 12px;
+                    font-weight: 400;
+                    color: #4E5A73;
+                }
+                
+                .content-modal-llh {
+                    font-size: 16px;
+                    font-weight: 400;
+                    color: #021337;
+                    padding-bottom: 30px;
+                }
+                
+         .form-label {
+                    font-size: 14px;
+                    color: #10182899;
+                }

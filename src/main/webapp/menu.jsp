@@ -18,23 +18,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-  <style>
-        .modal.right .modal-dialog {
-            position: fixed;
-            margin: auto;
-            width: 30%;
-            height: 100%;
-            right: 0;
-            transform: translateX(100%);
-            transition: transform 0.3s ease-in-out;
-            height: 100%;
-        }
-        
-        .modal.right.show .modal-dialog {
-            transform: translateX(0);
-        }
-  </style>
-  
 </head>
 <body>
   <!-- Sidebar -->
@@ -190,7 +173,8 @@
                         <%
                     }
                 }%>
-                <tr  data-bs-toggle="modal" data-bs-target="#slideModal">
+                
+                                <tr  data-bs-toggle="modal" data-bs-target="#slideModal">
                         <td>
                             <img src="imgs/product-image.png" alt="Cà phê sữa" class="product-image">
                         </td>
@@ -248,21 +232,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
             </div>
             
-            <style>
-                .titile-modal-llh {
-                    font-size: 12px;
-                    font-weight: 400;
-                    color: #4E5A73;
-                }
-                
-                .content-modal-llh {
-                    font-size: 16px;
-                    font-weight: 400;
-                    color: #021337;
-                    padding-bottom: 30px;
-                }
-            </style>
-            
             <div class="modal-body" >
                 <div class="row" style="padding: 15px">
                     <div class="col-md-6">
@@ -301,14 +270,6 @@
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
             </div>
-            
-            
-            <style>
-                .form-label {
-                    font-size: 14px;
-                    color: #10182899;
-                }
-            </style>
             
             <div class="modal-body" >
                <form>
@@ -416,14 +377,6 @@
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
             </div>
-            
-            
-            <style>
-                .form-label {
-                    font-size: 14px;
-                    color: #10182899;
-                }
-            </style>
             
             <div class="modal-body" >
                <form>
