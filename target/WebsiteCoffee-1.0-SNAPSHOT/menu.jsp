@@ -4,6 +4,8 @@
     Author     : ADMIN
 --%>
 
+<%@page import="models.Category"%>
+<%@page import="models.CategoryModel"%>
 <%@page import="models.Product"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -79,6 +81,9 @@
       </div>
   </div>
   
+  
+  
+  
   <!-- Main Content -->
   <div class="main-content">
     <!-- Top Header -->
@@ -103,8 +108,8 @@
     <!-- Content Area -->
     <div class="content-area">
       <h1 class="h4 fw-bold mb-4">Danh sách</h1>
-      
-      
+        <div>LLH ${ShowMessage}</div>
+        
       <div class="d-flex justify-content-between mb-4 flex-wrap">
         <div class="mb-2">
           <button class="btn btn-outline-secondary sort-button">
@@ -186,7 +191,7 @@
                         <td><%= product.getListPrice() %></td>
                         <td><%= product.isAvailable() ? "Còn" : "Hết" %></td>
                         <td>
-                            <button class="action-button" data-bs-toggle="modal" data-bs-target="#edit-modal" data-id="<%= product.getProductId()%>" >
+                            <button class="action-button edit-btn" data-bs-toggle="modal" data-bs-target="#edit-modal" data-id="<%= product.getProductId()%>" >
                                 <i class="bi bi-pencil" style="color: black;"></i>
                             </button>
                             <button class="action-button delete-btn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-id="<%= product.getProductId()%>">
@@ -267,6 +272,7 @@
    <!--Modals create-->    
 <div class="modal fade right" id="create-modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
+       
         <div class="modal-content" style="height: 100%;">
             <div class="modal-header">
                 <div class="wrap-header-modal">
@@ -274,28 +280,34 @@
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
             </div>
-            
-            <div class="modal-body" >
-               <form>
+            <form action="menu" method="post" enctype="multipart/form-data">
+                <div class="modal-body" >
                     <div class="mb-3">
                       <label for="productName" class="form-label required">Tên</label>
-                      <input type="text" class="form-control" id="productName" value="">
+                      <input type="text" name="productName" class="form-control" id="productName" value="">
                     </div>
 
                     <div class="mb-3">
                       <label for="category" class="form-label">Danh mục</label>
-                      <select class="form-select" id="category">
-                        <option selected>Cà phê</option>
-                        <option>Trà sữa</option>
-                        <option>Nước ép</option>
-                        <option>Sinh tố</option>
+                      <select class="form-select" id="category" name="category">
+                        <% 
+                            List<Category> categries = (List<Category>) request.getAttribute("categries");
+                        %>
+                        <%
+                            if (categries != null) {
+                                for (Category c : categries) {
+                                %>
+                                    <option value="<%= c.getId()%>" selected><%= c.getCategoryName()%></option>
+                                <%
+                            }
+                        }%>
                       </select>
                     </div>
                    
                     <div class="mb-3">
                       <label for="price" class="form-label">Giá</label>
                       <div class="input-group">
-                        <input type="text" class="form-control" id="price" value="" style="width: 100%">
+                        <input type="text" name="productPrice" class="form-control" id="price" value="" style="width: 100%">
                         <span class="" style="position: fixed; right: 7%; padding-top: 5px; z-index: 99;">đ</span>
                       </div>
                     </div>
@@ -303,13 +315,13 @@
                    <div class="mb-3">
                       <label for="size" class="form-label">Kích cỡ</label>
                       <div class="row" style="padding: 0 15px;">
-                          <select class="form-select col-md-6" id="size" style="width: 48%; margin-right: 2%;">
+                          <select name="productSize" class="form-select col-md-6" id="size" style="width: 48%; margin-right: 2%;">
                             <option selected>S</option>
                             <option>M</option>
                             <option>L</option>
                           </select>
                       
-                       <input type="text" class="form-control  col-md-6" id="price" value="" style="width: 48%; margin-left: 2%">
+                       <input type="text" class="form-control col-md-6" id="price" value="" style="width: 48%; margin-left: 2%">
                        <span style="position: fixed; right: -88%; padding-top: 5px;">đ</span>
                       </div>
                       
@@ -319,11 +331,11 @@
                       <label for="type" class="form-label">Loại</label>
                       <div style="display: flex;">
                           <div class="form-check form-check-inline" style="width: 50%;">
-                          <input class="form-check-input" type="checkbox" name="availability" id="c-available" value="available" checked>
+                          <input class="form-check-input" type="checkbox" name="haveType" id="c-available" value="true" checked>
                             <label class="form-check-label" for="c-available">Nóng</label>
                           </div>
                           <div class="form-check form-check-inline" style="width: 50%;">
-                            <input class="form-check-input" type="checkbox" name="availability" id="c-outOfStock" value="outOfStock">
+                            <input class="form-check-input" type="checkbox" name="haveType" id="c-outOfStock" value="false">
                             <label class="form-check-label" for="c-outOfStock">Lạnh</label>
                           </div>
                       </div>
@@ -346,6 +358,7 @@
                     <div class="mb-3">
                         <label for="type" class="form-label">Mô tả hình ảnh</label>
                         <div class="image-upload-container row">
+                            <input type="file" name="productImage" />
                             <div class="col-md-2 update-load-imgs">
                                 <img src="imgs/Button.png" alt="alt"/>
                             </div>
@@ -357,16 +370,18 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <input class="form-check-input" type="checkbox" name="availability" id="buy" value="available">
+                        <input class="form-check-input" type="checkbox" name="availability" id="buy" value="isDirectSale">
                         <label class="form-check-label" for="buy">Bán trực tiếp</label>
                     </div>
-                  </form>
+                   
                 </div>
-            
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #1F75FF">Tạo</button>
-            </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #1F75FF">Tạo</button>
+                </div>
+             </form>
         </div>
+
     </div>
 </div>
    
@@ -510,21 +525,21 @@
         
         $(document).ready(function() {
             let currentDeleteId = null;
-
             $(document).on('click', '.delete-btn', function(e) {
               e.preventDefault();
               const itemId = $(this).data('id');
               currentDeleteId = itemId;
             });
 
-
             $('.btn-confirm').click(function() {
+
                 if (currentDeleteId) {
                   $.ajax({
                     url: 'menu',
                     type: 'POST',
-                    data: { 
-                      productID: currentDeleteId
+                    data: {
+                      action: "delete",
+                      deleteID: currentDeleteId
                     },
                     dataType: 'json',
                     success: function(response) {
@@ -550,6 +565,33 @@
               $('#confirmDeleteModal').modal('close');
             });
       });
+      
+        $(document).ready(function() {
+            $(document).on('click', '.edit-btn', function(e) {
+              e.preventDefault();
+              const itemId = $(this).data('id');
+             
+              if (itemId) {
+                $.ajax({
+                     url: 'menu',
+                     type: 'POST',
+                     data: { 
+                        action: "detail",
+                        detailID: itemId
+                     },
+                     dataType: 'json',
+                     success: function(response) {
+                         console.log(response);
+                     },
+                     error: function() {
+                         console.log(response.status);
+                     }
+                   });
+                }
+            });
+      });
+      
+        
   </script>
   
 </body>
