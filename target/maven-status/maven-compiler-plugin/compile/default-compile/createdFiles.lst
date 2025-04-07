@@ -13,4 +13,5 @@ control\RegisterControl.class
 models\CategoryModel.class
 models\Product.class
 control\ForgotControl.class
+control\OrderPickControl.class
 models\CreateProductModel.class

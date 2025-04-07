@@ -73,7 +73,6 @@ public class MenuAdminControl extends HttpServlet {
         processRequest(request, response);
         loadProducts(request, response);
         loadCategory(request, response);
-        
         request.getRequestDispatcher("menu.jsp").forward(request, response);
     }
     
@@ -155,16 +154,16 @@ public class MenuAdminControl extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        handleCreate(request, response);
+//        handleCreate(request, response);
         
-//        String action = request.getParameter("action");
-//        if ("delete".equals(action)) {
-//            handleDelete(request, response);
-//        } else if ("detail".equals(action)) {
-//            handleDetail(request, response);
-//        } else {
-//            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
-//        }
+        String action = request.getParameter("action");
+        if ("delete".equals(action)) {
+            handleDelete(request, response);
+        } else if ("detail".equals(action)) {
+            handleDetail(request, response);
+        } else {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
+        }
     }
     private void handleCreate(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -267,6 +266,111 @@ public class MenuAdminControl extends HttpServlet {
         }
     }
     
+    
+    
+    private void handleUpdate(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String productName = request.getParameter("productName");
+        String category = request.getParameter("category");
+        String productPrice = request.getParameter("productPrice");
+        String productSize = request.getParameter("productSize");
+        String productPriceOfSize = request.getParameter("productPriceOfSize");
+        String haveType = "true";
+        String availability = request.getParameter("availability");
+        boolean isDirectSale = request.getParameter("directSale") != null;
+        
+        VariantDetailModel v = new VariantDetailModel();
+        v.setSizeName(productSize);
+        v.setBasePrice(Integer.valueOf(productPriceOfSize));
+            
+        ArrayList<VariantDetailModel> listVariant= new ArrayList<>();
+        listVariant.add(v);
+        
+        
+        CreateProductModel model = new CreateProductModel();
+        model.setProductName(productName);
+        model.setCategoryId(Integer.valueOf(category));
+        model.setBasePrice(Integer.valueOf(productPrice));
+        model.setProductVariants(listVariant);
+        model.setHaveType(false);
+        model.setDirectSale(isDirectSale);
+        
+        Gson gsonString = new GsonBuilder().setPrettyPrinting().create();
+        String jsonData = gsonString.toJson(model);
+
+        
+        
+        String API_ENDPOINT = "http://localhost:8080/products/";
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        Gson gson = new Gson();
+        JsonObject jsonResponse = new JsonObject();
+
+        try {
+            String productDataString = jsonData;
+            Part filePart = request.getPart("productImage");
+
+            String boundary = "===" + System.currentTimeMillis() + "===";
+            URL url = new URL(API_ENDPOINT);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+
+            try (OutputStream outputStream = connection.getOutputStream()) {
+                // Gửi phần dữ liệu JSON
+                addFormField(outputStream, boundary, "data", productDataString);
+
+                // Gửi phần file ảnh
+                if (filePart != null) {
+                    String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+                    InputStream fileContent = filePart.getInputStream();
+                    addFilePart(outputStream, boundary, "image", fileName, fileContent);
+                }
+
+                // Kết thúc body
+                outputStream.write(("--" + boundary + "--\r\n").getBytes());
+            }
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                String apiResponse = getApiResponse(connection);
+                jsonResponse.addProperty("success", true);
+                try {
+                    JsonObject apiResponseJson = gson.fromJson(apiResponse, JsonObject.class);
+                    jsonResponse.add("data", apiResponseJson);
+                } catch (Exception e) {
+                    jsonResponse.addProperty("responseData", apiResponse); // Trả về nguyên văn nếu không phải JSON
+                }
+            } else {
+                jsonResponse.addProperty("success", false);
+                jsonResponse.addProperty("error", "Lỗi khi gọi API. Mã phản hồi: " + responseCode);
+                String errorResponse = getApiResponse(connection);
+                if (errorResponse != null && !errorResponse.isEmpty()) {
+                    jsonResponse.addProperty("errorMessage", errorResponse);
+                }
+                response.setStatus(responseCode);
+            }
+
+            connection.disconnect();
+
+        } catch (ServletException e) {
+            jsonResponse.addProperty("success", false);
+            jsonResponse.addProperty("error", "Lỗi khi xử lý request: " + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        } catch (IOException e) {
+            jsonResponse.addProperty("success", false);
+            jsonResponse.addProperty("error", "Lỗi I/O: " + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } finally {
+            out.print(gson.toJson(jsonResponse));
+            out.flush();
+        }
+    }
+    
+    
+    
 
     private void handleDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -302,12 +406,8 @@ public class MenuAdminControl extends HttpServlet {
     private void handleDetail(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String detailID = request.getParameter("detailID");
-        response.getWriter().write("{\"status\": \"success\", \"message\": \"delete có ID: " + detailID + "\"}");
-        
-        String apiUrl = "http://localhost:8080/products/{productId}/detail?productId=3";
-        
+        String apiUrl = "http://localhost:8080/products/" + detailID +"/detail";
         String jsonString = sendPostRequest(apiUrl, request, response);
-        
         response.getWriter().write("{\"status\": \"success\", \"message\": \"delete có ID: " + jsonString + "\"}");
     }
 

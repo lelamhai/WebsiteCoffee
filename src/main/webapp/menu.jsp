@@ -386,7 +386,6 @@
 </div>
    
    <!--modal edit-->
-   
    <div class="modal fade right" id="edit-modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" style="height: 100%;">
@@ -570,7 +569,7 @@
             $(document).on('click', '.edit-btn', function(e) {
               e.preventDefault();
               const itemId = $(this).data('id');
-             
+             console.log(itemId);
               if (itemId) {
                 $.ajax({
                      url: 'menu',
