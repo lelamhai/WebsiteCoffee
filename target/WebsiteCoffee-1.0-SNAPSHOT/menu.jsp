@@ -321,7 +321,7 @@
                             <option>L</option>
                           </select>
                       
-                       <input type="text" class="form-control col-md-6" id="price" value="" style="width: 48%; margin-left: 2%">
+                       <input type="text" name="productPriceOfSize" class="form-control col-md-6" id="price" value="" style="width: 48%; margin-left: 2%">
                        <span style="position: fixed; right: -88%; padding-top: 5px;">đ</span>
                       </div>
                       
@@ -345,11 +345,11 @@
                         <label for="type" class="form-label">Trạng thái</label>
                         <div style="display: flex;">
                             <div class="form-check form-check-inline" style="width: 50%;">
-                              <input class="form-check-input" type="radio" name="availability" id="r-available" value="available" checked>
+                              <input class="form-check-input" type="radio" name="availability" id="r-available" value="true" checked>
                               <label class="form-check-label" for="r-available">Còn</label>
                             </div>
                             <div class="form-check form-check-inline" style="width: 50%;">
-                              <input class="form-check-input" type="radio" name="availability" id="r-outOfStock" value="outOfStock">
+                              <input class="form-check-input" type="radio" name="availability" id="r-outOfStock" value="false">
                               <label class="form-check-label" for="r-outOfStock">Hết</label>
                             </div>
                         </div>
@@ -370,7 +370,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <input class="form-check-input" type="checkbox" name="availability" id="buy" value="isDirectSale">
+                        <input class="form-check-input" type="checkbox" name="directSale" id="buy" value="isDirectSale">
                         <label class="form-check-label" for="buy">Bán trực tiếp</label>
                     </div>
                    

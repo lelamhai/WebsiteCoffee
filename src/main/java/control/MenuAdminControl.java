@@ -168,6 +168,37 @@ public class MenuAdminControl extends HttpServlet {
     }
     private void handleCreate(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        String productName = request.getParameter("productName");
+        String category = request.getParameter("category");
+        String productPrice = request.getParameter("productPrice");
+        String productSize = request.getParameter("productSize");
+        String productPriceOfSize = request.getParameter("productPriceOfSize");
+        String haveType = "true";
+        String availability = request.getParameter("availability");
+        boolean isDirectSale = request.getParameter("directSale") != null;
+        
+        VariantDetailModel v = new VariantDetailModel();
+        v.setSizeName(productSize);
+        v.setBasePrice(Integer.valueOf(productPriceOfSize));
+            
+        ArrayList<VariantDetailModel> listVariant= new ArrayList<>();
+        listVariant.add(v);
+        
+        
+        CreateProductModel model = new CreateProductModel();
+        model.setProductName(productName);
+        model.setCategoryId(Integer.valueOf(category));
+        model.setBasePrice(Integer.valueOf(productPrice));
+        model.setProductVariants(listVariant);
+        model.setHaveType(false);
+        model.setDirectSale(isDirectSale);
+        
+        Gson gsonString = new GsonBuilder().setPrettyPrinting().create();
+        String jsonData = gsonString.toJson(model);
+
+        
+        
         String API_ENDPOINT = "http://localhost:8080/products/";
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
@@ -175,7 +206,7 @@ public class MenuAdminControl extends HttpServlet {
         JsonObject jsonResponse = new JsonObject();
 
         try {
-            String productDataString = "{\"productName\":\"uuuuuu\",\"basePrice\":150,\"categoryId\":1,\"haveType\":true,\"productVariants\":[{\"size\":\"S\",\"price\":1000.0}],\"isDirectSale\":true}";
+            String productDataString = jsonData;
             Part filePart = request.getPart("productImage");
 
             String boundary = "===" + System.currentTimeMillis() + "===";
