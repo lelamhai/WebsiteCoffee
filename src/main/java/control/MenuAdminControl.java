@@ -73,6 +73,7 @@ public class MenuAdminControl extends HttpServlet {
         processRequest(request, response);
         loadProducts(request, response);
         loadCategory(request, response);
+        
         request.getRequestDispatcher("menu.jsp").forward(request, response);
     }
     
@@ -139,7 +140,7 @@ public class MenuAdminControl extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "";
+        return "Lỗi";
     }
     
     /**
@@ -154,7 +155,6 @@ public class MenuAdminControl extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-//        handleCreate(request, response);
         
         String action = request.getParameter("action");
         if ("delete".equals(action)) {
@@ -162,7 +162,7 @@ public class MenuAdminControl extends HttpServlet {
         } else if ("detail".equals(action)) {
             handleDetail(request, response);
         } else {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
+            handleCreate(request, response);
         }
     }
     private void handleCreate(HttpServletRequest request, HttpServletResponse response)
@@ -171,32 +171,55 @@ public class MenuAdminControl extends HttpServlet {
         String productName = request.getParameter("productName");
         String category = request.getParameter("category");
         String productPrice = request.getParameter("productPrice");
-        String productSize = request.getParameter("productSize");
-        String productPriceOfSize = request.getParameter("productPriceOfSize");
-        String haveType = "true";
-        String availability = request.getParameter("availability");
+        String haveType = request.getParameter("haveType");
+        boolean availability = request.getParameter("availability") != null;
         boolean isDirectSale = request.getParameter("directSale") != null;
         
-        VariantDetailModel v = new VariantDetailModel();
-        v.setSizeName(productSize);
-        v.setBasePrice(Integer.valueOf(productPriceOfSize));
-            
-        ArrayList<VariantDetailModel> listVariant= new ArrayList<>();
-        listVariant.add(v);
+        String productSizeS = request.getParameter("productSizeS");
+        String productSizeM = request.getParameter("productSizeM");
+        String productSizeL = request.getParameter("productSizeL");
         
+        String productPriceOfSizeS = request.getParameter("productPriceOfSizeS");
+        String productPriceOfSizeM = request.getParameter("productPriceOfSizeM");
+        String productPriceOfSizeL = request.getParameter("productPriceOfSizeL");
+        
+        ArrayList<VariantDetailModel> listVariant= new ArrayList<>();
+        
+        if(Integer.valueOf(productPriceOfSizeS) > 0 )
+        {
+            VariantDetailModel v = new VariantDetailModel();
+            v.setSizeName(productSizeS);
+            v.setBasePrice(Integer.valueOf(productPriceOfSizeS)); 
+            listVariant.add(v);
+        }
+        
+        if(Integer.valueOf(productPriceOfSizeM) > 0 )
+        {
+            VariantDetailModel v = new VariantDetailModel();
+            v.setSizeName(productSizeM);
+            v.setBasePrice(Integer.valueOf(productPriceOfSizeM));
+            listVariant.add(v);
+        }
+        
+        if(Integer.valueOf(productPriceOfSizeL) > 0 )
+        {
+           VariantDetailModel v = new VariantDetailModel();
+           v.setSizeName(productSizeL);
+           v.setBasePrice(Integer.valueOf(productPriceOfSizeL));
+           listVariant.add(v);
+        }
         
         CreateProductModel model = new CreateProductModel();
         model.setProductName(productName);
         model.setCategoryId(Integer.valueOf(category));
         model.setBasePrice(Integer.valueOf(productPrice));
         model.setProductVariants(listVariant);
-        model.setHaveType(false);
+        model.setHaveType(Integer.valueOf(haveType));
+        model.setIsAvailable(availability);
         model.setDirectSale(isDirectSale);
-        
+
         Gson gsonString = new GsonBuilder().setPrettyPrinting().create();
         String jsonData = gsonString.toJson(model);
-
-        
         
         String API_ENDPOINT = "http://localhost:8080/products/";
         response.setContentType("application/json");
@@ -261,12 +284,12 @@ public class MenuAdminControl extends HttpServlet {
             jsonResponse.addProperty("error", "Lỗi I/O: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } finally {
-            out.print(gson.toJson(jsonResponse));
-            out.flush();
+              response.sendRedirect(request.getContextPath() + "/menu");
+//            out.print(gson.toJson(jsonResponse));
+//            out.flush();
+               
         }
     }
-    
-    
     
     private void handleUpdate(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -293,7 +316,7 @@ public class MenuAdminControl extends HttpServlet {
         model.setCategoryId(Integer.valueOf(category));
         model.setBasePrice(Integer.valueOf(productPrice));
         model.setProductVariants(listVariant);
-        model.setHaveType(false);
+        model.setHaveType(1);
         model.setDirectSale(isDirectSale);
         
         Gson gsonString = new GsonBuilder().setPrettyPrinting().create();
@@ -368,8 +391,6 @@ public class MenuAdminControl extends HttpServlet {
             out.flush();
         }
     }
-    
-    
     
 
     private void handleDelete(HttpServletRequest request, HttpServletResponse response)
@@ -405,10 +426,31 @@ public class MenuAdminControl extends HttpServlet {
 
     private void handleDetail(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String detailID = request.getParameter("detailID");
-        String apiUrl = "http://localhost:8080/products/" + detailID +"/detail";
-        String jsonString = sendPostRequest(apiUrl, request, response);
-        response.getWriter().write("{\"status\": \"success\", \"message\": \"delete có ID: " + jsonString + "\"}");
+         String productID = request.getParameter("detailID");
+       try {
+            URL url = new URL("http://localhost:8080/products/"+productID+"/details");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line;
+                StringBuilder responseData = new StringBuilder();
+                while ((line = reader.readLine()) != null) {
+                    responseData.append(line);
+                }
+                reader.close();
+                response.getWriter().write(responseData.toString());
+            } else {
+                response.getWriter().write("Lỗi khi gọi API. Mã phản hồi: " + responseCode);
+            }
+            connection.disconnect();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().write("Đã xảy ra lỗi: " + e.getMessage());
+        }
     }
 
     

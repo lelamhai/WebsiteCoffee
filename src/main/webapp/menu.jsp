@@ -35,6 +35,35 @@
         .modal.right.show .modal-dialog {
             transform: translateX(0);
         }
+        
+        .frame-pick-image {
+                                border-radius: 12px;
+                                width: 64px;
+                                height: 64px;
+                                overflow: hidden; /* Ẩn phần hình ảnh vượt quá khung */
+                                position: relative; /* Để định vị tuyệt đối hình ảnh bên trong */
+                            }
+
+                            .preview-image {
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover; /* Scale hình ảnh để lấp đầy khung, cắt phần dư */
+                                object-position: center; /* Đảm bảo tâm của hình ảnh ở giữa */
+                            } 
+                            
+                            .wrap-upload {
+                                position: fixed;
+                                display: none;
+                            }
+                            
+                            .upload-preview {
+                                position: absolute;
+                                top: -10px;
+                                right: 0;
+                            }
   </style>
 </head>
 <body>
@@ -184,7 +213,7 @@
                         <td>
                             <img src="imgs/product-image.png" alt="Cà phê sữa" class="product-image">
                         </td>
-                        <td class="id-product" hidden="none"><%= product.getProductId()%></td>
+                        <td class="id-product" hidden><%= product.getProductId()%></td>
                         <td class="name-product"><%= product.getProductName()%></td>
                         <td><%= product.getCategoryName() %></td>
                         <td><%= product.getSizes() %></td>
@@ -235,8 +264,8 @@
         <div class="modal-content" style="height: 100%;">
             <div class="modal-header">
                 <div class="wrap-header-modal">
-                    <div style="font-size: 18px; font-weight: 600;">Cà phê sữa</div>
-                    <div style="font-size: 12px;">Còn</div>
+                    <div style="font-size: 18px; font-weight: 600;" class="detail-title" >Cà phê sữa</div>
+                    <div style="font-size: 12px;" class="detail-isAvailable">Còn</div>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
             </div>
@@ -245,11 +274,11 @@
                 <div class="row" style="padding: 15px">
                     <div class="col-md-6">
                         <div class="titile-modal-llh">Danh muc</div>
-                        <div class="content-modal-llh">Cà phê</div>
+                        <div class="content-modal-llh detail-categoryName">Cà phê</div>
                     </div>
                     
                     <div class="col-md-6">
-                        <div class="titile-modal-llh">Giá</div>
+                        <div class="titile-modal-llh detail-basePrice">Giá gốc</div>
                         <div class="content-modal-llh">10.000đ</div>
                     </div>
                     
@@ -268,121 +297,123 @@
     </div>
 </div>
     
-
+    
+    <style>
+        #create-modal .form-control,
+        #create-modal .form-select{
+            height: 46px;
+        }
+    </style>
+    
    <!--Modals create-->    
 <div class="modal fade right" id="create-modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
        
         <div class="modal-content" style="height: 100%;">
-            <div class="modal-header">
-                <div class="wrap-header-modal">
-                    <h5>Thêm nước</h5>
+            <form action="menu" method="post" enctype="multipart/form-data" style="height:100%; display: flex; flex-direction: column;" >
+                <div class="modal-header">
+                    <div class="wrap-header-modal">
+                        <div style="font-size: 20px; font-weight: 500">Thêm món</div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-            </div>
-            <form action="menu" method="post" enctype="multipart/form-data">
                 <div class="modal-body" >
                     <div class="mb-3">
-                      <label for="productName" class="form-label required">Tên</label>
-                      <input type="text" name="productName" class="form-control" id="productName" value="">
+                        <input type="text" placeholder="Tên" name="productName" class="form-control" id="productName" value="">
                     </div>
-
                     <div class="mb-3">
-                      <label for="category" class="form-label">Danh mục</label>
-                      <select class="form-select" id="category" name="category">
-                        <% 
-                            List<Category> categries = (List<Category>) request.getAttribute("categries");
-                        %>
-                        <%
-                            if (categries != null) {
-                                for (Category c : categries) {
-                                %>
-                                    <option value="<%= c.getId()%>" selected><%= c.getCategoryName()%></option>
-                                <%
-                            }
-                        }%>
-                      </select>
-                    </div>
-                   
-                    <div class="mb-3">
-                      <label for="price" class="form-label">Giá</label>
-                      <div class="input-group">
-                        <input type="text" name="productPrice" class="form-control" id="price" value="" style="width: 100%">
-                        <span class="" style="position: fixed; right: 7%; padding-top: 5px; z-index: 99;">đ</span>
-                      </div>
-                    </div>
-                   
-                   <div class="mb-3">
-                      <label for="size" class="form-label">Kích cỡ</label>
-                      <div class="row" style="padding: 0 15px;">
-                          <select name="productSize" class="form-select col-md-6" id="size" style="width: 48%; margin-right: 2%;">
-                            <option selected>S</option>
-                            <option>M</option>
-                            <option>L</option>
+                          <select class="form-select" id="category" name="category">
+                                <option value="-1" selected>Danh mục</option>
+                            <% 
+                                List<Category> categries = (List<Category>) request.getAttribute("categries");
+                            %>
+                            <%
+                                if (categries != null) {
+                                    for (Category c : categries) {
+                                    %>
+                                        <option value="<%= c.getId()%>"><%= c.getCategoryName()%></option>
+                                    <%
+                                }
+                            }%>
                           </select>
-                      
-                       <input type="text" name="productPriceOfSize" class="form-control col-md-6" id="price" value="" style="width: 48%; margin-left: 2%">
-                       <span style="position: fixed; right: -88%; padding-top: 5px;">đ</span>
-                      </div>
-                      
                     </div>
-                   
                     <div class="mb-3">
-                      <label for="type" class="form-label">Loại</label>
-                      <div style="display: flex;">
-                          <div class="form-check form-check-inline" style="width: 50%;">
-                          <input class="form-check-input" type="checkbox" name="haveType" id="c-available" value="true" checked>
-                            <label class="form-check-label" for="c-available">Nóng</label>
+                          <div class="input-group">
+                              <input type="text" placeholder="Giá gốc" name="productPrice" class="form-control" id="price" value="" style="width: 100%">
+                            <span class="" style="position: fixed; right: 7%; padding-top: 10px; z-index: 99;">đ</span>
                           </div>
-                          <div class="form-check form-check-inline" style="width: 50%;">
-                            <input class="form-check-input" type="checkbox" name="haveType" id="c-outOfStock" value="false">
-                            <label class="form-check-label" for="c-outOfStock">Lạnh</label>
-                          </div>
-                      </div>
                     </div>
+                    <div class="mb-3">
+                        <select class="form-select" id="haveType" name="haveType">
+                            <option value="3" selected>Nóng và lạnh</option>
+                            <option value="2">Nóng</option>
+                            <option value="1">Lạnh</option>
+                        </select>
+                    </div>      
+                    <div class="mb-3">
+                            <label for="size" class="form-label">Kích cỡ</label>
+                            <div class="wrap-productsize">
+                                <div class="row" style="padding: 0 15px; padding-bottom: 15px;">
+                                    <input type="text" readonly name="productSizeS" class="form-control col-md-6" value="S" style="width: 48%; margin-right: 2%">
+                                    <input type="text" name="productPriceOfSizeS" class="form-control col-md-6" value="" style="width: 48%; margin-left: 2%">
+                                    <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
+                                </div>
 
-                    <div class="mb-3">
-                        <label for="type" class="form-label">Trạng thái</label>
-                        <div style="display: flex;">
-                            <div class="form-check form-check-inline" style="width: 50%;">
-                              <input class="form-check-input" type="radio" name="availability" id="r-available" value="true" checked>
-                              <label class="form-check-label" for="r-available">Còn</label>
-                            </div>
-                            <div class="form-check form-check-inline" style="width: 50%;">
-                              <input class="form-check-input" type="radio" name="availability" id="r-outOfStock" value="false">
-                              <label class="form-check-label" for="r-outOfStock">Hết</label>
-                            </div>
-                        </div>
-                    </div>
+                                <div class="row" style="padding: 0 15px; padding-bottom: 15px;">
+                                    <input type="text" readonly name="productSizeM" class="form-control col-md-6" value="M" style="width: 48%; margin-right: 2%">
+                                    <input type="text" name="productPriceOfSizeM" class="form-control col-md-6" value="" style="width: 48%; margin-left: 2%">
+                                    <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
+                                </div>
 
-                    <div class="mb-3">
-                        <label for="type" class="form-label">Mô tả hình ảnh</label>
-                        <div class="image-upload-container row">
-                            <input type="file" name="productImage" />
-                            <div class="col-md-2 update-load-imgs">
-                                <img src="imgs/Button.png" alt="alt"/>
+                                 <div class="row" style="padding: 0 15px;">
+                                    <input type="text" readonly name="productSizeL" class="form-control col-md-6" value="L" style="width: 48%; margin-right: 2%">
+                                    <input type="text" name="productPriceOfSizeL" class="form-control col-md-6" value="" style="width: 48%; margin-left: 2%">
+                                    <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
+                                </div>
                             </div>
-                            <div class="col-md-2 update-load-imgs"><img src="imgs/Button.png" alt="alt"/></div>
-                            <div class="col-md-2 update-load-imgs"><img src="imgs/Button.png" alt="alt"/></div>
-                            <div class="col-md-2 update-load-imgs"><img src="imgs/Button.png" alt="alt"/></div>
-                            <div class="col-md-2 update-load-imgs"><img src="imgs/Button.png" alt="alt"/></div>
-                            <div class="col-md-2 update-load-imgs"><img src="imgs/Button.png" alt="alt"/></div>
-                        </div>
                     </div>
                     <div class="mb-3">
-                        <input class="form-check-input" type="checkbox" name="directSale" id="buy" value="isDirectSale">
-                        <label class="form-check-label" for="buy">Bán trực tiếp</label>
+                            <label for="type" class="form-label">Trạng thái</label>
+                            <div style="display: flex;">
+                                <div class="form-check form-check-inline" style="width: 50%;">
+                                  <input class="form-check-input" type="radio" name="availability" id="r-available" value="true" checked>
+                                  <label class="form-check-label" for="r-available">Còn</label>
+                                </div>
+                                <div class="form-check form-check-inline" style="width: 50%;">
+                                  <input class="form-check-input" type="radio" name="availability" id="r-outOfStock" value="false">
+                                  <label class="form-check-label" for="r-outOfStock">Hết</label>
+                                </div>
+                            </div>
                     </div>
-                   
+                    <div class="mb-3">
+                            <label for="type" class="form-label">Mô tả hình ảnh</label>
+                            <div class="image-upload-container row" style="padding-left: 10px;">
+                                <input type="file" name="productImage" id="create-productImage" hidden/>
+                                <div class="col-md-2 update-load-imgs pick-image">
+                                    <img src="imgs/Button.png" alt="alt"/>
+                                </div>
+                                
+                                <div class="col-md-2 update-load-imgs wrap-upload">
+                                    <div class="frame-pick-image">
+                                        <img src="imgs/Button.png" alt="alt" class="preview-image"/>
+                                    </div>
+                                    <div class="upload-preview">
+                                        <i class="bi bi-x image-delete" style="background-color: #5e5e5e8a;border-radius: 50%;color: #fff;cursor: pointer;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="mb-3">
+                            <input class="form-check-input" type="checkbox" name="directSale" id="buy" value="isDirectSale">
+                            <label class="form-check-label" for="buy">Bán trực tiếp</label>
+                    </div>
                 </div>
-
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #1F75FF">Tạo</button>
                 </div>
-             </form>
+            </form>
         </div>
-
-    </div>
+    </div>               
 </div>
    
    <!--modal edit-->
@@ -589,6 +620,37 @@
                 }
             });
       });
+      
+    $(document).ready(function() {
+        $(document).on('click', '.pick-image', function(e) {
+            $('#create-productImage').click();
+        });
+        
+        $(document).on('click', '.image-delete', function(e) {
+            $('#create-productImage').val('');
+            $('.pick-image').css("z-index", "1");
+            $('.wrap-upload').css("display", "none");
+        });
+        
+        $('#create-productImage').change(function() {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('.preview-image').attr('src', e.target.result).show();
+                    $('.wrap-upload').css("display", "block");
+                    $('.pick-image').css("z-index", "-1");
+                }
+
+                reader.readAsDataURL(this.files[0]);
+                } else {
+                    $('.preview-image').attr('src', '#').hide();
+                    console.log("delete");
+                }
+        });
+    });
+      
+      
       
         
   </script>

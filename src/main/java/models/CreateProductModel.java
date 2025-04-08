@@ -14,9 +14,10 @@ public class CreateProductModel {
     private String productName;
     private double basePrice;
     private int categoryId;
-    private boolean haveType;
+    private int haveType;
     private List<VariantDetailModel> productVariants = null;
     private boolean isDirectSale;
+    private boolean isAvailable;
 
     // Getters and Setters
     public String getProductName() {
@@ -43,14 +44,6 @@ public class CreateProductModel {
         this.categoryId = categoryId;
     }
 
-    public boolean isHaveType() {
-        return haveType;
-    }
-
-    public void setHaveType(boolean haveType) {
-        this.haveType = haveType;
-    }
-
     public List<VariantDetailModel> getProductVariants() {
         return productVariants;
     }
@@ -65,5 +58,29 @@ public class CreateProductModel {
 
     public void setDirectSale(boolean directSale) {
         isDirectSale = directSale;
+    }
+    
+    public boolean isIsAvailable() {
+        return isAvailable;
+    }
+
+    public void setIsAvailable(boolean isAvailable) {
+        this.isAvailable = isAvailable;
+    }
+
+    public int getHaveType() {
+        return haveType;
+    }
+
+    public void setHaveType(int haveType) {
+        this.haveType = haveType;
+    }
+
+    public boolean isIsDirectSale() {
+        return isDirectSale;
+    }
+
+    public void setIsDirectSale(boolean isDirectSale) {
+        this.isDirectSale = isDirectSale;
     }
 }
