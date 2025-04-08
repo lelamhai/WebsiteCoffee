@@ -264,35 +264,82 @@
         <div class="modal-content" style="height: 100%;">
             <div class="modal-header">
                 <div class="wrap-header-modal">
-                    <div style="font-size: 18px; font-weight: 600;" class="detail-title" >Cà phê sữa</div>
-                    <div style="font-size: 12px;" class="detail-isAvailable">Còn</div>
+                    <div style="font-size: 18px; font-weight: 600;" class="detail-title">#01 - Cà phê sữa</div>
+                    <!--<div style="font-size: 12px;background-color: #F2F4F7;width: 40px;text-align: center;border-radius: 10px;" class="detail-isAvailable">Còn</div>-->
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
             </div>
             
             <div class="modal-body" >
-                <div class="row" style="padding: 15px">
+                <div class="row" style="padding: 15px 15px 0 15px">
+                     <div class="col-md-6">
+                        <div class="lable-detail">Trạng thái</div>
+                        <div class="content-modal-llh detail-available">Còn</div>
+                    </div>
+                    
                     <div class="col-md-6">
-                        <div class="titile-modal-llh">Danh muc</div>
+                        <div class="lable-detail">Danh muc</div>
                         <div class="content-modal-llh detail-categoryName">Cà phê</div>
                     </div>
                     
                     <div class="col-md-6">
-                        <div class="titile-modal-llh detail-basePrice">Giá gốc</div>
-                        <div class="content-modal-llh">10.000đ</div>
+                        <div class="lable-detail">Giá gốc</div>
+                        <div class="content-modal-llh detail-baseprice">10.000đ</div>
                     </div>
                     
                     <div class="col-md-6">
-                        <div class="titile-modal-llh">Loại</div>
-                        <div class="content-modal-llh">Lạnh</div>
+                        <div class="lable-detail">Loại</div>
+                        <div class="content-modal-llh detail-havetype">Lạnh</div>
                     </div>
-                    
+                </div>
+                
+                <div class="row wrap-productsizes" style="padding: 15px 15px 0 15px">
                     <div class="col-md-6">
-                        <div class="titile-modal-llh">Kích cỡ</div>
+                        <div class="lable-detail">Kich cỡ</div>
                         <div class="content-modal-llh">S</div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="lable-detail">Giá</div>
+                        <div class="content-modal-llh">10000 đ</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="lable-detail">Kich cỡ</div>
+                        <div class="content-modal-llh">M</div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="lable-detail">Giá</div>
+                        <div class="content-modal-llh">10000 đ</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="lable-detail">Kich cỡ</div>
+                        <div class="content-modal-llh">L</div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="lable-detail">Giá</div>
+                        <div class="content-modal-llh">10000 đ</div>
+                    </div>
+                </div>
+                
+                <div class="row wrap-productsizes" style="padding: 15px">
+                    <div class="col-md-12">
+                        <input class="form-check-input" checked type="checkbox" name="directSale" id="buy" value="isDirectSale" disabled>
+                        <label class="form-check-label content-modal-llh" for="buy">Bán trực tiếp</label>
                     </div>
                 </div>
             </div>
+            
+            <div class="modal-footer">
+                <button class="action-button edit-btn" data-bs-toggle="modal" data-bs-target="#edit-modal" data-id="1" style="width: 40px;height: 40px;border: 1px solid #EAECF0;border-radius: 50px;">
+                    <i class="bi bi-pencil" style="color: black;"></i>
+                </button>
+                <button class="action-button delete-btn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-id="1" style="width: 40px;height: 40px;border: 1px solid #EAECF0;border-radius: 50px;">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+            
         </div>
     </div>
 </div>
@@ -306,7 +353,7 @@
     </style>
     
    <!--Modals create-->    
-<div class="modal fade right" id="create-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade right" id="create-modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
        
         <div class="modal-content" style="height: 100%;">

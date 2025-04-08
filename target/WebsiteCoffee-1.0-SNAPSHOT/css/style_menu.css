@@ -306,7 +306,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
             transform: translateX(0);
         }
         
-         .titile-modal-llh {
+         .lable-detail {
                     font-size: 12px;
                     font-weight: 400;
                     color: #4E5A73;
@@ -316,7 +316,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
                     font-size: 16px;
                     font-weight: 400;
                     color: #021337;
-                    padding-bottom: 30px;
+                    padding-bottom: 15px;
                 }
                 
          .form-label {
