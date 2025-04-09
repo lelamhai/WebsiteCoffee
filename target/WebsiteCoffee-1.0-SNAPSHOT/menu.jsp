@@ -21,49 +21,49 @@
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <style>
-        .modal.right .modal-dialog {
-            position: fixed;
-            margin: auto;
-            width: 30%;
-            height: 100%;
-            right: 0;
-            transform: translateX(100%);
-            transition: transform 0.3s ease-in-out;
-            height: 100%;
-        }
-        
-        .modal.right.show .modal-dialog {
-            transform: translateX(0);
-        }
-        
-        .frame-pick-image {
-                                border-radius: 12px;
-                                width: 64px;
-                                height: 64px;
-                                overflow: hidden; /* Ẩn phần hình ảnh vượt quá khung */
-                                position: relative; /* Để định vị tuyệt đối hình ảnh bên trong */
-                            }
+      .modal.right .modal-dialog {
+          position: fixed;
+          margin: auto;
+          width: 30%;
+          height: 100%;
+          right: 0;
+          transform: translateX(100%);
+          transition: transform 0.3s ease-in-out;
+          height: 100%;
+      }
 
-                            .preview-image {
-                                position: absolute;
-                                top: 0;
-                                left: 0;
-                                width: 100%;
-                                height: 100%;
-                                object-fit: cover; /* Scale hình ảnh để lấp đầy khung, cắt phần dư */
-                                object-position: center; /* Đảm bảo tâm của hình ảnh ở giữa */
-                            } 
-                            
-                            .wrap-upload {
-                                position: fixed;
-                                display: none;
-                            }
-                            
-                            .upload-preview {
-                                position: absolute;
-                                top: -10px;
-                                right: 0;
-                            }
+      .modal.right.show .modal-dialog {
+          transform: translateX(0);
+      }
+
+      .frame-pick-image {
+          border-radius: 12px;
+          width: 64px;
+          height: 64px;
+          overflow: hidden; /* Ẩn phần hình ảnh vượt quá khung */
+          position: relative; /* Để định vị tuyệt đối hình ảnh bên trong */
+      }
+
+      .preview-image {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover; /* Scale hình ảnh để lấp đầy khung, cắt phần dư */
+          object-position: center; /* Đảm bảo tâm của hình ảnh ở giữa */
+      }
+
+      .wrap-upload {
+          position: fixed;
+          display: none;
+      }
+
+      .upload-preview {
+          position: absolute;
+          top: -10px;
+          right: 0;
+      }
   </style>
 </head>
 <body>
@@ -320,6 +320,8 @@
     
     
     <style>
+       
+        
         #create-modal .form-control,
         #create-modal .form-select{
             height: 46px;
@@ -327,7 +329,7 @@
     </style>
     
    <!--Modals create-->    
-    <div class="modal fade right" id="create-modal" tabindex="-1" aria-hidden="true">
+<div class="modal fade right" id="create-modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
        
         <div class="modal-content" style="height: 100%;">
@@ -437,110 +439,125 @@
     </div>               
 </div>
    
-   <!--modal edit-->
-   <div class="modal fade right" id="edit-modal" tabindex="-1" aria-hidden="true">
+                          <style>
+                                #edit-modal .form-label
+                                {
+                                    margin-bottom: 0;
+                                }
+                          </style>
+<!--modal edit-->
+<div class="modal fade right" id="edit-modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
+       
         <div class="modal-content" style="height: 100%;">
-            <div class="modal-header">
-                <div class="wrap-header-modal">
-                    <h5>Thêm nước</h5>
+            <form action="menu" method="post" enctype="multipart/form-data" style="height:100%; display: flex; flex-direction: column;" >
+                <div class="modal-header">
+                    <div class="wrap-header-modal">
+                        <div style="font-size: 20px; font-weight: 500">Chỉnh sửa món</div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-            </div>
-            
-            <div class="modal-body" >
-               <form>
+                <div class="modal-body" >
                     <div class="mb-3">
-                      <label for="productName" class="form-label required">Tên</label>
-                      <input type="text" class="form-control" id="productName" value="">
+                        <label for="size" class="form-label">Tên</label>
+                        <input type="text" name="productName" class="form-control edit-productname" value="">
                     </div>
+                    <div class="mb-3">
+                        <label for="size" class="form-label">Danh mục</label>
+                        <select class="form-select" id="edit-category" name="category">
+                            <% 
+                                List<Category> editCategries = (List<Category>) request.getAttribute("categries");
+                            %>
+                            <%
+                                if (categries != null) {
+                                    for (Category c : editCategries) {
+                                    %>
+                                        <option value="<%= c.getId()%>"><%= c.getCategoryName()%></option>
+                                    <%
+                                }
+                            }%>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="size" class="form-label">Giá gốc</label>
+                        <div class="input-group">
+                            <input type="text" name="productPrice" class="form-control edit-baseprice" id="price" value="" style="width: 100%">
+                            <span class="" style="position: fixed; right: 7%; padding-top: 10px; z-index: 99;">đ</span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="size" class="form-label">Loại</label>
+                        <select class="form-select" id="edit-haveType" name="haveType">
+                            <option value="3" selected>Nóng và lạnh</option>
+                            <option value="2">Nóng</option>
+                            <option value="1">Lạnh</option>
+                        </select>
+                    </div>      
+                    <div class="mb-3">
+                        <label for="size" class="form-label">Kích cỡ</label>
+                        <div class="wrap-productsize">
+                            <div class="row" style="padding: 0 15px; padding-bottom: 15px;">
+                                <input type="text" readonly name="productSizeS" class="form-control col-md-6" value="S" style="width: 48%; margin-right: 2%">
+                                <input type="text" name="productPriceOfSizeS" class="form-control col-md-6 edit-productPriceOfSizeS" value="" style="width: 48%; margin-left: 2%">
+                                <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
+                            </div>
 
-                    <div class="mb-3">
-                      <label for="category" class="form-label">Danh mục</label>
-                      <select class="form-select" id="category">
-                        <option selected>Cà phê</option>
-                        <option>Trà sữa</option>
-                        <option>Nước ép</option>
-                        <option>Sinh tố</option>
-                      </select>
-                    </div>
-                   
-                    <div class="mb-3">
-                      <label for="price" class="form-label">Giá</label>
-                      <div class="input-group">
-                        <input type="text" class="form-control" id="price" value="" style="width: 100%">
-                        <span class="" style="position: fixed; right: 7%; padding-top: 5px; z-index: 99;">đ</span>
-                      </div>
-                    </div>
-                   
-                   <div class="mb-3">
-                      <label for="size" class="form-label">Kích cỡ</label>
-                      <div class="row" style="padding: 0 15px;">
-                          <select class="form-select col-md-6" id="size" style="width: 48%; margin-right: 2%;">
-                            <option selected>S</option>
-                            <option>M</option>
-                            <option>L</option>
-                          </select>
-                      
-                       <input type="text" class="form-control  col-md-6" id="price" value="" style="width: 48%; margin-left: 2%">
-                       <span style="position: fixed; right: -88%; padding-top: 5px;">đ</span>
-                      </div>
-                      
-                    </div>
-                   
-                    <div class="mb-3">
-                      <label for="type" class="form-label">Loại</label>
-                      <div style="display: flex;">
-                          <div class="form-check form-check-inline" style="width: 50%;">
-                          <input class="form-check-input" type="checkbox" name="availability" id="c-available" value="available" checked>
-                            <label class="form-check-label" for="c-available">Nóng</label>
-                          </div>
-                          <div class="form-check form-check-inline" style="width: 50%;">
-                            <input class="form-check-input" type="checkbox" name="availability" id="c-outOfStock" value="outOfStock">
-                            <label class="form-check-label" for="c-outOfStock">Lạnh</label>
-                          </div>
-                      </div>
-                    </div>
+                            <div class="row" style="padding: 0 15px; padding-bottom: 15px;">
+                                <input type="text" readonly name="productSizeM" class="form-control col-md-6" value="M" style="width: 48%; margin-right: 2%">
+                                <input type="text" name="productPriceOfSizeM" class="form-control col-md-6  edit-productPriceOfSizeM" value="" style="width: 48%; margin-left: 2%">
+                                <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
+                            </div>
 
+                            <div class="row" style="padding: 0 15px;">
+                                <input type="text" readonly name="productSizeL" class="form-control col-md-6" value="L" style="width: 48%; margin-right: 2%">
+                                <input type="text" name="productPriceOfSizeL" class="form-control col-md-6  edit-productPriceOfSizeL" value="" style="width: 48%; margin-left: 2%">
+                                <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="mb-3">
                         <label for="type" class="form-label">Trạng thái</label>
                         <div style="display: flex;">
                             <div class="form-check form-check-inline" style="width: 50%;">
-                              <input class="form-check-input" type="radio" name="availability" id="r-available" value="available" checked>
-                              <label class="form-check-label" for="r-available">Còn</label>
+                                <input class="form-check-input edit-radio-true" type="radio" name="availability" id="r-available" value="true">
+                                <label class="form-check-label" for="r-available">Còn</label>
                             </div>
                             <div class="form-check form-check-inline" style="width: 50%;">
-                              <input class="form-check-input" type="radio" name="availability" id="r-outOfStock" value="outOfStock">
-                              <label class="form-check-label" for="r-outOfStock">Hết</label>
+                                <input class="form-check-input edit-radio-false" type="radio" name="availability" id="r-outOfStock" value="false">
+                                <label class="form-check-label" for="r-outOfStock">Hết</label>
                             </div>
                         </div>
                     </div>
-
                     <div class="mb-3">
                         <label for="type" class="form-label">Mô tả hình ảnh</label>
-                        <div class="image-upload-container row">
-                            <div class="col-md-2 update-load-imgs">
+                        <div class="image-upload-container row" style="padding-left: 10px;">
+                            <input type="file" name="productImage" id="create-productImage" hidden/>
+                            <div class="col-md-2 update-load-imgs pick-image">
                                 <img src="imgs/Button.png" alt="alt"/>
                             </div>
-                            <div class="col-md-2 update-load-imgs"><img src="imgs/Button.png" alt="alt"/></div>
-                            <div class="col-md-2 update-load-imgs"><img src="imgs/Button.png" alt="alt"/></div>
-                            <div class="col-md-2 update-load-imgs"><img src="imgs/Button.png" alt="alt"/></div>
-                            <div class="col-md-2 update-load-imgs"><img src="imgs/Button.png" alt="alt"/></div>
-                            <div class="col-md-2 update-load-imgs"><img src="imgs/Button.png" alt="alt"/></div>
+
+                            <div class="col-md-2 update-load-imgs wrap-upload">
+                                <div class="frame-pick-image">
+                                    <img src="imgs/Button.png" alt="alt" class="preview-image"/>
+                                </div>
+                                <div class="upload-preview">
+                                    <i class="bi bi-x image-delete" style="background-color: #5e5e5e8a;border-radius: 50%;color: #fff;cursor: pointer;"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <input class="form-check-input" type="checkbox" name="availability" id="buy" value="available">
+                        <input class="form-check-input edit-checkbox" type="checkbox" name="directSale" id="buy" value="isDirectSale">
                         <label class="form-check-label" for="buy">Bán trực tiếp</label>
                     </div>
-                  </form>
                 </div>
-            
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #1F75FF">Tạo</button>
-            </div>
+                <div class="modal-footer">
+                    <input type="text" name="edit-productid" class="edit-productid" value="" hidden/>
+                    <button type="submit" id="edit-update" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #1F75FF" >Cập nhật</button>
+                </div>
+            </form>
         </div>
-    </div>
+    </div>               
 </div>
    
     
@@ -583,7 +600,6 @@
             });
 
             $('.btn-confirm').click(function() {
-
                 if (currentDeleteId) {
                   $.ajax({
                     url: 'menu',
@@ -644,7 +660,7 @@
                         
                         let variantsHtml = '';
                         $.each(response.variants, function(index, variant) {
-                            variantsHtml += `<div class="col-md-6"><div class="lable-detail">Kich cỡ</div><div class="content-modal-llh">\${variant.sizeName}</div></div><div class="col-md-6"><div class="lable-detail">Giá</div><div class="content-modal-llh">\${variant.basePrice} đ</div></div>`;
+                            variantsHtml += `<div class="col-md-6"><div class="lable-detail">Kich cỡ</div><div class="content-modal-llh">\${variant.sizeName}</div></div><div class="col-md-6"><div class="lable-detail">Giá</div><div class="content-modal-llh">\${variant.price} đ</div></div>`;
                         });
 
                         $('.wrap-productsizes').append(variantsHtml);
@@ -659,30 +675,63 @@
       
      
       
-//      $(document).ready(function() {
-//            $(document).on('click', '.edit-btn', function(e) {
-//              e.preventDefault();
-//              const itemId = $(this).data('id');
-//              if (itemId) {
-//                $.ajax({
-//                     url: 'menu',
-//                     type: 'POST',
-//                     data: { 
-//                        action: "detail",
-//                        detailID: itemId
-//                     },
-//                     dataType: 'json',
-//                     success: function(response) {
-//                         console.log(response.productName);
-//                        
-//                     },
-//                     error: function() {
-//                         console.log(response.status);
-//                     }
-//                   });
-//                }
-//            });
-//      });
+      $(document).ready(function() {
+            $(document).on('click', '.edit-btn', function(e) {
+              e.preventDefault();
+              const itemId = $(this).data('id');
+              if (itemId) {
+                $.ajax({
+                     url: 'menu',
+                     type: 'POST',
+                     data: { 
+                        action: "detail",
+                        detailID: itemId
+                     },
+                     dataType: 'json',
+                     success: function(response) {
+                        $('.edit-productid').attr('value', response.productId);;
+                        $('.edit-productname').val(response.productName);
+                        $('.edit-baseprice').val(response.basePrice);
+                        $('#edit-category option[value='+response.categoryId+']').prop('selected', true);
+                        $('#edit-haveType option[value='+response.haveType+']').prop('selected', true);
+                       
+                        
+                        if(response.isAvailable)
+                        {
+                            $('.edit-radio-true').prop('checked', true);
+                        }else {
+                            $('.edit-radio-false').prop('checked', true);
+                        }
+                        
+                        if(response.isDirectSale)
+                        {
+                            $('.edit-checkbox').prop('checked', true);
+                        }else {
+                            $('.edit-checkbox').prop('checked', false);
+                        }
+                        
+                        $.each(response.variants, function(index, variant) {
+                            if(variant.sizeName == "S")
+                            {
+                                $('.edit-productPriceOfSizeS').val(variant.price);
+                            }
+                            if(variant.sizeName == "M")
+                            {
+                                $('.edit-productPriceOfSizeM').val(variant.price);
+                            }
+                            if(variant.sizeName == "L")
+                            {
+                                $('.edit-productPriceOfSizeL').val(variant.price);
+                            }
+                        });
+                     },
+                     error: function() {
+                         console.log(response.status);
+                     }
+                   });
+                }
+            });
+      });
       
     $(document).ready(function() {
         $(document).on('click', '.pick-image', function(e) {
@@ -712,10 +761,6 @@
                 }
         });
     });
-      
-      
-      
-        
   </script>
   
 </body>
