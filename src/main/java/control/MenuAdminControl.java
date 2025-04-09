@@ -429,6 +429,7 @@ public class MenuAdminControl extends HttpServlet {
          String productID = request.getParameter("detailID");
        try {
             URL url = new URL("http://localhost:8080/products/"+productID+"/details");
+            
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             int responseCode = connection.getResponseCode();

@@ -209,7 +209,7 @@
                 if (listProducts != null) {
                     for (Product product : listProducts) {
                         %>
-                    <tr  data-bs-toggle="modal" data-bs-target="#slideModal">
+                    <tr class="product-row" data-id="<%= product.getProductId()%>" data-bs-toggle="modal" data-bs-target="#slideModal">
                         <td>
                             <img src="imgs/product-image.png" alt="Cà phê sữa" class="product-image">
                         </td>
@@ -272,11 +272,6 @@
             
             <div class="modal-body" >
                 <div class="row" style="padding: 15px 15px 0 15px">
-                     <div class="col-md-6">
-                        <div class="lable-detail">Trạng thái</div>
-                        <div class="content-modal-llh detail-available">Còn</div>
-                    </div>
-                    
                     <div class="col-md-6">
                         <div class="lable-detail">Danh muc</div>
                         <div class="content-modal-llh detail-categoryName">Cà phê</div>
@@ -288,42 +283,21 @@
                     </div>
                     
                     <div class="col-md-6">
+                        <div class="lable-detail">Trạng thái</div>
+                        <div class="content-modal-llh detail-available">Còn</div>
+                    </div>
+                    
+                    <div class="col-md-6">
                         <div class="lable-detail">Loại</div>
                         <div class="content-modal-llh detail-havetype">Lạnh</div>
                     </div>
                 </div>
                 
                 <div class="row wrap-productsizes" style="padding: 15px 15px 0 15px">
-                    <div class="col-md-6">
-                        <div class="lable-detail">Kich cỡ</div>
-                        <div class="content-modal-llh">S</div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="lable-detail">Giá</div>
-                        <div class="content-modal-llh">10000 đ</div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="lable-detail">Kich cỡ</div>
-                        <div class="content-modal-llh">M</div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="lable-detail">Giá</div>
-                        <div class="content-modal-llh">10000 đ</div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="lable-detail">Kich cỡ</div>
-                        <div class="content-modal-llh">L</div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="lable-detail">Giá</div>
-                        <div class="content-modal-llh">10000 đ</div>
-                    </div>
+
                 </div>
                 
-                <div class="row wrap-productsizes" style="padding: 15px">
+                <div class="row" style="padding: 15px">
                     <div class="col-md-12">
                         <input class="form-check-input" checked type="checkbox" name="directSale" id="buy" value="isDirectSale" disabled>
                         <label class="form-check-label content-modal-llh" for="buy">Bán trực tiếp</label>
@@ -590,7 +564,7 @@
     });
   </script>
   
-  <script>
+   <script>
         $(document).ready(function() {
             $('.action-button').click(function(e) {
                 e.preventDefault(); // Ngăn hành vi mặc định nếu cần
@@ -644,11 +618,12 @@
       });
       
         $(document).ready(function() {
-            $(document).on('click', '.edit-btn', function(e) {
+            $(document).on('click', '.product-row', function(e) {
               e.preventDefault();
               const itemId = $(this).data('id');
-             console.log(itemId);
               if (itemId) {
+                $(".wrap-productsizes").empty();
+
                 $.ajax({
                      url: 'menu',
                      type: 'POST',
@@ -659,6 +634,20 @@
                      dataType: 'json',
                      success: function(response) {
                          console.log(response);
+                         var title = "#"+response.productId +" - "+ response.productName;
+                         var available = response.isAvailable? "Còn":"Hết";
+                         $('.detail-title').html(title);
+                         $('.detail-categoryName').html(response.categoryName);
+                         $('.detail-baseprice').html(response.basePrice);
+                         $('.detail-available').html(available);
+                         $('.detail-havetype').html("LLH");
+                        
+                        let variantsHtml = '';
+                        $.each(response.variants, function(index, variant) {
+                            variantsHtml += `<div class="col-md-6"><div class="lable-detail">Kich cỡ</div><div class="content-modal-llh">\${variant.sizeName}</div></div><div class="col-md-6"><div class="lable-detail">Giá</div><div class="content-modal-llh">\${variant.basePrice} đ</div></div>`;
+                        });
+
+                        $('.wrap-productsizes').append(variantsHtml);
                      },
                      error: function() {
                          console.log(response.status);
@@ -667,6 +656,33 @@
                 }
             });
       });
+      
+     
+      
+//      $(document).ready(function() {
+//            $(document).on('click', '.edit-btn', function(e) {
+//              e.preventDefault();
+//              const itemId = $(this).data('id');
+//              if (itemId) {
+//                $.ajax({
+//                     url: 'menu',
+//                     type: 'POST',
+//                     data: { 
+//                        action: "detail",
+//                        detailID: itemId
+//                     },
+//                     dataType: 'json',
+//                     success: function(response) {
+//                         console.log(response.productName);
+//                        
+//                     },
+//                     error: function() {
+//                         console.log(response.status);
+//                     }
+//                   });
+//                }
+//            });
+//      });
       
     $(document).ready(function() {
         $(document).on('click', '.pick-image', function(e) {
