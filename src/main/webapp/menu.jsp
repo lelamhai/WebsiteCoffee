@@ -135,10 +135,31 @@
     </div>
     
     <!-- Content Area -->
-    <div class="content-area">
-      <h1 class="h4 fw-bold mb-4">Danh sách</h1>
-        <div>LLH ${ShowMessage}</div>
-        
+    <div class="content-area" style="background-color: #fff">
+      <div class="d-flex justify-content-between mb-4 flex-wrap" style="margin-bottom: 0 !important;">
+          <div class="mb-2">
+              <h1 class="h4" style="font-weight: 600">Danh sách</h1>
+          </div>
+          <div class="d-flex gap-2 flex-wrap">
+              <form action="menu"  method="GET">
+                  <div class="search-container mb-2">
+                      <i class="bi bi-search"></i>
+                      <input type="text" value="${search}" name="search" class="form-control search-input" placeholder="Tìm kiếm">
+                  </div>
+              </form>
+
+              <button class="btn btn-outline-secondary mb-2">
+                  Xuất dữ liệu
+              </button>
+
+              <button class="btn btn-primary add-button mb-2" data-bs-toggle="modal" data-bs-target="#create-modal">
+                  <i class="bi bi-plus"></i> Thêm
+              </button>
+          </div>
+      </div>
+    </div>
+    <div style="border-bottom: 1px solid var(--border-color); width: 100%;"></div>
+    <div class="content-area" >
       <div class="d-flex justify-content-between mb-4 flex-wrap">
         <div class="mb-2">
           <button class="btn btn-outline-secondary sort-button">
@@ -147,43 +168,26 @@
           </button>
         </div>
         
-        <div class="d-flex gap-2 flex-wrap">
-            <form action="menu"  method="GET">
-                <div class="search-container mb-2">
-                  <i class="bi bi-search"></i>
-                      <input type="text" value="${search}" name="search" class="form-control search-input" placeholder="Tìm kiếm">
-                </div>
-            </form>
-
-          <button class="btn btn-outline-secondary mb-2">
-            Xuất dữ liệu
-          </button>
-          
-          <button class="btn btn-primary add-button mb-2" data-bs-toggle="modal" data-bs-target="#create-modal">
-            <i class="bi bi-plus"></i> Thêm
-          </button>
-        </div>
-      </div>
-      
-      <div class="d-flex justify-content-between text-muted small mb-2">
-        <div> ${CurrentPage} - ${TotalPage} trong số ${PageSize} </div>
-        <div class="d-flex gap-2 align-items-center">
-            <form action="menu"  method="GET">
-                <input value="0" name="page" hidden/>
-                <button class="btn btn-sm btn-light">
-                  <i class="bi bi-chevron-left"></i>
-                </button>
-            </form>
-            <form action="menu" method="GET">
-                <input value="1" name="page" hidden/>
-                <button class="btn btn-sm btn-light">
-                  <i class="bi bi-chevron-right"></i>
-                </button>
-            </form>
-          <button class="btn btn-sm btn-light">
-            <i class="bi bi-funnel"></i>
-          </button>
-        </div>
+          <div class="d-flex gap-2 flex-wrap" style="align-items: center;">
+              <div> ${CurrentPage} - ${TotalPage} trong số ${PageSize} </div>
+              <div class="d-flex gap-2 align-items-center" ">
+                  <form action="menu"  method="GET">
+                      <input value="0" name="page" hidden/>
+                      <button class="btn btn-sm btn-light">
+                          <i class="bi bi-chevron-left"></i>
+                      </button>
+                  </form>
+                  <form action="menu" method="GET">
+                      <input value="1" name="page" hidden/>
+                      <button class="btn btn-sm btn-light">
+                          <i class="bi bi-chevron-right"></i>
+                      </button>
+                  </form>
+                  <button class="btn btn-sm btn-light">
+                      <i class="bi bi-funnel"></i>
+                  </button>
+              </div>
+          </div>
       </div>
        
       <!-- Table -->
@@ -211,14 +215,22 @@
                         %>
                     <tr class="product-row" data-id="<%= product.getProductId()%>" data-bs-toggle="modal" data-bs-target="#slideModal">
                         <td>
-                            <img src="imgs/product-image.png" alt="Cà phê sữa" class="product-image">
+                            <img src="http://localhost:8080<%=product.getUrlImage() %>" alt="Cà phê sữa" class="product-image">
                         </td>
                         <td class="id-product" hidden><%= product.getProductId()%></td>
                         <td class="name-product"><%= product.getProductName()%></td>
                         <td><%= product.getCategoryName() %></td>
                         <td><%= product.getSizes() %></td>
                         <td><%= product.getListPrice() %></td>
-                        <td><%= product.isAvailable() ? "Còn" : "Hết" %></td>
+                        <td>
+                            <%
+                                if(product.isAvailable())
+                                {
+                                %><span class="status-badge status-in">Còn</span><%
+                                } else {
+                                %><span class="status-badge status-out">Hết</span><%
+                                }
+                            %>
                         <td>
                             <button class="action-button edit-btn" data-bs-toggle="modal" data-bs-target="#edit-modal" data-id="<%= product.getProductId()%>" >
                                 <i class="bi bi-pencil" style="color: black;"></i>
@@ -369,8 +381,8 @@
                     <div class="mb-3">
                         <select class="form-select" id="haveType" name="haveType">
                             <option value="3" selected>Nóng và lạnh</option>
-                            <option value="2">Nóng</option>
-                            <option value="1">Lạnh</option>
+                            <option value="2">Lạnh</option>
+                            <option value="1">Nóng</option>
                         </select>
                     </div>      
                     <div class="mb-3">
@@ -427,8 +439,8 @@
                             </div>
                     </div>
                     <div class="mb-3">
-                            <input class="form-check-input" type="checkbox" name="directSale" id="buy" value="isDirectSale">
-                            <label class="form-check-label" for="buy">Bán trực tiếp</label>
+                            <input class="form-check-input" type="checkbox" name="directSale" id="create-buy" value="isDirectSale">
+                            <label class="form-check-label" for="create-buy">Bán trực tiếp</label>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -444,11 +456,13 @@
                                 {
                                     margin-bottom: 0;
                                 }
+                                .edit-wrap-upload {
+                                    position: fixed;
+                                }
                           </style>
 <!--modal edit-->
 <div class="modal fade right" id="edit-modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-       
         <div class="modal-content" style="height: 100%;">
             <form action="menu" method="post" enctype="multipart/form-data" style="height:100%; display: flex; flex-direction: column;" >
                 <div class="modal-header">
@@ -489,8 +503,8 @@
                         <label for="size" class="form-label">Loại</label>
                         <select class="form-select" id="edit-haveType" name="haveType">
                             <option value="3" selected>Nóng và lạnh</option>
-                            <option value="2">Nóng</option>
-                            <option value="1">Lạnh</option>
+                            <option value="2">Lạnh</option>
+                            <option value="1">Nóng</option>
                         </select>
                     </div>      
                     <div class="mb-3">
@@ -531,28 +545,28 @@
                     <div class="mb-3">
                         <label for="type" class="form-label">Mô tả hình ảnh</label>
                         <div class="image-upload-container row" style="padding-left: 10px;">
-                            <input type="file" name="productImage" id="create-productImage" hidden/>
-                            <div class="col-md-2 update-load-imgs pick-image">
+                            <input type="file" name="productImage" id="edit-productImage" hidden/>
+                            <div class="col-md-2 update-load-imgs edit-pick-image">
                                 <img src="imgs/Button.png" alt="alt"/>
                             </div>
 
-                            <div class="col-md-2 update-load-imgs wrap-upload">
+                            <div class="col-md-2 update-load-imgs edit-wrap-upload">
                                 <div class="frame-pick-image">
-                                    <img src="imgs/Button.png" alt="alt" class="preview-image"/>
+                                    <img src="imgs/Button.png" alt="alt" class="edit-preview-image"/>
                                 </div>
                                 <div class="upload-preview">
-                                    <i class="bi bi-x image-delete" style="background-color: #5e5e5e8a;border-radius: 50%;color: #fff;cursor: pointer;"></i>
+                                    <i class="bi bi-x edit-image-delete" style="background-color: #5e5e5e8a;border-radius: 50%;color: #fff;cursor: pointer;"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <input class="form-check-input edit-checkbox" type="checkbox" name="directSale" id="buy" value="isDirectSale">
-                        <label class="form-check-label" for="buy">Bán trực tiếp</label>
+                        <input class="form-check-input edit-checkbox" type="checkbox" name="directSale" id="edit-buy" value="isDirectSale">
+                        <label class="form-check-label" for="edit-buy">Bán trực tiếp</label>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="text" name="edit-productid" class="edit-productid" value="" hidden/>
+                    <input type="text" name="id" class="edit-productid" value="" hidden/>
                     <button type="submit" id="edit-update" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #1F75FF" >Cập nhật</button>
                 </div>
             </form>
@@ -656,7 +670,23 @@
                          $('.detail-categoryName').html(response.categoryName);
                          $('.detail-baseprice').html(response.basePrice);
                          $('.detail-available').html(available);
-                         $('.detail-havetype').html("LLH");
+                         
+                         var type = "";
+                         if(response.haveType == 1)
+                         {
+                             type = "Nóng"
+                         }
+                         
+                         if(response.haveType == 2)
+                         {
+                             type = "Lạnh"
+                         }
+                         
+                         if(response.haveType == 3)
+                         {
+                             type = "Nóng và lạnh"
+                         }
+                         $('.detail-havetype').html(type);
                         
                         let variantsHtml = '';
                         $.each(response.variants, function(index, variant) {
@@ -694,7 +724,7 @@
                         $('.edit-baseprice').val(response.basePrice);
                         $('#edit-category option[value='+response.categoryId+']').prop('selected', true);
                         $('#edit-haveType option[value='+response.haveType+']').prop('selected', true);
-                       
+                        $('.edit-preview-image').attr('src', 'http://localhost:8080'+response.urlImage).show();
                         
                         if(response.isAvailable)
                         {
@@ -738,12 +768,6 @@
             $('#create-productImage').click();
         });
         
-        $(document).on('click', '.image-delete', function(e) {
-            $('#create-productImage').val('');
-            $('.pick-image').css("z-index", "1");
-            $('.wrap-upload').css("display", "none");
-        });
-        
         $('#create-productImage').change(function() {
             if (this.files && this.files[0]) {
                 var reader = new FileReader();
@@ -760,7 +784,43 @@
                     console.log("delete");
                 }
         });
+        
+          $(document).on('click', '.image-delete', function(e) {
+            $('#create-productImage').val('');
+            $('.pick-image').css("z-index", "1");
+            $('.wrap-upload').css("display", "none");
+        });
     });
+    
+    $(document).ready(function() {
+        $(document).on('click', '.edit-image-delete', function(e) {
+            $('#edit-productImage').val('');
+            $('.edit-pick-image').css("z-index", "1");
+            $('.edit-wrap-upload').css("display", "none");
+        });
+        
+        $(document).on('click', '.edit-pick-image', function(e) {
+             $('#edit-productImage').click();
+        });
+        
+         $('#edit-productImage').change(function() {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('.edit-preview-image').attr('src', e.target.result).show();
+                    $('.edit-wrap-upload').css("display", "block");
+                    $('.edit-pick-image').css("z-index", "-1");
+                }
+
+                reader.readAsDataURL(this.files[0]);
+                } else {
+                    $('.edit-preview-image').attr('src', '#').hide();
+                }
+        });
+    });
+    
+    
   </script>
   
 </body>

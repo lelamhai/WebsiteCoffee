@@ -156,7 +156,13 @@ public class MenuAdminControl extends HttpServlet {
         } else if ("detail".equals(action)) {
             handleDetail(request, response);
         } else {
-            handleCreate(request, response);
+            String id = request.getParameter("id");
+            if(id != null)
+            {
+                handleUpdate(id, request, response);
+            } else {
+                handleCreate(request, response);
+            }
         }
     }
     private void handleCreate(HttpServletRequest request, HttpServletResponse response)
@@ -168,7 +174,7 @@ public class MenuAdminControl extends HttpServlet {
         String haveType = request.getParameter("haveType");
         boolean availability = request.getParameter("availability") != null;
         boolean isDirectSale = request.getParameter("directSale") != null;
-        
+                
         String productSizeS = request.getParameter("productSizeS");
         String productSizeM = request.getParameter("productSizeM");
         String productSizeL = request.getParameter("productSizeL");
@@ -178,7 +184,6 @@ public class MenuAdminControl extends HttpServlet {
         String productPriceOfSizeL = request.getParameter("productPriceOfSizeL");
         
         ArrayList<VariantDetailModel> listVariant= new ArrayList<>();
-        
         if(Integer.valueOf(productPriceOfSizeS) > 0 )
         {
             VariantDetailModel v = new VariantDetailModel();
@@ -201,7 +206,7 @@ public class MenuAdminControl extends HttpServlet {
            v.setSizeName(productSizeL);
            v.setBasePrice(Integer.valueOf(productPriceOfSizeL));
            listVariant.add(v);
-        }
+        }        
         
         CreateProductModel model = new CreateProductModel();
         model.setProductName(productName);
@@ -268,7 +273,6 @@ public class MenuAdminControl extends HttpServlet {
             }
 
             connection.disconnect();
-
         } catch (ServletException e) {
             jsonResponse.addProperty("success", false);
             jsonResponse.addProperty("error", "Lỗi khi xử lý request: " + e.getMessage());
@@ -280,50 +284,72 @@ public class MenuAdminControl extends HttpServlet {
         } finally {
               response.sendRedirect(request.getContextPath() + "/menu");
 //            out.print(gson.toJson(jsonResponse));
-//            out.flush();
-               
+//            out.flush();               
         }
     }
     
-    private void handleUpdate(HttpServletRequest request, HttpServletResponse response)
+    private void handleUpdate(String id, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         String productName = request.getParameter("productName");
+
         String category = request.getParameter("category");
         String productPrice = request.getParameter("productPrice");
-        String productSize = request.getParameter("productSize");
-        String productPriceOfSize = request.getParameter("productPriceOfSize");
-        String haveType = "true";
-        String availability = request.getParameter("availability");
+        String haveType = request.getParameter("haveType");
+        boolean availability = request.getParameter("availability") != null;
         boolean isDirectSale = request.getParameter("directSale") != null;
+                
+        String productSizeS = request.getParameter("productSizeS");
+        String productSizeM = request.getParameter("productSizeM");
+        String productSizeL = request.getParameter("productSizeL");
         
-        VariantDetailModel v = new VariantDetailModel();
-        v.setSizeName(productSize);
-        v.setBasePrice(Integer.valueOf(productPriceOfSize));
-            
+        String productPriceOfSizeS = request.getParameter("productPriceOfSizeS");
+        String productPriceOfSizeM = request.getParameter("productPriceOfSizeM");
+        String productPriceOfSizeL = request.getParameter("productPriceOfSizeL");
+        
         ArrayList<VariantDetailModel> listVariant= new ArrayList<>();
-        listVariant.add(v);
+        if(Integer.valueOf(productPriceOfSizeS) > 0 )
+        {
+            VariantDetailModel v = new VariantDetailModel();
+            v.setSizeName(productSizeS);
+            v.setBasePrice(Integer.valueOf(productPriceOfSizeS)); 
+            listVariant.add(v);
+        }
         
+        if(Integer.valueOf(productPriceOfSizeM) > 0 )
+        {
+            VariantDetailModel v = new VariantDetailModel();
+            v.setSizeName(productSizeM);
+            v.setBasePrice(Integer.valueOf(productPriceOfSizeM));
+            listVariant.add(v);
+        }
+        
+        if(Integer.valueOf(productPriceOfSizeL) > 0 )
+        {
+           VariantDetailModel v = new VariantDetailModel();
+           v.setSizeName(productSizeL);
+           v.setBasePrice(Integer.valueOf(productPriceOfSizeL));
+           listVariant.add(v);
+        }        
         
         CreateProductModel model = new CreateProductModel();
         model.setProductName(productName);
         model.setCategoryId(Integer.valueOf(category));
         model.setBasePrice(Integer.valueOf(productPrice));
         model.setProductVariants(listVariant);
-        model.setHaveType(1);
+        model.setHaveType(Integer.valueOf(haveType));
+        model.setIsAvailable(availability);
         model.setDirectSale(isDirectSale);
-        
+
         Gson gsonString = new GsonBuilder().setPrettyPrinting().create();
         String jsonData = gsonString.toJson(model);
-
         
-        
-        String API_ENDPOINT = "http://localhost:8080/products/";
+        String API_ENDPOINT = "http://localhost:8080/products/"+id+"/update";
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         Gson gson = new Gson();
         JsonObject jsonResponse = new JsonObject();
-
+        
         try {
             String productDataString = jsonData;
             Part filePart = request.getPart("productImage");
@@ -331,7 +357,7 @@ public class MenuAdminControl extends HttpServlet {
             String boundary = "===" + System.currentTimeMillis() + "===";
             URL url = new URL(API_ENDPOINT);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
+            connection.setRequestMethod("PUT");
             connection.setDoOutput(true);
             connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
 
@@ -381,8 +407,9 @@ public class MenuAdminControl extends HttpServlet {
             jsonResponse.addProperty("error", "Lỗi I/O: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } finally {
-            out.print(gson.toJson(jsonResponse));
-            out.flush();
+//            out.print(gson.toJson(jsonResponse));
+//            out.flush();
+             response.sendRedirect(request.getContextPath() + "/menu");
         }
     }
     
