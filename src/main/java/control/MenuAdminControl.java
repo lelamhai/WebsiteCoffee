@@ -94,9 +94,23 @@ public class MenuAdminControl extends HttpServlet {
         int pageSize = model.getPageSize();
         
         request.setAttribute("search", keyword);
-        
         request.setAttribute("Products", listProduct);
+        
+        int PagePrevious = currentPage-1; 
+        if(PagePrevious < 1)
+        {
+            PagePrevious = 1;
+        }
+        
+        int PageNext = currentPage+1; 
+        if(PageNext > totalPage)
+        {
+            PageNext = totalPage;
+        }
+        
+        request.setAttribute("PagePrevious", PagePrevious);
         request.setAttribute("CurrentPage", currentPage);
+        request.setAttribute("PageNext", PageNext);
         request.setAttribute("TotalPage", totalPage);
         request.setAttribute("PageSize", pageSize);
     }

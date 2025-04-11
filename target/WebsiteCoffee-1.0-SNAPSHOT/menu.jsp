@@ -171,21 +171,21 @@
           <div class="d-flex gap-2 flex-wrap" style="align-items: center;">
               <div> ${CurrentPage} - ${TotalPage} trong số ${PageSize} </div>
               <div class="d-flex gap-2 align-items-center" ">
-                  <form action="menu"  method="GET">
-                      <input value="0" name="page" hidden/>
-                      <button class="btn btn-sm btn-light">
-                          <i class="bi bi-chevron-left"></i>
-                      </button>
-                  </form>
-                  <form action="menu" method="GET">
-                      <input value="1" name="page" hidden/>
-                      <button class="btn btn-sm btn-light">
-                          <i class="bi bi-chevron-right"></i>
-                      </button>
-                  </form>
-                  <button class="btn btn-sm btn-light">
-                      <i class="bi bi-funnel"></i>
-                  </button>
+                    <form action="menu"  method="GET">
+                          <input value="${PagePrevious}" name="page" hidden/>
+                          <button class="btn btn-sm btn-light">
+                            <i class="bi bi-chevron-left"></i>
+                          </button>
+                    </form>
+                    <form action="menu" method="GET">
+                        <input value="${PageNext}" name="page" hidden/>
+                        <button class="btn btn-sm btn-light">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                    </form>
+                    <button class="btn btn-sm btn-light">
+                        <i class="bi bi-funnel"></i>
+                    </button>
               </div>
           </div>
       </div>
