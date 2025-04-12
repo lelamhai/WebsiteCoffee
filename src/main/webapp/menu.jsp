@@ -75,7 +75,7 @@
     
     <div class="wrap-order-button">
       <button class="order-button">
-        Đặt hàng
+          <a href="order" style="text-decoration: none;">Đặt hàng</a>
       </button>
     </div>
       <div class="wrap-nav">
@@ -333,8 +333,6 @@
     
     
     <style>
-       
-        
         #create-modal .form-control,
         #create-modal .form-select{
             height: 46px;
