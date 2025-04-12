@@ -148,7 +148,7 @@
                   </div>
               </form>
 
-              <button class="btn btn-outline-secondary mb-2">
+                  <button class="btn btn-outline-secondary mb-2" hidden>
                   Xuất dữ liệu
               </button>
 
@@ -183,7 +183,7 @@
                             <i class="bi bi-chevron-right"></i>
                         </button>
                     </form>
-                    <button class="btn btn-sm btn-light">
+                    <button class="btn btn-sm btn-light" hidden>
                         <i class="bi bi-funnel"></i>
                     </button>
               </div>
@@ -412,12 +412,12 @@
                             <label for="type" class="form-label">Trạng thái</label>
                             <div style="display: flex;">
                                 <div class="form-check form-check-inline" style="width: 50%;">
-                                  <input class="form-check-input" type="radio" name="availability" id="r-available" value="true" checked>
-                                  <label class="form-check-label" for="r-available">Còn</label>
+                                  <input class="form-check-input" type="radio" name="availability" id="edit-available" value="true" checked>
+                                  <label class="form-check-label" for="edit-available">Còn</label>
                                 </div>
                                 <div class="form-check form-check-inline" style="width: 50%;">
-                                  <input class="form-check-input" type="radio" name="availability" id="r-outOfStock" value="false">
-                                  <label class="form-check-label" for="r-outOfStock">Hết</label>
+                                  <input class="form-check-input" type="radio" name="availability" id="edit-outOfStock" value="false">
+                                  <label class="form-check-label" for="edit-outOfStock">Hết</label>
                                 </div>
                             </div>
                     </div>

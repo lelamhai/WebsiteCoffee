@@ -186,9 +186,8 @@ public class MenuAdminControl extends HttpServlet {
         String category = request.getParameter("category");
         String productPrice = request.getParameter("productPrice");
         String haveType = request.getParameter("haveType");
-        boolean availability = request.getParameter("availability") != null;
+        String availability = request.getParameter("availability");
         boolean isDirectSale = request.getParameter("directSale") != null;
-                
         String productSizeS = request.getParameter("productSizeS");
         String productSizeM = request.getParameter("productSizeM");
         String productSizeL = request.getParameter("productSizeL");
@@ -228,7 +227,7 @@ public class MenuAdminControl extends HttpServlet {
         model.setBasePrice(Integer.valueOf(productPrice));
         model.setProductVariants(listVariant);
         model.setHaveType(Integer.valueOf(haveType));
-        model.setIsAvailable(availability);
+        model.setIsAvailable(Boolean.valueOf(availability));
         model.setDirectSale(isDirectSale);
 
         Gson gsonString = new GsonBuilder().setPrettyPrinting().create();
@@ -239,7 +238,6 @@ public class MenuAdminControl extends HttpServlet {
         PrintWriter out = response.getWriter();
         Gson gson = new Gson();
         JsonObject jsonResponse = new JsonObject();
-
         try {
             String productDataString = jsonData;
             Part filePart = request.getPart("productImage");
@@ -310,7 +308,7 @@ public class MenuAdminControl extends HttpServlet {
         String category = request.getParameter("category");
         String productPrice = request.getParameter("productPrice");
         String haveType = request.getParameter("haveType");
-        boolean availability = request.getParameter("availability") != null;
+        String availability = request.getParameter("availability");
         boolean isDirectSale = request.getParameter("directSale") != null;
                 
         String productSizeS = request.getParameter("productSizeS");
@@ -352,7 +350,7 @@ public class MenuAdminControl extends HttpServlet {
         model.setBasePrice(Integer.valueOf(productPrice));
         model.setProductVariants(listVariant);
         model.setHaveType(Integer.valueOf(haveType));
-        model.setIsAvailable(availability);
+         model.setIsAvailable(Boolean.valueOf(availability));
         model.setDirectSale(isDirectSale);
 
         Gson gsonString = new GsonBuilder().setPrettyPrinting().create();
