@@ -68,7 +68,7 @@
 </head>
 <body>
   <!-- Sidebar -->
-<div class="sidebar">
+ <div class="sidebar">
     <div class="logo-container">
         <img src="imgs/Logo.png" alt="alt"/>
     </div>
@@ -115,8 +115,6 @@
         </div>
     </div>
 </div>
-  
-  
   
   <!-- Main Content -->
   <div class="main-content">

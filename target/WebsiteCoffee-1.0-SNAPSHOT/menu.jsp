@@ -12,9 +12,10 @@
 <!DOCTYPE html>
 <html>
     <head>
+        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-    <title>Danh sách Menu</title>
+    <title>Danh sách sản phẩm</title>
     <link rel="stylesheet" href="css/style_menu.css"/>
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -67,52 +68,53 @@
   </style>
 </head>
 <body>
-  <!-- Sidebar -->
   <div class="sidebar">
     <div class="logo-container">
         <img src="imgs/Logo.png" alt="alt"/>
     </div>
-    
-    <div class="wrap-order-button">
-      <button class="order-button">
-          <a href="order" style="text-decoration: none;">Đặt hàng</a>
-      </button>
+
+    <div class="wrap-order-button" style="display: flex; justify-content: center;">
+        <div class="order-button">
+            <a href="order" style="text-decoration: none;">Đặt hàng</a>
+        </div>
     </div>
-      <div class="wrap-nav">
-          <div class="nav-item active">
-              <a href="#">
-                   <i class="bi bi-list"></i>
-                    Menu
-              </a>
-          </div>
+    <div class="wrap-nav">
+        <div class="nav-item active">
+            <a href="menu">
+                <i class="bi bi-cup-straw"></i>
+                Sản phẩm
+            </a>
+        </div>
 
-          <div class="nav-item">
-              <a href="#">
-                <i class="bi bi-box"></i>
-                Kho
-              </a>
-          </div>
-
-          <div class="nav-item">
-              <a href="processing">
+        <div class="nav-item">
+            <a href="processing">
                 <i class="bi bi-cart"></i>
                 Đơn hàng
-              </a>
-           
-          </div>
+            </a>
 
-          <div class="nav-item">
-              <a href="#">
-                 <i class="bi bi-bar-chart"></i>
+        </div>
+
+        <div class="nav-item">
+            <a href="report">
+                <i class="bi bi-bar-chart"></i>
                 Báo cáo
-              </a>
-          </div>
-      </div>
-  </div>
-  
-  
-  
-  
+            </a>
+        </div>
+        <div class="nav-item">
+            <a href="account">
+                <i class="bi bi-people"></i>
+                Tai Khoản
+            </a>
+        </div>
+
+        <div class="nav-item">
+            <a href="#">
+                <i class="bi bi-box"></i>
+                Nguyên liệu
+            </a>
+        </div>
+    </div>
+</div>
   <!-- Main Content -->
   <div class="main-content">
     <!-- Top Header -->

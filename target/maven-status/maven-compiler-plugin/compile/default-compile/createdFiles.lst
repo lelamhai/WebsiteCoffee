@@ -2,14 +2,14 @@ models\ProductDetailModel.class
 control\OrderControl.class
 control\HomeControl.class
 control\MenuAdminControl.class
-control\newLoginControl.class
+control\ReportControl.class
 models\Category.class
 models\ProductResponse.class
+control\AccountControl.class
 control\LoginControl.class
 com\mycompany\websitecoffee\JakartaRestConfiguration.class
 com\mycompany\websitecoffee\resources\JakartaEE10Resource.class
 models\VariantDetailModel.class
-control\RegisterControl.class
 models\CategoryModel.class
 models\Product.class
 control\ProcessingControl.class
