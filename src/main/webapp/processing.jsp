@@ -79,7 +79,7 @@
       </button>
     </div>
       <div class="wrap-nav">
-          <div class="nav-item active">
+          <div class="nav-item">
               <a href="#">
                    <i class="bi bi-list"></i>
                     Menu
@@ -93,8 +93,8 @@
               </a>
           </div>
 
-          <div class="nav-item">
-              <a href="processing">
+          <div class="nav-item active">
+              <a href="#">
                 <i class="bi bi-cart"></i>
                 Đơn hàng
               </a>
@@ -151,10 +151,6 @@
                   <button class="btn btn-outline-secondary mb-2" hidden>
                   Xuất dữ liệu
               </button>
-
-              <button class="btn btn-primary add-button mb-2" data-bs-toggle="modal" data-bs-target="#create-modal">
-                  <i class="bi bi-plus"></i> Thêm
-              </button>
           </div>
       </div>
     </div>
@@ -169,16 +165,16 @@
         </div>
         
           <div class="d-flex gap-2 flex-wrap" style="align-items: center;">
-              <div> ${CurrentPage} - ${TotalPage} trong số ${PageSize} </div>
+              <div>1 - 10 trong số 30 </div>
               <div class="d-flex gap-2 align-items-center" ">
                     <form action="menu"  method="GET">
-                          <input value="${PagePrevious}" name="page" hidden/>
+                          <input value="0" name="page" hidden/>
                           <button class="btn btn-sm btn-light">
                             <i class="bi bi-chevron-left"></i>
                           </button>
                     </form>
                     <form action="menu" method="GET">
-                        <input value="${PageNext}" name="page" hidden/>
+                        <input value="1" name="page" hidden/>
                         <button class="btn btn-sm btn-light">
                             <i class="bi bi-chevron-right"></i>
                         </button>
@@ -195,56 +191,22 @@
         <table class="warp-table">
           <thead class="table-header">
             <tr>
-              <th style="width:5%">ID</th>
-              <th style="width:7%">Hình ảnh</th>
-              <th style="width:28%">Tên</th>
-              <th style="width:19%">Danh mục</th>
-              <th style="width:7%">Kích cỡ</th>
-              <th style="width:17%">Giá</th>
-              <th style="width:10%">Trạng thái</th>
-              <th style="width:7%">Thao tác</th>
+              <th style="width:10%">ID</th>
+              <th style="width:40%">Tên món</th>
+              <th style="width:20%">Ngày giờ tạo</th>
+              <th style="width:15%">Giá</th>
+              <th style="width:15%">Trạng thái</th>
             </tr>
           </thead>
           <tbody>
-                <% 
-                   List<Product> listProducts = (List<Product>) request.getAttribute("Products");
-                %>
-           
-                <%
-                if (listProducts != null) {
-                    for (Product product : listProducts) {
-                        %>
-                    <tr class="product-row" data-id="<%= product.getProductId()%>" data-bs-toggle="modal" data-bs-target="#slideModal">
-                        <td class="id-product"><%= product.getProductId()%></td>
-                        <td>
-                            <img src="http://localhost:8080<%=product.getUrlImage() %>" alt="Cà phê sữa" class="product-image">
-                        </td>
-                        <td class="name-product"><%= product.getProductName()%></td>
-                        <td><%= product.getCategoryName() %></td>
-                        <td><%= product.getSizes() %></td>
-                        <td><%= product.getListPrice() %></td>
-                        <td>
-                            <%
-                                if(product.isAvailable())
-                                {
-                                %><span class="status-badge status-in">Còn</span><%
-                                } else {
-                                %><span class="status-badge status-out">Hết</span><%
-                                }
-                            %>
-                        <td>
-                            <button class="action-button edit-btn" data-bs-toggle="modal" data-bs-target="#edit-modal" data-id="<%= product.getProductId()%>" >
-                                <i class="bi bi-pencil" style="color: black;"></i>
-                            </button>
-                            <button class="action-button delete-btn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-id="<%= product.getProductId()%>">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                        <%
-                    }
-                }%>
-          </tbody>
+              <tr>
+                <td>ID</td>
+                <td>Tên món</td>
+                <td>ngày giờ tạo</td>
+                <td>Giá</td>
+                <td>Trạng thái</td>
+              </tr>
+        </tbody>
         </table>
       </div>
     </div>
@@ -594,233 +556,6 @@
     });
   </script>
   
-   <script>
-        $(document).ready(function() {
-            $('.action-button').click(function(e) {
-                e.preventDefault(); // Ngăn hành vi mặc định nếu cần
-                const productName = $(this).closest('tr').find('.name-product').html();
-                const productId = $(this).closest('tr').find('.id-product').html();
-                $('#ProductNameJquery').html(productName);
-            });
-        });
-        
-        $(document).ready(function() {
-            let currentDeleteId = null;
-            $(document).on('click', '.delete-btn', function(e) {
-              e.preventDefault();
-              const itemId = $(this).data('id');
-              currentDeleteId = itemId;
-            });
-
-            $('.btn-confirm').click(function() {
-                if (currentDeleteId) {
-                  $.ajax({
-                    url: 'menu',
-                    type: 'POST',
-                    data: {
-                      action: "delete",
-                      deleteID: currentDeleteId
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                      if (response.status === 'success') {
-                        console.log(response.message);
-                        location.reload();
-                      } else {
-                          console.log(response.status);
-                      }
-                    },
-                    error: function() {
-                        console.log(response.status);
-                    }
-                  });
-                }
-
-                currentDeleteId = null;
-             });
-
-            // Xử lý khi click Cancel
-            $('.cancel-btn').click(function() {
-              currentDeleteId = null;
-              $('#confirmDeleteModal').modal('close');
-            });
-      });
-      
-        $(document).ready(function() {
-            $(document).on('click', '.product-row', function(e) {
-              e.preventDefault();
-              const itemId = $(this).data('id');
-              if (itemId) {
-                $(".wrap-productsizes").empty();
-
-                $.ajax({
-                     url: 'menu',
-                     type: 'POST',
-                     data: { 
-                        action: "detail",
-                        detailID: itemId
-                     },
-                     dataType: 'json',
-                     success: function(response) {
-                         console.log(response);
-                         var title = "#"+response.productId +" - "+ response.productName;
-                         var available = response.isAvailable? "Còn":"Hết";
-                         $('.detail-title').html(title);
-                         $('.detail-categoryName').html(response.categoryName);
-                         $('.detail-baseprice').html(response.basePrice);
-                         $('.detail-available').html(available);
-                         
-                         var type = "";
-                         if(response.haveType == 1)
-                         {
-                             type = "Nóng"
-                         }
-                         
-                         if(response.haveType == 2)
-                         {
-                             type = "Lạnh"
-                         }
-                         
-                         if(response.haveType == 3)
-                         {
-                             type = "Nóng và lạnh"
-                         }
-                         $('.detail-havetype').html(type);
-                        
-                        let variantsHtml = '';
-                        $.each(response.variants, function(index, variant) {
-                            variantsHtml += `<div class="col-md-6"><div class="lable-detail">Kich cỡ</div><div class="content-modal-llh">\${variant.sizeName}</div></div><div class="col-md-6"><div class="lable-detail">Giá</div><div class="content-modal-llh">\${variant.price} đ</div></div>`;
-                        });
-
-                        $('.wrap-productsizes').append(variantsHtml);
-                     },
-                     error: function() {
-                         console.log(response.status);
-                     }
-                   });
-                }
-            });
-      });
-      
-     
-      
-      $(document).ready(function() {
-            $(document).on('click', '.edit-btn', function(e) {
-              e.preventDefault();
-              const itemId = $(this).data('id');
-              if (itemId) {
-                $.ajax({
-                     url: 'menu',
-                     type: 'POST',
-                     data: { 
-                        action: "detail",
-                        detailID: itemId
-                     },
-                     dataType: 'json',
-                     success: function(response) {
-                        $('.edit-productid').attr('value', response.productId);;
-                        $('.edit-productname').val(response.productName);
-                        $('.edit-baseprice').val(response.basePrice);
-                        $('#edit-category option[value='+response.categoryId+']').prop('selected', true);
-                        $('#edit-haveType option[value='+response.haveType+']').prop('selected', true);
-                        $('.edit-preview-image').attr('src', 'http://localhost:8080'+response.urlImage).show();
-                        
-                        if(response.isAvailable)
-                        {
-                            $('.edit-radio-true').prop('checked', true);
-                        }else {
-                            $('.edit-radio-false').prop('checked', true);
-                        }
-                        
-                        if(response.isDirectSale)
-                        {
-                            $('.edit-checkbox').prop('checked', true);
-                        }else {
-                            $('.edit-checkbox').prop('checked', false);
-                        }
-                        
-                        $.each(response.variants, function(index, variant) {
-                            if(variant.sizeName == "S")
-                            {
-                                $('.edit-productPriceOfSizeS').val(variant.price);
-                            }
-                            if(variant.sizeName == "M")
-                            {
-                                $('.edit-productPriceOfSizeM').val(variant.price);
-                            }
-                            if(variant.sizeName == "L")
-                            {
-                                $('.edit-productPriceOfSizeL').val(variant.price);
-                            }
-                        });
-                     },
-                     error: function() {
-                         console.log(response.status);
-                     }
-                   });
-                }
-            });
-      });
-      
-    $(document).ready(function() {
-        $(document).on('click', '.pick-image', function(e) {
-            $('#create-productImage').click();
-        });
-        
-        $('#create-productImage').change(function() {
-            if (this.files && this.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function(e) {
-                    $('.preview-image').attr('src', e.target.result).show();
-                    $('.wrap-upload').css("display", "block");
-                    $('.pick-image').css("z-index", "-1");
-                }
-
-                reader.readAsDataURL(this.files[0]);
-                } else {
-                    $('.preview-image').attr('src', '#').hide();
-                    console.log("delete");
-                }
-        });
-        
-          $(document).on('click', '.image-delete', function(e) {
-            $('#create-productImage').val('');
-            $('.pick-image').css("z-index", "1");
-            $('.wrap-upload').css("display", "none");
-        });
-    });
-    
-    $(document).ready(function() {
-        $(document).on('click', '.edit-image-delete', function(e) {
-            $('#edit-productImage').val('');
-            $('.edit-pick-image').css("z-index", "1");
-            $('.edit-wrap-upload').css("display", "none");
-        });
-        
-        $(document).on('click', '.edit-pick-image', function(e) {
-             $('#edit-productImage').click();
-        });
-        
-         $('#edit-productImage').change(function() {
-            if (this.files && this.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function(e) {
-                    $('.edit-preview-image').attr('src', e.target.result).show();
-                    $('.edit-wrap-upload').css("display", "block");
-                    $('.edit-pick-image').css("z-index", "-1");
-                }
-
-                reader.readAsDataURL(this.files[0]);
-                } else {
-                    $('.edit-preview-image').attr('src', '#').hide();
-                }
-        });
-    });
-    
-    
-  </script>
   
 </body>
 </html>

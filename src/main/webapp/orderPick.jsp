@@ -282,6 +282,9 @@
 
     <!-- Main Content -->
     <div class="container mt-3">
+        <button class="action-button delete-btn" data-bs-toggle="modal" data-bs-target="#confirmationModal">
+            XÓA
+        </button>
         <h4 class="mb-4">#DH01</h4>
 
         <div class="row">
@@ -510,6 +513,26 @@
                 </div>
             </div>
         </div>
+    </div>
+    
+
+    <!--popup delete-->
+   <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-confirm">
+        <div class="modal-content">
+          <div class="modal-header" style="border: 0">
+            <h5 class="modal-title" id="confirmationModalLabel">Xóa món nước?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <p>Bạn có chắc chắn muốn xóa món <b id="ProductNameJquery"></b> không?</p>
+          </div>
+          <div class="modal-footer" style="border: 0">
+            <button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-confirm" style="background-color: #1F75FF; color: #fff;">Xác nhận</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Bootstrap 5 JS Bundle with Popper -->

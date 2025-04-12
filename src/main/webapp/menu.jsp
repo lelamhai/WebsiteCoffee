@@ -94,7 +94,7 @@
           </div>
 
           <div class="nav-item">
-              <a href="#">
+              <a href="processing">
                 <i class="bi bi-cart"></i>
                 Đơn hàng
               </a>
