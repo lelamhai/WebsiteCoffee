@@ -175,11 +175,11 @@ body {
     color: #a71d2a;
 }
 
-.warp-table th:first-child,
+/*.warp-table th:first-child,
 .warp-table td:first-child {
-    width: 120px; /* Điều chỉnh độ rộng nhỏ hơn */
+    width: 120px;  Điều chỉnh độ rộng nhỏ hơn 
     text-align: center;
-}
+}*/
 
 .product-image {
     width: 35px;

@@ -195,13 +195,14 @@
         <table class="warp-table">
           <thead class="table-header">
             <tr>
-              <th>Hình ảnh</th>
-              <th>Tên</th>
-              <th>Danh mục</th>
-              <th>Kích cỡ</th>
-              <th>Giá</th>
-              <th>Trạng thái</th>
-              <th>Thao tác</th>
+              <th style="width:5%">ID</th>
+              <th style="width:7%">Hình ảnh</th>
+              <th style="width:28%">Tên</th>
+              <th style="width:19%">Danh mục</th>
+              <th style="width:7%">Kích cỡ</th>
+              <th style="width:17%">Giá</th>
+              <th style="width:10%">Trạng thái</th>
+              <th style="width:7%">Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -214,10 +215,10 @@
                     for (Product product : listProducts) {
                         %>
                     <tr class="product-row" data-id="<%= product.getProductId()%>" data-bs-toggle="modal" data-bs-target="#slideModal">
+                        <td class="id-product"><%= product.getProductId()%></td>
                         <td>
                             <img src="http://localhost:8080<%=product.getUrlImage() %>" alt="Cà phê sữa" class="product-image">
                         </td>
-                        <td class="id-product" hidden><%= product.getProductId()%></td>
                         <td class="name-product"><%= product.getProductName()%></td>
                         <td><%= product.getCategoryName() %></td>
                         <td><%= product.getSizes() %></td>
