@@ -13,8 +13,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    <title>Danh sách Menu</title>
+    <title>Danh sách báo cáo</title>
     <link rel="stylesheet" href="css/style_menu.css"/>
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -70,7 +69,9 @@
   <!-- Sidebar -->
  <div class="sidebar">
     <div class="logo-container">
-        <img src="imgs/Logo.png" alt="alt"/>
+        <a href="product">
+            <img src="imgs/Logo.png" alt="alt"/>
+        </a>
     </div>
 
     <div class="wrap-order-button" style="display: flex; justify-content: center;">
@@ -79,8 +80,8 @@
         </div>
     </div>
     <div class="wrap-nav">
-        <div class="nav-item active">
-            <a href="menu">
+        <div class="nav-item">
+            <a href="product">
                 <i class="bi bi-cup-straw"></i>
                 Sản phẩm
             </a>
@@ -94,16 +95,16 @@
 
         </div>
 
-        <div class="nav-item">
+        <div class="nav-item active">
             <a href="report">
                 <i class="bi bi-bar-chart"></i>
-                Báo cáo
+                Tài chính
             </a>
         </div>
         <div class="nav-item">
             <a href="account">
                 <i class="bi bi-people"></i>
-                Tai Khoản
+                Tài Khoản
             </a>
         </div>
 
@@ -124,12 +125,12 @@
         <button class="btn btn-sm d-none mobile-menu-toggle">
           <i class="bi bi-list"></i>
         </button>
-        <span class="fw-medium">Menu</span>
+        <span class="fw-medium">Tài chính</span>
       </div>
       
       <div class="d-flex align-items-center">
         <div class="notification-icon">
-          <i class="bi bi-bell-fill small"></i>
+          <i class="bi bi-bell small"></i>
         </div>
         <div class="user-avatar">
           <img src="imgs/Avatar.png" alt="User" class="w-100 h-100">
@@ -138,406 +139,12 @@
     </div>
     
     <!-- Content Area -->
-    <div class="content-area" style="background-color: #fff">
-      <div class="d-flex justify-content-between mb-4 flex-wrap" style="margin-bottom: 0 !important;">
-          <div class="mb-2">
-              <h1 class="h4" style="font-weight: 600">Danh sách</h1>
-          </div>
-          <div class="d-flex gap-2 flex-wrap">
-              <form action="menu"  method="GET">
-                  <div class="search-container mb-2">
-                      <i class="bi bi-search"></i>
-                      <input type="text" value="${search}" name="search" class="form-control search-input" placeholder="Tìm kiếm">
-                  </div>
-              </form>
-
-                  <button class="btn btn-outline-secondary mb-2" hidden>
-                  Xuất dữ liệu
-              </button>
-          </div>
-      </div>
-    </div>
     <div style="border-bottom: 1px solid var(--border-color); width: 100%;"></div>
-    <div class="content-area" >
-      <div class="d-flex justify-content-between mb-4 flex-wrap">
-        <div class="mb-2">
-          <button class="btn btn-outline-secondary sort-button">
-            Sắp xếp: Danh mục
-            <span class="sort-icon"><img src="imgs/arrows-down.png" alt="alt"/>️</span>
-          </button>
-        </div>
-        
-          <div class="d-flex gap-2 flex-wrap" style="align-items: center;">
-              <div>1 - 10 trong số 30 </div>
-              <div class="d-flex gap-2 align-items-center" ">
-                    <form action="menu"  method="GET">
-                          <input value="0" name="page" hidden/>
-                          <button class="btn btn-sm btn-light">
-                            <i class="bi bi-chevron-left"></i>
-                          </button>
-                    </form>
-                    <form action="menu" method="GET">
-                        <input value="1" name="page" hidden/>
-                        <button class="btn btn-sm btn-light">
-                            <i class="bi bi-chevron-right"></i>
-                        </button>
-                    </form>
-                    <button class="btn btn-sm btn-light" hidden>
-                        <i class="bi bi-funnel"></i>
-                    </button>
-              </div>
-          </div>
-      </div>
-       
-      <!-- Table -->
-      <div class="table-responsive">
-        <table class="warp-table">
-          <thead class="table-header">
-            <tr>
-              <th style="width:10%">ID</th>
-              <th style="width:40%">Tên món</th>
-              <th style="width:20%">Ngày giờ tạo</th>
-              <th style="width:15%">Giá</th>
-              <th style="width:15%">Trạng thái</th>
-            </tr>
-          </thead>
-          <tbody>
-              <tr>
-                <td>ID</td>
-                <td>Tên món</td>
-                <td>ngày giờ tạo</td>
-                <td>Giá</td>
-                <td>Trạng thái</td>
-              </tr>
-        </tbody>
-        </table>
-      </div>
+    <div class="content-area">
+     LLH
     </div>
   </div>
-            
-            
-  <!--Modals delete-->
-   <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-confirm">
-        <div class="modal-content">
-          <div class="modal-header" style="border: 0">
-            <h5 class="modal-title" id="confirmationModalLabel">Xóa món nước?</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              <p>Bạn có chắc chắn muốn xóa món <b id="ProductNameJquery"></b> không?</p>
-          </div>
-          <div class="modal-footer" style="border: 0">
-            <button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Hủy</button>
-            <button type="button" class="btn btn-confirm" style="background-color: #1F75FF; color: #fff;">Xác nhận</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  
-    <!--Modals detail-->
-<div class="modal fade right" id="slideModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content" style="height: 100%;">
-            <div class="modal-header">
-                <div class="wrap-header-modal">
-                    <div style="font-size: 18px; font-weight: 600;" class="detail-title">#01 - Cà phê sữa</div>
-                    <!--<div style="font-size: 12px;background-color: #F2F4F7;width: 40px;text-align: center;border-radius: 10px;" class="detail-isAvailable">Còn</div>-->
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-            </div>
-            
-            <div class="modal-body" >
-                <div class="row" style="padding: 15px 15px 0 15px">
-                    <div class="col-md-6">
-                        <div class="lable-detail">Danh muc</div>
-                        <div class="content-modal-llh detail-categoryName">Cà phê</div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="lable-detail">Giá gốc</div>
-                        <div class="content-modal-llh detail-baseprice">10.000đ</div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="lable-detail">Trạng thái</div>
-                        <div class="content-modal-llh detail-available">Còn</div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="lable-detail">Loại</div>
-                        <div class="content-modal-llh detail-havetype">Lạnh</div>
-                    </div>
-                </div>
-                
-                <div class="row wrap-productsizes" style="padding: 15px 15px 0 15px">
-
-                </div>
-                
-                <div class="row" style="padding: 15px">
-                    <div class="col-md-12">
-                        <input class="form-check-input" checked type="checkbox" name="directSale" id="buy" value="isDirectSale" disabled>
-                        <label class="form-check-label content-modal-llh" for="buy">Bán trực tiếp</label>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="modal-footer">
-                <button class="action-button edit-btn" data-bs-toggle="modal" data-bs-target="#edit-modal" data-id="1" style="width: 40px;height: 40px;border: 1px solid #EAECF0;border-radius: 50px;">
-                    <i class="bi bi-pencil" style="color: black;"></i>
-                </button>
-                <button class="action-button delete-btn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-id="1" style="width: 40px;height: 40px;border: 1px solid #EAECF0;border-radius: 50px;">
-                    <i class="bi bi-trash"></i>
-                </button>
-            </div>
-            
-        </div>
-    </div>
-</div>
     
-    
-    <style>
-        #create-modal .form-control,
-        #create-modal .form-select{
-            height: 46px;
-        }
-    </style>
-    
-   <!--Modals create-->    
-<div class="modal fade right" id="create-modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-       
-        <div class="modal-content" style="height: 100%;">
-            <form action="menu" method="post" enctype="multipart/form-data" style="height:100%; display: flex; flex-direction: column;" >
-                <div class="modal-header">
-                    <div class="wrap-header-modal">
-                        <div style="font-size: 20px; font-weight: 500">Thêm món</div>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-                </div>
-                <div class="modal-body" >
-                    <div class="mb-3">
-                        <input type="text" placeholder="Tên" name="productName" class="form-control" id="productName" value="">
-                    </div>
-                    <div class="mb-3">
-                          <select class="form-select" id="category" name="category">
-                                <option value="-1" selected>Danh mục</option>
-                            <% 
-                                List<Category> categries = (List<Category>) request.getAttribute("categries");
-                            %>
-                            <%
-                                if (categries != null) {
-                                    for (Category c : categries) {
-                                    %>
-                                        <option value="<%= c.getId()%>"><%= c.getCategoryName()%></option>
-                                    <%
-                                }
-                            }%>
-                          </select>
-                    </div>
-                    <div class="mb-3">
-                          <div class="input-group">
-                              <input type="text" placeholder="Giá gốc" name="productPrice" class="form-control" id="price" value="" style="width: 100%">
-                            <span class="" style="position: fixed; right: 7%; padding-top: 10px; z-index: 99;">đ</span>
-                          </div>
-                    </div>
-                    <div class="mb-3">
-                        <select class="form-select" id="haveType" name="haveType">
-                            <option value="3" selected>Nóng và lạnh</option>
-                            <option value="2">Lạnh</option>
-                            <option value="1">Nóng</option>
-                        </select>
-                    </div>      
-                    <div class="mb-3">
-                            <label for="size" class="form-label">Kích cỡ</label>
-                            <div class="wrap-productsize">
-                                <div class="row" style="padding: 0 15px; padding-bottom: 15px;">
-                                    <input type="text" readonly name="productSizeS" class="form-control col-md-6" value="S" style="width: 48%; margin-right: 2%">
-                                    <input type="text" name="productPriceOfSizeS" class="form-control col-md-6" value="" style="width: 48%; margin-left: 2%">
-                                    <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
-                                </div>
-
-                                <div class="row" style="padding: 0 15px; padding-bottom: 15px;">
-                                    <input type="text" readonly name="productSizeM" class="form-control col-md-6" value="M" style="width: 48%; margin-right: 2%">
-                                    <input type="text" name="productPriceOfSizeM" class="form-control col-md-6" value="" style="width: 48%; margin-left: 2%">
-                                    <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
-                                </div>
-
-                                 <div class="row" style="padding: 0 15px;">
-                                    <input type="text" readonly name="productSizeL" class="form-control col-md-6" value="L" style="width: 48%; margin-right: 2%">
-                                    <input type="text" name="productPriceOfSizeL" class="form-control col-md-6" value="" style="width: 48%; margin-left: 2%">
-                                    <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
-                                </div>
-                            </div>
-                    </div>
-                    <div class="mb-3">
-                            <label for="type" class="form-label">Trạng thái</label>
-                            <div style="display: flex;">
-                                <div class="form-check form-check-inline" style="width: 50%;">
-                                  <input class="form-check-input" type="radio" name="availability" id="edit-available" value="true" checked>
-                                  <label class="form-check-label" for="edit-available">Còn</label>
-                                </div>
-                                <div class="form-check form-check-inline" style="width: 50%;">
-                                  <input class="form-check-input" type="radio" name="availability" id="edit-outOfStock" value="false">
-                                  <label class="form-check-label" for="edit-outOfStock">Hết</label>
-                                </div>
-                            </div>
-                    </div>
-                    <div class="mb-3">
-                            <label for="type" class="form-label">Mô tả hình ảnh</label>
-                            <div class="image-upload-container row" style="padding-left: 10px;">
-                                <input type="file" name="productImage" id="create-productImage" hidden/>
-                                <div class="col-md-2 update-load-imgs pick-image">
-                                    <img src="imgs/Button.png" alt="alt"/>
-                                </div>
-                                
-                                <div class="col-md-2 update-load-imgs wrap-upload">
-                                    <div class="frame-pick-image">
-                                        <img src="imgs/Button.png" alt="alt" class="preview-image"/>
-                                    </div>
-                                    <div class="upload-preview">
-                                        <i class="bi bi-x image-delete" style="background-color: #5e5e5e8a;border-radius: 50%;color: #fff;cursor: pointer;"></i>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                    <div class="mb-3">
-                            <input class="form-check-input" type="checkbox" name="directSale" id="create-buy" value="isDirectSale">
-                            <label class="form-check-label" for="create-buy">Bán trực tiếp</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #1F75FF">Tạo</button>
-                </div>
-            </form>
-        </div>
-    </div>               
-</div>
-   
-                          <style>
-                                #edit-modal .form-label
-                                {
-                                    margin-bottom: 0;
-                                }
-                                .edit-wrap-upload {
-                                    position: fixed;
-                                }
-                          </style>
-<!--modal edit-->
-<div class="modal fade right" id="edit-modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content" style="height: 100%;">
-            <form action="menu" method="post" enctype="multipart/form-data" style="height:100%; display: flex; flex-direction: column;" >
-                <div class="modal-header">
-                    <div class="wrap-header-modal">
-                        <div style="font-size: 20px; font-weight: 500">Chỉnh sửa món</div>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-                </div>
-                <div class="modal-body" >
-                    <div class="mb-3">
-                        <label for="size" class="form-label">Tên</label>
-                        <input type="text" name="productName" class="form-control edit-productname" value="">
-                    </div>
-                    <div class="mb-3">
-                        <label for="size" class="form-label">Danh mục</label>
-                        <select class="form-select" id="edit-category" name="category">
-                            <% 
-                                List<Category> editCategries = (List<Category>) request.getAttribute("categries");
-                            %>
-                            <%
-                                if (categries != null) {
-                                    for (Category c : editCategries) {
-                                    %>
-                                        <option value="<%= c.getId()%>"><%= c.getCategoryName()%></option>
-                                    <%
-                                }
-                            }%>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="size" class="form-label">Giá gốc</label>
-                        <div class="input-group">
-                            <input type="text" name="productPrice" class="form-control edit-baseprice" id="price" value="" style="width: 100%">
-                            <span class="" style="position: fixed; right: 7%; padding-top: 10px; z-index: 99;">đ</span>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="size" class="form-label">Loại</label>
-                        <select class="form-select" id="edit-haveType" name="haveType">
-                            <option value="3" selected>Nóng và lạnh</option>
-                            <option value="2">Lạnh</option>
-                            <option value="1">Nóng</option>
-                        </select>
-                    </div>      
-                    <div class="mb-3">
-                        <label for="size" class="form-label">Kích cỡ</label>
-                        <div class="wrap-productsize">
-                            <div class="row" style="padding: 0 15px; padding-bottom: 15px;">
-                                <input type="text" readonly name="productSizeS" class="form-control col-md-6" value="S" style="width: 48%; margin-right: 2%">
-                                <input type="text" name="productPriceOfSizeS" class="form-control col-md-6 edit-productPriceOfSizeS" value="" style="width: 48%; margin-left: 2%">
-                                <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
-                            </div>
-
-                            <div class="row" style="padding: 0 15px; padding-bottom: 15px;">
-                                <input type="text" readonly name="productSizeM" class="form-control col-md-6" value="M" style="width: 48%; margin-right: 2%">
-                                <input type="text" name="productPriceOfSizeM" class="form-control col-md-6  edit-productPriceOfSizeM" value="" style="width: 48%; margin-left: 2%">
-                                <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
-                            </div>
-
-                            <div class="row" style="padding: 0 15px;">
-                                <input type="text" readonly name="productSizeL" class="form-control col-md-6" value="L" style="width: 48%; margin-right: 2%">
-                                <input type="text" name="productPriceOfSizeL" class="form-control col-md-6  edit-productPriceOfSizeL" value="" style="width: 48%; margin-left: 2%">
-                                <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="type" class="form-label">Trạng thái</label>
-                        <div style="display: flex;">
-                            <div class="form-check form-check-inline" style="width: 50%;">
-                                <input class="form-check-input edit-radio-true" type="radio" name="availability" id="r-available" value="true">
-                                <label class="form-check-label" for="r-available">Còn</label>
-                            </div>
-                            <div class="form-check form-check-inline" style="width: 50%;">
-                                <input class="form-check-input edit-radio-false" type="radio" name="availability" id="r-outOfStock" value="false">
-                                <label class="form-check-label" for="r-outOfStock">Hết</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="type" class="form-label">Mô tả hình ảnh</label>
-                        <div class="image-upload-container row" style="padding-left: 10px;">
-                            <input type="file" name="productImage" id="edit-productImage" hidden/>
-                            <div class="col-md-2 update-load-imgs edit-pick-image">
-                                <img src="imgs/Button.png" alt="alt"/>
-                            </div>
-
-                            <div class="col-md-2 update-load-imgs edit-wrap-upload">
-                                <div class="frame-pick-image">
-                                    <img src="imgs/Button.png" alt="alt" class="edit-preview-image"/>
-                                </div>
-                                <div class="upload-preview">
-                                    <i class="bi bi-x edit-image-delete" style="background-color: #5e5e5e8a;border-radius: 50%;color: #fff;cursor: pointer;"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <input class="form-check-input edit-checkbox" type="checkbox" name="directSale" id="edit-buy" value="isDirectSale">
-                        <label class="form-check-label" for="edit-buy">Bán trực tiếp</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <input type="text" name="id" class="edit-productid" value="" hidden/>
-                    <button type="submit" id="edit-update" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #1F75FF" >Cập nhật</button>
-                </div>
-            </form>
-        </div>
-    </div>               
-</div>
-   
     
   <!-- Bootstrap 5 JS Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

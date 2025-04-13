@@ -13,8 +13,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    <title>Danh sách tài khoảng</title>
+    <title>Danh sách tài khoản</title>
     <link rel="stylesheet" href="css/style_menu.css"/>
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -70,7 +69,9 @@
   <!-- Sidebar -->
   <div class="sidebar">
     <div class="logo-container">
-        <img src="imgs/Logo.png" alt="alt"/>
+           <a href="product">
+            <img src="imgs/Logo.png" alt="alt"/>
+        </a>
     </div>
 
     <div class="wrap-order-button" style="display: flex; justify-content: center;">
@@ -79,8 +80,8 @@
         </div>
     </div>
     <div class="wrap-nav">
-        <div class="nav-item active">
-            <a href="menu">
+        <div class="nav-item">
+            <a href="product">
                 <i class="bi bi-cup-straw"></i>
                 Sản phẩm
             </a>
@@ -97,13 +98,13 @@
         <div class="nav-item">
             <a href="report">
                 <i class="bi bi-bar-chart"></i>
-                Báo cáo
+                Tài chính
             </a>
         </div>
-        <div class="nav-item">
+        <div class="nav-item active">
             <a href="account">
                 <i class="bi bi-people"></i>
-                Tai Khoản
+                Tài Khoản
             </a>
         </div>
 
@@ -124,12 +125,12 @@
         <button class="btn btn-sm d-none mobile-menu-toggle">
           <i class="bi bi-list"></i>
         </button>
-        <span class="fw-medium">Menu</span>
+        <span class="fw-medium">Tài khoản</span>
       </div>
       
       <div class="d-flex align-items-center">
         <div class="notification-icon">
-          <i class="bi bi-bell-fill small"></i>
+          <i class="bi bi-bell small"></i>
         </div>
         <div class="user-avatar">
           <img src="imgs/Avatar.png" alt="User" class="w-100 h-100">

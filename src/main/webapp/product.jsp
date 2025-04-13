@@ -4,6 +4,7 @@
     Author     : ADMIN
 --%>
 
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="models.Category"%>
 <%@page import="models.CategoryModel"%>
 <%@page import="models.Product"%>
@@ -14,7 +15,6 @@
     <head>
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
     <title>Danh sách sản phẩm</title>
     <link rel="stylesheet" href="css/style_menu.css"/>
   <!-- Bootstrap 5 CSS -->
@@ -70,7 +70,9 @@
 <body>
   <div class="sidebar">
     <div class="logo-container">
-        <img src="imgs/Logo.png" alt="alt"/>
+           <a href="product">
+            <img src="imgs/Logo.png" alt="alt"/>
+        </a>
     </div>
 
     <div class="wrap-order-button" style="display: flex; justify-content: center;">
@@ -80,7 +82,7 @@
     </div>
     <div class="wrap-nav">
         <div class="nav-item active">
-            <a href="menu">
+            <a href="product">
                 <i class="bi bi-cup-straw"></i>
                 Sản phẩm
             </a>
@@ -97,13 +99,13 @@
         <div class="nav-item">
             <a href="report">
                 <i class="bi bi-bar-chart"></i>
-                Báo cáo
+                Tài chính
             </a>
         </div>
         <div class="nav-item">
             <a href="account">
                 <i class="bi bi-people"></i>
-                Tai Khoản
+                Tài Khoản
             </a>
         </div>
 
@@ -123,13 +125,12 @@
         <button class="btn btn-sm d-none mobile-menu-toggle">
           <i class="bi bi-list"></i>
         </button>
-        <span class="fw-medium">Menu</span>
-        <div>${Message}</div>
+        <span class="fw-medium">Sản Phẩm</span>
       </div>
       
       <div class="d-flex align-items-center">
         <div class="notification-icon">
-          <i class="bi bi-bell-fill small"></i>
+          <i class="bi bi-bell small"></i>
         </div>
         <div class="user-avatar">
           <img src="imgs/Avatar.png" alt="User" class="w-100 h-100">
@@ -203,7 +204,7 @@
               <th style="width:28%">Tên</th>
               <th style="width:19%">Danh mục</th>
               <th style="width:7%">Kích cỡ</th>
-              <th style="width:17%">Giá</th>
+              <th style="width:17%">Giá (VNĐ)</th>
               <th style="width:10%">Trạng thái</th>
               <th style="width:7%">Thao tác</th>
             </tr>
@@ -215,6 +216,7 @@
            
                 <%
                 if (listProducts != null) {
+                    DecimalFormat df = new DecimalFormat("#,###");
                     for (Product product : listProducts) {
                         %>
                     <tr class="product-row" data-id="<%= product.getProductId()%>" data-bs-toggle="modal" data-bs-target="#slideModal">
@@ -225,7 +227,21 @@
                         <td class="name-product"><%= product.getProductName()%></td>
                         <td><%= product.getCategoryName() %></td>
                         <td><%= product.getSizes() %></td>
-                        <td><%= product.getListPrice() %></td>
+                        <%
+                            String listPrice = "";
+                            String[] numberArray = product.getListPrice().split(",");
+                            for (int i = 0; i < numberArray.length; i++) {
+                                if(i == numberArray.length-1)
+                                {
+                                    listPrice += df.format(Integer.parseInt(numberArray[i].trim())).toString();
+                                } else {
+                                    listPrice += df.format(Integer.parseInt(numberArray[i].trim())).toString() + ", ";
+                                }
+                            }
+                        %>
+                        
+                        <td><%= listPrice %></td>
+                       
                         <td>
                             <%
                                 if(product.isAvailable())
@@ -281,7 +297,6 @@
             <div class="modal-header">
                 <div class="wrap-header-modal">
                     <div style="font-size: 18px; font-weight: 600;" class="detail-title">#01 - Cà phê sữa</div>
-                    <!--<div style="font-size: 12px;background-color: #F2F4F7;width: 40px;text-align: center;border-radius: 10px;" class="detail-isAvailable">Còn</div>-->
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
             </div>
@@ -310,7 +325,7 @@
                 </div>
                 
                 <div class="row wrap-productsizes" style="padding: 15px 15px 0 15px">
-
+                    
                 </div>
                 
                 <div class="row" style="padding: 15px">
@@ -376,7 +391,7 @@
                     </div>
                     <div class="mb-3">
                           <div class="input-group">
-                              <input type="text" placeholder="Giá gốc" name="productPrice" class="form-control" id="price" value="" style="width: 100%">
+                              <input type="number" placeholder="Giá gốc" name="productPrice" class="form-control" id="price" value="" style="width: 100%">
                             <span class="" style="position: fixed; right: 7%; padding-top: 10px; z-index: 99;">đ</span>
                           </div>
                     </div>
@@ -392,19 +407,19 @@
                             <div class="wrap-productsize">
                                 <div class="row" style="padding: 0 15px; padding-bottom: 15px;">
                                     <input type="text" readonly name="productSizeS" class="form-control col-md-6" value="S" style="width: 48%; margin-right: 2%">
-                                    <input type="text" name="productPriceOfSizeS" class="form-control col-md-6" value="" style="width: 48%; margin-left: 2%">
+                                    <input type="number" name="productPriceOfSizeS" class="form-control col-md-6" value="" style="width: 48%; margin-left: 2%">
                                     <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
                                 </div>
 
                                 <div class="row" style="padding: 0 15px; padding-bottom: 15px;">
                                     <input type="text" readonly name="productSizeM" class="form-control col-md-6" value="M" style="width: 48%; margin-right: 2%">
-                                    <input type="text" name="productPriceOfSizeM" class="form-control col-md-6" value="" style="width: 48%; margin-left: 2%">
+                                    <input type="number" name="productPriceOfSizeM" class="form-control col-md-6" value="" style="width: 48%; margin-left: 2%">
                                     <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
                                 </div>
 
                                  <div class="row" style="padding: 0 15px;">
                                     <input type="text" readonly name="productSizeL" class="form-control col-md-6" value="L" style="width: 48%; margin-right: 2%">
-                                    <input type="text" name="productPriceOfSizeL" class="form-control col-md-6" value="" style="width: 48%; margin-left: 2%">
+                                    <input type="number" name="productPriceOfSizeL" class="form-control col-md-6" value="" style="width: 48%; margin-left: 2%">
                                     <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
                                 </div>
                             </div>
@@ -425,7 +440,7 @@
                     <div class="mb-3">
                             <label for="type" class="form-label">Mô tả hình ảnh</label>
                             <div class="image-upload-container row" style="padding-left: 10px;">
-                                <input type="file" name="productImage" id="create-productImage" hidden/>
+                                <input type="file" name="productImage" accept="image/*" id="create-productImage" hidden/>
                                 <div class="col-md-2 update-load-imgs pick-image">
                                     <img src="imgs/Button.png" alt="alt"/>
                                 </div>
@@ -497,7 +512,7 @@
                     <div class="mb-3">
                         <label for="size" class="form-label">Giá gốc</label>
                         <div class="input-group">
-                            <input type="text" name="productPrice" class="form-control edit-baseprice" id="price" value="" style="width: 100%">
+                            <input type="number" name="productPrice" class="form-control edit-baseprice" id="price" value="" style="width: 100%">
                             <span class="" style="position: fixed; right: 7%; padding-top: 10px; z-index: 99;">đ</span>
                         </div>
                     </div>
@@ -514,19 +529,19 @@
                         <div class="wrap-productsize">
                             <div class="row" style="padding: 0 15px; padding-bottom: 15px;">
                                 <input type="text" readonly name="productSizeS" class="form-control col-md-6" value="S" style="width: 48%; margin-right: 2%">
-                                <input type="text" name="productPriceOfSizeS" class="form-control col-md-6 edit-productPriceOfSizeS" value="" style="width: 48%; margin-left: 2%">
+                                <input type="number" name="productPriceOfSizeS" class="form-control col-md-6 edit-productPriceOfSizeS" value="" style="width: 48%; margin-left: 2%">
                                 <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
                             </div>
 
                             <div class="row" style="padding: 0 15px; padding-bottom: 15px;">
                                 <input type="text" readonly name="productSizeM" class="form-control col-md-6" value="M" style="width: 48%; margin-right: 2%">
-                                <input type="text" name="productPriceOfSizeM" class="form-control col-md-6  edit-productPriceOfSizeM" value="" style="width: 48%; margin-left: 2%">
+                                <input type="number" name="productPriceOfSizeM" class="form-control col-md-6  edit-productPriceOfSizeM" value="" style="width: 48%; margin-left: 2%">
                                 <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
                             </div>
 
                             <div class="row" style="padding: 0 15px;">
                                 <input type="text" readonly name="productSizeL" class="form-control col-md-6" value="L" style="width: 48%; margin-right: 2%">
-                                <input type="text" name="productPriceOfSizeL" class="form-control col-md-6  edit-productPriceOfSizeL" value="" style="width: 48%; margin-left: 2%">
+                                <input type="number" name="productPriceOfSizeL" class="form-control col-md-6  edit-productPriceOfSizeL" value="" style="width: 48%; margin-left: 2%">
                                 <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
                             </div>
                         </div>
@@ -547,7 +562,7 @@
                     <div class="mb-3">
                         <label for="type" class="form-label">Mô tả hình ảnh</label>
                         <div class="image-upload-container row" style="padding-left: 10px;">
-                            <input type="file" name="productImage" id="edit-productImage" hidden/>
+                            <input type="file" name="productImage" accept="image/*" id="edit-productImage" hidden/>
                             <div class="col-md-2 update-load-imgs edit-pick-image">
                                 <img src="imgs/Button.png" alt="alt"/>
                             </div>
@@ -606,7 +621,7 @@
                 $('#ProductNameJquery').html(productName);
             });
         });
-        
+//delete        
         $(document).ready(function() {
             let currentDeleteId = null;
             $(document).on('click', '.delete-btn', function(e) {
@@ -648,7 +663,7 @@
               $('#confirmDeleteModal').modal('close');
             });
       });
-      
+//detail
         $(document).ready(function() {
             $(document).on('click', '.product-row', function(e) {
               e.preventDefault();
@@ -665,7 +680,7 @@
                      },
                      dataType: 'json',
                      success: function(response) {
-                         console.log(response);
+                         
                          var title = "#"+response.productId +" - "+ response.productName;
                          var available = response.isAvailable? "Còn":"Hết";
                          $('.detail-title').html(title);
@@ -690,12 +705,20 @@
                          }
                          $('.detail-havetype').html(type);
                         
-                        let variantsHtml = '';
                         $.each(response.variants, function(index, variant) {
-                            variantsHtml += `<div class="col-md-6"><div class="lable-detail">Kich cỡ</div><div class="content-modal-llh">\${variant.sizeName}</div></div><div class="col-md-6"><div class="lable-detail">Giá</div><div class="content-modal-llh">\${variant.price} đ</div></div>`;
+                            console.log(variant.price);
+                              var variantsHtml = `
+                                <div class="col-md-6">
+                                    <div class="lable-detail">Kich cỡ</div>
+                                    <div class="content-modal-llh">` + variant.sizeName + `</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="lable-detail">Giá</div>
+                                    <div class="content-modal-llh">` + formatMoney(variant.price) + ` đ</div>
+                                </div>
+                            `;
+                            $('.wrap-productsizes').append(variantsHtml);
                         });
-
-                        $('.wrap-productsizes').append(variantsHtml);
                      },
                      error: function() {
                          console.log(response.status);
@@ -706,7 +729,7 @@
       });
       
      
-      
+//edit      
       $(document).ready(function() {
             $(document).on('click', '.edit-btn', function(e) {
               e.preventDefault();
@@ -859,7 +882,11 @@
                         let products = response.data.contents;
                         var htmlAvailable ='';
                         products.forEach(function(product, index) {
-                            
+                            var listPrice = product.listPrice.split(',');
+                            var formattedList = listPrice.map(function(item) {
+                                return formatMoney(item);
+                            });
+                            var resultString = formattedList.join(", ");
                             if(product.isAvailable)
                             {
                                htmlAvailable = '<span class="status-badge status-in">Còn</span>'
@@ -876,7 +903,7 @@
                                     <td class="name-product">` + product.productName + `</td>
                                     <td>` + product.categoryName + `</td>
                                     <td>` + product.sizes + `</td>
-                                    <td>` + product.listPrice + `</td>
+                                    <td>` + resultString + `</td>
                                     <td>
                                         ` + htmlAvailable + `
                                     </td>
@@ -900,7 +927,9 @@
         });
     });
     
-    
+    function formatMoney(number) {
+      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
   </script>
   
 </body>
