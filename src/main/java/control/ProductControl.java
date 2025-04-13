@@ -34,9 +34,9 @@ import models.VariantDetailModel;
  *
  * @author ADMIN
  */
-@WebServlet(name = "MenuAdminControl", urlPatterns = {"/menu"})
+@WebServlet(name = "ProductControl", urlPatterns = {"/product"})
 @MultipartConfig
-public class MenuAdminControl extends HttpServlet {
+public class ProductControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -65,11 +65,40 @@ public class MenuAdminControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        loadProducts(request, response);
-        loadCategory(request, response);
-        
-        request.getRequestDispatcher("menu.jsp").forward(request, response);
+        String action = request.getParameter("action");
+        if("search".equals(action))
+        {
+           loadSearch(request, response);
+        } else {
+            loadProducts(request, response);
+            loadCategory(request, response);
+            request.getRequestDispatcher("product.jsp").forward(request, response);
+        }
     }
+    
+    private void loadSearch(HttpServletRequest request, HttpServletResponse response) throws IOException {
+            String keyword = request.getParameter("search");
+
+            String root = "http://localhost:8080/products/";
+            String query = String.format("?keyword=%s", 
+                keyword != null ? keyword : "");
+            
+            String apiUrl = root + query;
+            String jsonString = sendPostRequest1(apiUrl, request, response);
+            
+            Gson gson = new Gson();
+            ProductResponse model = gson.fromJson(jsonString, models.ProductResponse.class);
+            String dataJson = gson.toJson(model);
+            
+            
+            String jsonResponse = "{\"status\": \"success\", \"data\": " + dataJson + "}";
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(jsonResponse);
+    }
+    
+    
     
     private void loadProducts(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String root = "http://localhost:8080/products/";
@@ -150,6 +179,36 @@ public class MenuAdminControl extends HttpServlet {
         }
         return "Lỗi";
     }
+    
+    
+    private String sendPostRequest1(String apiUrl,HttpServletRequest request, HttpServletResponse response) throws IOException {
+         try {
+            URL url = new URL(apiUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            
+            int responseCode = conn.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String inputLine;
+                StringBuilder apiResponse = new StringBuilder();
+                
+                while ((inputLine = in.readLine()) != null) {
+                    apiResponse.append(inputLine);
+                }
+                in.close();
+                
+                return apiResponse.toString();
+               
+            } else {
+                response.getWriter().write("API call failed with code: " + responseCode);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "Lỗi";
+    }
+    
     
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -294,7 +353,7 @@ public class MenuAdminControl extends HttpServlet {
             jsonResponse.addProperty("error", "Lỗi I/O: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } finally {
-              response.sendRedirect(request.getContextPath() + "/menu");
+              response.sendRedirect(request.getContextPath() + "/product");
 //            out.print(gson.toJson(jsonResponse));
 //            out.flush();               
         }
@@ -350,7 +409,7 @@ public class MenuAdminControl extends HttpServlet {
         model.setBasePrice(Integer.valueOf(productPrice));
         model.setProductVariants(listVariant);
         model.setHaveType(Integer.valueOf(haveType));
-         model.setIsAvailable(Boolean.valueOf(availability));
+        model.setIsAvailable(Boolean.valueOf(availability));
         model.setDirectSale(isDirectSale);
 
         Gson gsonString = new GsonBuilder().setPrettyPrinting().create();
@@ -421,7 +480,7 @@ public class MenuAdminControl extends HttpServlet {
         } finally {
 //            out.print(gson.toJson(jsonResponse));
 //            out.flush();
-             response.sendRedirect(request.getContextPath() + "/menu");
+             response.sendRedirect(request.getContextPath() + "/product");
         }
     }
     

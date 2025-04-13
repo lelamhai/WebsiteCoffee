@@ -1,7 +1,5 @@
 models\ProductDetailModel.class
 control\OrderControl.class
-control\HomeControl.class
-control\MenuAdminControl.class
 control\ReportControl.class
 models\Category.class
 models\ProductResponse.class
@@ -9,6 +7,7 @@ control\AccountControl.class
 control\LoginControl.class
 com\mycompany\websitecoffee\JakartaRestConfiguration.class
 com\mycompany\websitecoffee\resources\JakartaEE10Resource.class
+control\ProductControl.class
 models\VariantDetailModel.class
 models\CategoryModel.class
 models\Product.class

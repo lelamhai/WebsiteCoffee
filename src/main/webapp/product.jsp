@@ -124,6 +124,7 @@
           <i class="bi bi-list"></i>
         </button>
         <span class="fw-medium">Menu</span>
+        <div>${Message}</div>
       </div>
       
       <div class="d-flex align-items-center">
@@ -143,12 +144,12 @@
               <h1 class="h4" style="font-weight: 600">Danh sách</h1>
           </div>
           <div class="d-flex gap-2 flex-wrap">
-              <form action="menu"  method="GET">
+              <!--<form action="product"  method="GET">-->
                   <div class="search-container mb-2">
                       <i class="bi bi-search"></i>
                       <input type="text" value="${search}" name="search" class="form-control search-input" placeholder="Tìm kiếm">
                   </div>
-              </form>
+              <!--</form>-->
 
                   <button class="btn btn-outline-secondary mb-2" hidden>
                   Xuất dữ liệu
@@ -171,16 +172,16 @@
         </div>
         
           <div class="d-flex gap-2 flex-wrap" style="align-items: center;">
-              <div> ${CurrentPage} - ${TotalPage} trong số ${PageSize} </div>
+              <div class="page-info"> ${CurrentPage} - ${TotalPage} trong số ${PageSize} </div>
               <div class="d-flex gap-2 align-items-center" ">
-                    <form action="menu"  method="GET">
-                          <input value="${PagePrevious}" name="page" hidden/>
+                    <form action="product"  method="GET">
+                          <input class="page-previous" value="${PagePrevious}" name="page" hidden/>
                           <button class="btn btn-sm btn-light">
                             <i class="bi bi-chevron-left"></i>
                           </button>
                     </form>
-                    <form action="menu" method="GET">
-                        <input value="${PageNext}" name="page" hidden/>
+                    <form action="product" method="GET">
+                        <input  class="page-next" value="${PageNext}" name="page" hidden/>
                         <button class="btn btn-sm btn-light">
                             <i class="bi bi-chevron-right"></i>
                         </button>
@@ -207,7 +208,7 @@
               <th style="width:7%">Thao tác</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="load-product">
                 <% 
                    List<Product> listProducts = (List<Product>) request.getAttribute("Products");
                 %>
@@ -346,7 +347,7 @@
     <div class="modal-dialog">
        
         <div class="modal-content" style="height: 100%;">
-            <form action="menu" method="post" enctype="multipart/form-data" style="height:100%; display: flex; flex-direction: column;" >
+            <form action="product" method="post" enctype="multipart/form-data" style="height:100%; display: flex; flex-direction: column;" >
                 <div class="modal-header">
                     <div class="wrap-header-modal">
                         <div style="font-size: 20px; font-weight: 500">Thêm món</div>
@@ -444,8 +445,8 @@
                             <label class="form-check-label" for="create-buy">Bán trực tiếp</label>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #1F75FF">Tạo</button>
+                <div class="modal-footer" style="justify-content: center;">
+                    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #1F75FF;width: 200px;">Tạo</button>
                 </div>
             </form>
         </div>
@@ -465,7 +466,7 @@
 <div class="modal fade right" id="edit-modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" style="height: 100%;">
-            <form action="menu" method="post" enctype="multipart/form-data" style="height:100%; display: flex; flex-direction: column;" >
+            <form action="product" method="post" enctype="multipart/form-data" style="height:100%; display: flex; flex-direction: column;" >
                 <div class="modal-header">
                     <div class="wrap-header-modal">
                         <div style="font-size: 20px; font-weight: 500">Chỉnh sửa món</div>
@@ -566,9 +567,9 @@
                         <label class="form-check-label" for="edit-buy">Bán trực tiếp</label>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="justify-content: center;">
                     <input type="text" name="id" class="edit-productid" value="" hidden/>
-                    <button type="submit" id="edit-update" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #1F75FF" >Cập nhật</button>
+                    <button type="submit" id="edit-update" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #1F75FF; width: 200px;" >Cập nhật</button>
                 </div>
             </form>
         </div>
@@ -617,7 +618,7 @@
             $('.btn-confirm').click(function() {
                 if (currentDeleteId) {
                   $.ajax({
-                    url: 'menu',
+                    url: 'product',
                     type: 'POST',
                     data: {
                       action: "delete",
@@ -656,7 +657,7 @@
                 $(".wrap-productsizes").empty();
 
                 $.ajax({
-                     url: 'menu',
+                     url: 'product',
                      type: 'POST',
                      data: { 
                         action: "detail",
@@ -712,7 +713,7 @@
               const itemId = $(this).data('id');
               if (itemId) {
                 $.ajax({
-                     url: 'menu',
+                     url: 'product',
                      type: 'POST',
                      data: { 
                         action: "detail",
@@ -818,6 +819,84 @@
                 } else {
                     $('.edit-preview-image').attr('src', '#').hide();
                 }
+        });
+    });
+    
+    $(document).ready(function() {
+        $('.search-input').on('input', function() {
+            var text = $(this).val();
+                $.ajax({
+                     url: 'product',
+                     type: 'GET',
+                     data: { 
+                        action: "search",
+                        search: text
+                     },
+                     dataType: 'json',
+                     success: function(response) {
+                        $('#load-product').empty();
+                        
+                        var info = response.data.pageNumber + "-" + response.data.totalPages + " trong số " + response.data.pageSize;
+
+                        $('.page-info').html(info);
+                        
+                        var pageMin = response.data.pageNumber - 1;
+                        if(pageMin < 1)
+                        {
+                            pageMin = 1;
+                        }
+                        
+                        var pageMax = response.data.pageNumber + 1;
+                        if(pageMax >= response.totalPages)
+                        {
+                            pageMax = response.totalPages;
+                        }
+                        
+                        $('.page-previous').attr('value', pageMin);
+                        $('.page-next').attr('value', pageMax);
+                        
+                        
+                        let products = response.data.contents;
+                        var htmlAvailable ='';
+                        products.forEach(function(product, index) {
+                            
+                            if(product.isAvailable)
+                            {
+                               htmlAvailable = '<span class="status-badge status-in">Còn</span>'
+                            } else {
+                               htmlAvailable = '<span class="status-badge status-out">Hết</span>'
+                            }
+                            
+                            var item = `
+                                <tr class="product-row" data-id="` + product.productId + `"" data-bs-toggle="modal" data-bs-target="#slideModal">
+                                    <td class="id-product">` + product.productId + `</td>
+                                    <td>
+                                        <img src="http://localhost:8080` +product.urlImage+ `"" alt="` + product.productName + `"" class="product-image">
+                                    </td>
+                                    <td class="name-product">` + product.productName + `</td>
+                                    <td>` + product.categoryName + `</td>
+                                    <td>` + product.sizes + `</td>
+                                    <td>` + product.listPrice + `</td>
+                                    <td>
+                                        ` + htmlAvailable + `
+                                    </td>
+                                    <td>
+                                        <button class="action-button edit-btn" data-bs-toggle="modal" data-bs-target="#edit-modal" data-id="` + product.productId + `"">
+                                            <i class="bi bi-pencil" style="color: black;"></i>
+                                        </button>
+                                        <button class="action-button delete-btn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-id="` + product.productId + `"">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                `;
+                            $('#load-product').append(item);
+                        });
+                     },
+                     error: function() {
+                         console.log(response.status);
+                     }
+                });
         });
     });
     
