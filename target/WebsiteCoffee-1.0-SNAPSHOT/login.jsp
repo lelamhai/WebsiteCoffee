@@ -49,8 +49,8 @@
 
                             <!-- Trường nhập mật khẩu -->
                             <div class="mb-4 password-container-liem">
-                                <input type="text" name ="password" class="form-control form-control-lg" id="password" placeholder="Mật Khẩu">
-                                <span class="toggle-visibility-liem" onclick="toggleVisibilitylogin('password', this)">🚫</span>
+                                <input type="password" name ="password" class="form-control form-control-lg" id="password" placeholder="Mật Khẩu">
+                                <span class="toggle-visibility-liem" onclick="toggleVisibilitylogin('password', this)">👁️</span>
                             </div>
 
                             <button class="btn btn-primary w-100 btn-continue rounded-pill">
@@ -75,10 +75,10 @@
                 let inputField = document.getElementById(fieldId);
                 if (inputField.type === "password") {
                     inputField.type = "text";
-                    icon.innerHTML = "👁"; // Đổi sang trạng thái hiển thị
+                    icon.innerHTML = "🚫"; // Đổi sang trạng thái hiển thị
                 } else {
                     inputField.type = "password";
-                icon.innerHTML = "🚫"; // Đổi sang trạng thái ẩn
+                icon.innerHTML = "👁"; // Đổi sang trạng thái ẩn
                 }
             }
         </script>

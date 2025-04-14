@@ -42,13 +42,13 @@
                             <!-- Trường nhập mật khẩu mới -->
                             <div class="mb-4 password-container-liem">
                                 <input type="password" name="newPass" class="form-control form-control-lg liem-forgot pe-5" id="newPass" placeholder="Nhập mật khẩu mới" required>
-                                <span class="toggle-visibility-liem" onclick="toggleVisibilityforgot('newPass', this)">🚫</span>
+                                <span class="toggle-visibility-liem" onclick="toggleVisibilityforgot('newPass', this)">👁</span>
                             </div>
 
                             <!-- Trường xác nhận mật khẩu -->
                             <div class="mb-4 password-container-liem">
                                 <input type="password" name="confirmPass" class="form-control form-control-lg liem-forgot pe-5" id="confirmPass" placeholder="Xác nhận mật khẩu mới" required>
-                                <span class="toggle-visibility-liem" onclick="toggleVisibilityforgot('confirmPass', this)">🚫</span>
+                                <span class="toggle-visibility-liem" onclick="toggleVisibilityforgot('confirmPass', this)">👁</span>
                             </div>
 
                             <!-- Thông báo lỗi nếu mật khẩu không khớp -->
@@ -74,10 +74,10 @@
                 let inputField = document.getElementById(fieldId);
                 if (inputField.type === "password") {
                     inputField.type = "text";
-                    icon.innerHTML = "👁"; // Đổi sang trạng thái hiển thị
+                    icon.innerHTML = "🚫"; // Đổi sang trạng thái hiển thị
                 } else {
                     inputField.type = "password";
-                    icon.innerHTML = "🚫"; // Đổi sang trạng thái ẩn
+                    icon.innerHTML = "👁"; // Đổi sang trạng thái ẩn
                 }
             }
             function validateForm() {
