@@ -278,7 +278,7 @@
     <div class="container-fluid py-3">
         <!-- Header -->
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <a href="menu.jsp" class="back-button">
+            <a href="product" class="back-button">
                 <i class="bi bi-arrow-left me-2"></i>
                 <span class="fw-medium">Đặt hàng</span>
             </a>
@@ -652,7 +652,7 @@
         $(".btn-cart").on("click", function () {
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
             if (cart.length > 0) {
-                window.location.href = "orderPick.jsp";
+                window.location.href = "orderpick";
             } else {
                 alert("Giỏ hàng trống!");
             }

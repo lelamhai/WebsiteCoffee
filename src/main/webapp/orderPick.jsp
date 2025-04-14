@@ -267,7 +267,7 @@
     <!-- Header -->
     <div class="header">
         <div class="container">
-            <a href="order.jsp" class="back-button">
+            <a href="order" class="back-button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-arrow-left" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
@@ -373,7 +373,7 @@
 
                     <div class="d-grid gap-2">
                         <button id="btn-pay" class="btn btn-pay">Thanh toán</button>
-                        <button class="btn btn-cancel">Huỷ</button>
+                        <button id="btn-cancel-order" class="btn btn-cancel">Huỷ</button>
                     </div>
                 </div>
             </div>
@@ -580,7 +580,7 @@
             // Xử lý khi nhấn nút xác nhận trong modal xóa món
             $(".btn-confirm").on("click", function () {
                 removeFromCart(gVariantId, gType);
-                window.location.href = "orderPick.jsp";
+                window.location.href = "orderpick";
                 $("#modal-delete").modal("hide");
             });
             
@@ -611,12 +611,17 @@
             $("#btn-pay").on('click', function () {
                 onBtnPayClick();
             });
+            
+            $("#btn-cancel-order").on("click", function() {
+                localStorage.clear();
+                window.location.href = "order";
+            });
 
             // VÙNG 3: VÙNG VIẾT CÁC HÀM XỬ LÝ SỰ KIỆN
             function onPageLoading() {
                 let cart = JSON.parse(localStorage.getItem('cart')) || [];
                 if(cart.length == 0) {
-                    window.location.href = "order.jsp";
+                    window.location.href = "order";
                 }
                 callApiToGetNextOrderCode();
                 loadProductsToCart();
@@ -640,7 +645,7 @@
                     success: function(response) {
                         alert("Tạo đơn hàng thành công!");
                         localStorage.clear();
-                        window.location.href = "order.jsp";
+                        window.location.href = "order";
                     },
                     error: function (error) {
                         console.error("Error loading products:", error);
@@ -878,7 +883,7 @@
 
                 localStorage.setItem('cart', JSON.stringify(cart));
                 $("#modal-update").modal("hide");
-                window.location.href = "orderPick.jsp";
+                window.location.href = "orderpick";
             }
 
             // Hàm lấy thông tin sản phẩm để thêm vào giỏ hàng
