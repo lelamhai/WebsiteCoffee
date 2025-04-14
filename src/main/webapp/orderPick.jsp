@@ -525,7 +525,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-              <p>Bạn có chắc chắn muốn xóa món <b id="ProductNameJquery"></b> không?</p>
+              <p>Bạn có chắc chắn muốn xóa <span id="span-delete-item" style="font-weight: bold;"></span><b id="ProductNameJquery"></b> không?</p>
           </div>
           <div class="modal-footer" style="border: 0">
             <button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Hủy</button>
@@ -564,6 +564,9 @@
                 } else if ($(this).text().trim() === '-' && value > 1) {
                     value--;
                 } else if ($(this).text().trim() === '-' && value === 1) {
+                    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                    let product = cart.find(item => item.variantId === gVariantId && String(item.type) === gType);
+                    $("#span-delete-item").html(product.productName);
                     $("#modal-delete-item").modal("show");
                     return; // Ngăn không cho cập nhật value ngay lập tức
                 }
