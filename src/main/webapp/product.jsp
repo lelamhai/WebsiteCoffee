@@ -334,14 +334,14 @@
                 </div>
             </div>
             
-            <div class="modal-footer">
+<!--            <div class="modal-footer">
                 <button class="action-button edit-btn" data-bs-toggle="modal" data-bs-target="#edit-modal" data-id="1" style="width: 40px;height: 40px;border: 1px solid #EAECF0;border-radius: 50px;">
                     <i class="bi bi-pencil" style="color: black;"></i>
                 </button>
                 <button class="action-button delete-btn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-id="1" style="width: 40px;height: 40px;border: 1px solid #EAECF0;border-radius: 50px;">
                     <i class="bi bi-trash"></i>
                 </button>
-            </div>
+            </div>-->
             
         </div>
     </div>

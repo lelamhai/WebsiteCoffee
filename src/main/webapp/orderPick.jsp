@@ -12,6 +12,7 @@
     <title>JSP Page</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <!-- Custom CSS -->
     <style>
         body {
@@ -259,32 +260,46 @@
             /* Mỗi tùy chọn trên một dòng */
         }
 
-        /*Phần style cho popup - END ====================================*/
+        .notification-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: #f1f3f5;
+            margin-right: 0.5rem;
+        }
     </style>
 </head>
 
 <body>
     <!-- Header -->
     <div class="header">
-        <div class="container">
-            <a href="order" class="back-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-arrow-left" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
-                </svg>
-                <span class="ms-2">Đặt hàng</span>
-            </a>
-            <span class="mx-2">/</span>
-            <span>Đơn hàng</span>
+       <div class="container" style="display: flex;justify-content: space-between;align-items: center;">
+           <div>
+                <a href="order" class="back-button">
+                    <i class="bi bi-arrow-left"></i>
+                    <span class="ms-2">Đặt hàng</span>
+                </a>
+                <span class="mx-2">/</span>
+                <span>Đơn hàng</span>
+           </div>
+           
+             <div class="d-flex align-items-center">
+                      <div class="notification-icon">
+                          <i class="bi bi-bell small"></i>
+                      </div>
+                      <div class="user-avatar">
+                          <img src="imgs/Avatar.png" alt="User" class="w-100 h-100">
+                      </div>
+                  </div>
         </div>
     </div>
+    
 
     <!-- Main Content -->
     <div class="container mt-3">
-        <button class="action-button delete-btn" data-bs-toggle="modal" data-bs-target="#confirmationModal">
-            XÓA
-        </button>
         <h4 id="order-code" class="mb-4">#DH01</h4>
 
         <div class="row">

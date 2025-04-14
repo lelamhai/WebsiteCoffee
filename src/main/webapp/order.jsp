@@ -19,6 +19,18 @@
             background-color: #f8f9fa;
         }
 
+        
+        .notification-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: #f1f3f5;
+            margin-right: 0.5rem;
+        }
+        
         .nav-tabs .nav-link {
             color: #6c757d;
             border: none;
@@ -47,7 +59,7 @@
 
         .product-img-container {
             width: 100%;
-            height: 300px;
+            height: 180px;
             background-color: #ffe8c8;
             display: flex;
             align-items: center;
@@ -269,175 +281,193 @@
             /* Mỗi tùy chọn trên một dòng */
         }
 
-        /*Phần style cho popup - END ====================================*/
+        .wrap-orderpick {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 12px;
+        }
     </style>
 
 </head>
 
 <body>
+    <div class="container-fluid py-3" style="padding-bottom: 0!important;background-color: #fff;">
+        <div class="wrap-orderpick">
+              <!-- Header -->
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                  <a href="product" class="back-button">
+                      <i class="bi bi-arrow-left me-2"></i>
+                      <span class="fw-medium">Đặt hàng</span>
+                  </a>
+                  <div class="d-flex align-items-center">
+                      <div class="notification-icon">
+                          <i class="bi bi-bell small"></i>
+                      </div>
+                      <div class="user-avatar">
+                          <img src="imgs/Avatar.png" alt="User" class="w-100 h-100">
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Navigation Tabs -->
+              <div class="wrap-control" style="display: flex; flex-wrap: nowrap; justify-content: space-between;">
+                  <div class="wrap-tabs">
+                      <ul class="nav nav-tabs border-0 mb-4" id="categoryTabs" style="margin-bottom: 0!important;">
+                          <li class="nav-item">
+                              <a class="nav-link active" href="#">Cà phê</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" href="#">Trà sữa & Trà trái cây</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" href="#">Sinh tố & nước ép</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" href="#">Đồ uống đá xay</a>
+                          </li>
+                      </ul>
+                  </div>
+
+                  <!-- Search Bar -->
+                  <div class="d-flex justify-content-between align-items-center mb-4" style="margin-bottom: 0!important;">
+                      <div class="position-relative w-100 me-3">
+                          <i class="bi bi-search position-absolute" style="left: 15px; top: 10px;"></i>
+                          <input id="input-search" type="text" class="form-control ps-5 py-2" placeholder="Tìm kiếm"
+                                 style="border-radius: 20px;">
+                      </div>
+                      <!--button bi bi-cart-->
+                      <a class="btn-cart btn btn-outline-secondary" href="#"
+                         style="border-radius: 50%; width: 40px; height: 40px;">
+                          <i class="bi bi-cart"></i>
+                      </a>
+                  </div>
+              </div>
+        </div>
+    </div>
+    
+    <div style="width: 100%;border-bottom: 1px solid #dee2e6;"></div>
+    
     <div class="container-fluid py-3">
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <a href="product" class="back-button">
-                <i class="bi bi-arrow-left me-2"></i>
-                <span class="fw-medium">Đặt hàng</span>
-            </a>
-            <div class="d-flex align-items-center">
-                <i class="bi bi-bell me-3"></i>
-                <div class="rounded-circle bg-secondary" style="width: 32px; height: 32px;"></div>
-            </div>
-        </div>
+        <div class="wrap-orderpick">
+            <!-- Pagination Info -->
+            <div class="d-flex align-items-center mb-3 gap-2" style="justify-content: flex-end;">
+                <div class="page-info">1 - 2 trong số 10</div>
+                <div class="d-flex gap-2 align-items-center" ">
+                    <input class="page-previous" value="${PagePrevious}" name="page" hidden/>
+                    <button class="btn btn-sm btn-light">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <input  class="page-next" value="${PageNext}" name="page" hidden/>
+                    <button class="btn btn-sm btn-light">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
 
-        <!-- Navigation Tabs -->
-
-        <div class="wrap-control" style="display: flex; flex-wrap: nowrap; justify-content: space-between;">
-            <div class="wrap-tabs">
-                <ul class="nav nav-tabs border-0 mb-4" id="categoryTabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Cà phê</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Trà sữa & Trà trái cây</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Sinh tố & nước ép</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Đồ uống đá xay</a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Search Bar -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div class="position-relative w-100 me-3">
-                    <i class="bi bi-search position-absolute" style="left: 15px; top: 10px;"></i>
-                    <input id="input-search" type="text" class="form-control ps-5 py-2" placeholder="Tìm kiếm"
-                        style="border-radius: 20px;">
                 </div>
-                <!--button bi bi-cart-->
-                <a class="btn-cart btn btn-outline-secondary" href="#"
-                    style="border-radius: 50%; width: 40px; height: 40px;">
-                    <i class="bi bi-cart"></i>
-                </a>
             </div>
-        </div>
 
-        <!-- Pagination Info -->
-        <!--            <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="pagination-info">1 - 20 trong số 10</div>
-                            <div>
-                                <button class="btn btn-sm btn-outline-secondary me-2">
-                                    <i class="bi bi-chevron-left"></i>
-                                </button>
-                                <button class="btn btn-sm btn-outline-secondary">
-                                    <i class="bi bi-chevron-right"></i>
-                                </button>
+            <!-- Product Grid -->
+            <div id="product-list" class="row g-4">
+                <!-- Product 1 -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="product-card">
+                        <div class="product-img-container">
+                            <img src="imgs/Head.png" alt="Cà phê đen(Nóng)" class="product-img">
+                        </div>
+                        <div class=" product-info">
+                            <div class="badge-container">Còn</div>
+                            <h5 class="product-title">Cà phê đen(Nóng)</h5>
+                            <div class="d-flex justify-content-end">
+                                <div class="product-price">10.000đ</div>
                             </div>
-                        </div>-->
-
-        <!-- Product Grid -->
-        <div id="product-list" class="row g-4">
-            <!-- Product 1 -->
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="product-card">
-                    <div class="product-img-container">
-                        <img src="imgs/Head.png" alt="Cà phê đen(Nóng)" class="product-img">
-                    </div>
-                    <div class=" product-info">
-                        <div class="badge-container">Còn</div>
-                        <h5 class="product-title">Cà phê đen(Nóng)</h5>
-                        <div class="d-flex justify-content-end">
-                            <div class="product-price">10.000đ</div>
-                        </div>
-                        <div class="quantity-control">
-                            <button class="quantity-btn">−</button>
-                            <div class="quantity-display">0</div>
-                            <button class="quantity-btn">+</button>
+                            <div class="quantity-control">
+                                <button class="quantity-btn">−</button>
+                                <div class="quantity-display">0</div>
+                                <button class="quantity-btn">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Product 2 -->
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="product-card">
-                    <div class="product-img-container">
-                        <img src="imgs/Head.png" alt="Cà phê đen(Lạnh)" class="product-img">
-                    </div>
-                    <div class="product-info">
-                        <div class="badge-container">Còn</div>
-                        <h5 class="product-title">Cà phê đen(Lạnh)</h5>
-                        <div class="d-flex justify-content-end">
-                            <div class="product-price">15.000đ</div>
+                <!-- Product 2 -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="product-card">
+                        <div class="product-img-container">
+                            <img src="imgs/Head.png" alt="Cà phê đen(Lạnh)" class="product-img">
                         </div>
-                        <div class="quantity-control">
-                            <button class="quantity-btn">−</button>
-                            <div class="quantity-display">0</div>
-                            <button class="quantity-btn">+</button>
+                        <div class="product-info">
+                            <div class="badge-container">Còn</div>
+                            <h5 class="product-title">Cà phê đen(Lạnh)</h5>
+                            <div class="d-flex justify-content-end">
+                                <div class="product-price">15.000đ</div>
+                            </div>
+                            <div class="quantity-control">
+                                <button class="quantity-btn">−</button>
+                                <div class="quantity-display">0</div>
+                                <button class="quantity-btn">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Product 3 -->
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="product-card">
-                    <div class="product-img-container">
-                        <img src="imgs/Head.png" alt="Cà phê sữa(Lạnh)" class="product-img">
-                    </div>
-                    <div class="product-info">
-                        <div class="badge-container">Còn</div>
-                        <h5 class="product-title">Cà phê sữa(Lạnh)</h5>
-                        <div class="d-flex justify-content-end">
-                            <div class="product-price">15.000đ</div>
+                <!-- Product 3 -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="product-card">
+                        <div class="product-img-container">
+                            <img src="imgs/Head.png" alt="Cà phê sữa(Lạnh)" class="product-img">
                         </div>
-                        <div class="quantity-control">
-                            <button class="quantity-btn">−</button>
-                            <div class="quantity-display">0</div>
-                            <button class="quantity-btn">+</button>
+                        <div class="product-info">
+                            <div class="badge-container">Còn</div>
+                            <h5 class="product-title">Cà phê sữa(Lạnh)</h5>
+                            <div class="d-flex justify-content-end">
+                                <div class="product-price">15.000đ</div>
+                            </div>
+                            <div class="quantity-control">
+                                <button class="quantity-btn">−</button>
+                                <div class="quantity-display">0</div>
+                                <button class="quantity-btn">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Product 4 -->
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="product-card">
-                    <div class="product-img-container">
-                        <img src="imgs/Head.png" alt="Cà phê sữa(Nóng)" class="product-img">
-                    </div>
-                    <div class="product-info">
-                        <div class="badge-container">Còn</div>
-                        <h5 class="product-title">Cà phê sữa(Nóng)</h5>
-                        <div class="d-flex justify-content-end">
-                            <div class="product-price">30.000đ</div>
+                <!-- Product 4 -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="product-card">
+                        <div class="product-img-container">
+                            <img src="imgs/Head.png" alt="Cà phê sữa(Nóng)" class="product-img">
                         </div>
-                        <div class="quantity-control">
-                            <button class="quantity-btn">−</button>
-                            <div class="quantity-display">0</div>
-                            <button class="quantity-btn">+</button>
+                        <div class="product-info">
+                            <div class="badge-container">Còn</div>
+                            <h5 class="product-title">Cà phê sữa(Nóng)</h5>
+                            <div class="d-flex justify-content-end">
+                                <div class="product-price">30.000đ</div>
+                            </div>
+                            <div class="quantity-control">
+                                <button class="quantity-btn">−</button>
+                                <div class="quantity-display">0</div>
+                                <button class="quantity-btn">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Product 5 -->
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="product-card">
-                    <div class="product-img-container">
-                        <img src="imgs/Head.png" alt="Cà phê dừa" class="product-img">
-                    </div>
-                    <div class="product-info">
-                        <div class="badge-container">Còn</div>
-                        <h5 class="product-title">Cà phê dừa</h5>
-                        <div class="d-flex justify-content-end">
-                            <div class="product-price">30.000đ</div>
+                <!-- Product 5 -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="product-card">
+                        <div class="product-img-container">
+                            <img src="imgs/Head.png" alt="Cà phê dừa" class="product-img">
                         </div>
-                        <div class="quantity-control">
-                            <button class="quantity-btn">−</button>
-                            <div class="quantity-display">0</div>
-                            <button class="quantity-btn">+</button>
+                        <div class="product-info">
+                            <div class="badge-container">Còn</div>
+                            <h5 class="product-title">Cà phê dừa</h5>
+                            <div class="d-flex justify-content-end">
+                                <div class="product-price">30.000đ</div>
+                            </div>
+                            <div class="quantity-control">
+                                <button class="quantity-btn">−</button>
+                                <div class="quantity-display">0</div>
+                                <button class="quantity-btn">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
