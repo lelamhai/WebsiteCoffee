@@ -111,7 +111,7 @@ public class LoginControl extends HttpServlet {
             {
                 HttpSession session = request.getSession();
                 session.setAttribute("Token", result);
-                response.sendRedirect(request.getContextPath() + "/menu");
+                response.sendRedirect(request.getContextPath() + "/product");
             } else {
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
