@@ -76,7 +76,7 @@
 
     <div class="wrap-order-button" style="display: flex; justify-content: center;">
         <div class="order-button">
-            <a href="order.jsp" style="text-decoration: none;">Đặt hàng</a>
+            <a href="order" style="text-decoration: none;">Đặt hàng</a>
         </div>
     </div>
     <div class="wrap-nav">
@@ -88,7 +88,7 @@
         </div>
 
         <div class="nav-item">
-            <a href="processing.jsp">
+            <a href="processing">
                 <i class="bi bi-cart"></i>
                 Đơn hàng
             </a>
@@ -96,13 +96,13 @@
         </div>
 
         <div class="nav-item">
-            <a href="report.jsp">
+            <a href="report">
                 <i class="bi bi-bar-chart"></i>
                 Tài chính
             </a>
         </div>
         <div class="nav-item">
-            <a href="account.jsp">
+            <a href="account">
                 <i class="bi bi-people"></i>
                 Tài Khoản
             </a>
