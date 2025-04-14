@@ -116,6 +116,7 @@
         </div>
     </div>
 </div>
+    
   <!-- Main Content -->
   <div class="main-content">
     <!-- Top Header -->
@@ -125,6 +126,12 @@
           <i class="bi bi-list"></i>
         </button>
         <span class="fw-medium">Sản Phẩm</span>
+        
+        
+        <!--<button onclick="showToast()">Hiển thị Toast</button>-->
+        
+        
+        
       </div>
       
       <div class="d-flex align-items-center">
@@ -202,7 +209,7 @@
               <th style="width:28%">Tên</th>
               <th style="width:19%">Danh mục</th>
               <th style="width:7%">Kích cỡ</th>
-              <th style="width:17%">Giá (VNĐ)</th>
+              <th style="width:17%">Giá</th>
               <th style="width:10%">Trạng thái</th>
               <th style="width:7%">Thao tác</th>
             </tr>
@@ -231,9 +238,9 @@
                             for (int i = 0; i < numberArray.length; i++) {
                                 if(i == numberArray.length-1)
                                 {
-                                    listPrice += df.format(Integer.parseInt(numberArray[i].trim())).toString();
+                                    listPrice += df.format(Integer.parseInt(numberArray[i].trim())).toString()+ " đ";
                                 } else {
-                                    listPrice += df.format(Integer.parseInt(numberArray[i].trim())).toString() + ", ";
+                                    listPrice += df.format(Integer.parseInt(numberArray[i].trim())).toString() + " đ" +", " ;
                                 }
                             }
                         %>
@@ -389,7 +396,7 @@
                     </div>
                     <div class="mb-3">
                           <div class="input-group">
-                              <input type="number" placeholder="Giá gốc" name="productPrice" class="form-control" id="price" value="" style="width: 100%">
+                             <input type="text" placeholder="Giá gốc" name="productPrice" class="form-control" id="price" value="" style="width: 100%">
                             <span class="" style="position: fixed; right: 7%; padding-top: 10px; z-index: 99;">đ</span>
                           </div>
                     </div>
@@ -405,19 +412,19 @@
                             <div class="wrap-productsize">
                                 <div class="row" style="padding: 0 15px; padding-bottom: 15px;">
                                     <input type="text" readonly name="productSizeS" class="form-control col-md-6" value="S" style="width: 48%; margin-right: 2%">
-                                    <input type="number" name="productPriceOfSizeS" class="form-control col-md-6" value="" style="width: 48%; margin-left: 2%">
+                                    <input type="text" name="productPriceOfSizeS" class="form-control col-md-6" value="" style="width: 48%; margin-left: 2%">
                                     <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
                                 </div>
 
                                 <div class="row" style="padding: 0 15px; padding-bottom: 15px;">
                                     <input type="text" readonly name="productSizeM" class="form-control col-md-6" value="M" style="width: 48%; margin-right: 2%">
-                                    <input type="number" name="productPriceOfSizeM" class="form-control col-md-6" value="" style="width: 48%; margin-left: 2%">
+                                    <input type="text" name="productPriceOfSizeM" class="form-control col-md-6" value="" style="width: 48%; margin-left: 2%">
                                     <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
                                 </div>
 
                                  <div class="row" style="padding: 0 15px;">
                                     <input type="text" readonly name="productSizeL" class="form-control col-md-6" value="L" style="width: 48%; margin-right: 2%">
-                                    <input type="number" name="productPriceOfSizeL" class="form-control col-md-6" value="" style="width: 48%; margin-left: 2%">
+                                    <input type="text" name="productPriceOfSizeL" class="form-control col-md-6" value="" style="width: 48%; margin-left: 2%">
                                     <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
                                 </div>
                             </div>
@@ -589,7 +596,8 @@
     </div>               
 </div>
    
-    
+    <%@ include file="toast.jsp" %>
+
   <!-- Bootstrap 5 JS Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script
@@ -924,11 +932,17 @@
                 });
         });
     });
-    
     function formatMoney(number) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
   </script>
   
+  <script>
+  function showToast() {
+    var toastEl = document.getElementById('myToast');
+    var toast = new bootstrap.Toast(toastEl);
+    toast.show();
+  }
+</script>
 </body>
 </html>
