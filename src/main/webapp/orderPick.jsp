@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>JSP Page</title>
@@ -285,7 +285,7 @@
         <button class="action-button delete-btn" data-bs-toggle="modal" data-bs-target="#confirmationModal">
             XÓA
         </button>
-        <h4 class="mb-4">#DH01</h4>
+        <h4 id="order-code" class="mb-4">#DH01</h4>
 
         <div class="row">
             <!-- Product List -->
@@ -517,7 +517,7 @@
     
 
     <!--popup delete-->
-   <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+   <div class="modal fade" id="modal-delete-item" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-confirm">
         <div class="modal-content">
           <div class="modal-header" style="border: 0">
@@ -553,24 +553,37 @@
                 let vProductCard = $(this).closest(".product-card");
                 let vVariantId = vProductCard.attr("id");
                 let vType = $(this).closest(".product-card").find("h5").attr("type");
+                gVariantId = vVariantId;
+                gType = vType;
 
                 const $input = $(this).siblings('.quantity-input');
                 let value = parseInt($input.val());
 
                 if ($(this).text().trim() === '+') {
                     value++;
-                } else if ($(this).text().trim() === '-' && value > 0) {
+                } else if ($(this).text().trim() === '-' && value > 1) {
                     value--;
-                    if (value == 0) {
-                        removeFromCart(vVariantId, vType);
-                        vProductCard.remove();
-                    }
+                } else if ($(this).text().trim() === '-' && value === 1) {
+                    $("#modal-delete-item").modal("show");
+                    return; // Ngăn không cho cập nhật value ngay lập tức
                 }
                 $input.val(value);
                 updateQuantity(vVariantId, vType, value);
                 updateTotalPricePayment();
             });
-
+            
+            // Xử lý khi nhấn nút cancel xóa đơn hàng 
+            $(".btn-cancel").on("click", function () {
+                $("#modal-delete").modal("hide");
+            });
+            
+            // Xử lý khi nhấn nút xác nhận trong modal xóa món
+            $(".btn-confirm").on("click", function () {
+                removeFromCart(gVariantId, gType);
+                window.location.href = "orderPick.jsp";
+                $("#modal-delete").modal("hide");
+            });
+            
             // Change price when checkbox size
             $('.size-container').on('change', 'input[type=radio][name=size]', function () {
                 const selectedSize = $(this).val();
@@ -601,8 +614,14 @@
 
             // VÙNG 3: VÙNG VIẾT CÁC HÀM XỬ LÝ SỰ KIỆN
             function onPageLoading() {
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                if(cart.length == 0) {
+                    window.location.href = "order.jsp";
+                }
+                callApiToGetNextOrderCode();
                 loadProductsToCart();
                 updateTotalPricePayment();
+                
             }
 
             // Function handle event click button pay
@@ -610,7 +629,8 @@
                 let vOrderList = getOrderData();
                 let vOrderData = {
                     orderProducts: vOrderList
-                }
+                };
+                console.log(vOrderData);
 
                 $.ajax({
                     url: BASE_URL + "/orders/",
@@ -625,7 +645,7 @@
                     error: function (error) {
                         console.error("Error loading products:", error);
                     }
-                })
+                });
             }
 
             // VÙNG 4: VÙNG VIẾT CÁC HÀM DÙNG CHUNG
@@ -665,7 +685,7 @@
                             </div>
                         </div>
                         </div>
-                    </div>`
+                    </div>`;
 
                     vCartRegion.append(productCard);
                 });
@@ -911,6 +931,20 @@
                 });
                 return vOrderList;
             }
+            
+            // Hàm gọi APi để lấy next ordercode
+            function callApiToGetNextOrderCode() {
+                $.ajax({
+                    url: BASE_URL + "/orders/next-order-code",
+                    method: "GET",
+                    success: function(response) {
+                        $("#order-code").html("#" + response);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            };
         });
     </script>
 </body>

@@ -10,7 +10,6 @@
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
     <head>
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -75,7 +74,7 @@
 
     <div class="wrap-order-button" style="display: flex; justify-content: center;">
         <div class="order-button">
-            <a href="order" style="text-decoration: none;">Đặt hàng</a>
+            <a href="order.jsp" style="text-decoration: none;">Đặt hàng</a>
         </div>
     </div>
     <div class="wrap-nav">
@@ -87,7 +86,7 @@
         </div>
 
         <div class="nav-item">
-            <a href="processing">
+            <a href="processing.jsp">
                 <i class="bi bi-cart"></i>
                 Đơn hàng
             </a>
@@ -95,13 +94,13 @@
         </div>
 
         <div class="nav-item">
-            <a href="report">
+            <a href="report.jsp">
                 <i class="bi bi-bar-chart"></i>
                 Báo cáo
             </a>
         </div>
         <div class="nav-item">
-            <a href="account">
+            <a href="account.jsp">
                 <i class="bi bi-people"></i>
                 Tai Khoản
             </a>

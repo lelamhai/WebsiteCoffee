@@ -278,7 +278,7 @@
     <div class="container-fluid py-3">
         <!-- Header -->
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <a href="menu" class="back-button">
+            <a href="menu.jsp" class="back-button">
                 <i class="bi bi-arrow-left me-2"></i>
                 <span class="fw-medium">Đặt hàng</span>
             </a>
@@ -316,7 +316,7 @@
                         style="border-radius: 20px;">
                 </div>
                 <!--button bi bi-cart-->
-                <a class="btn-cart btn btn-outline-secondary" href="orderpick"
+                <a class="btn-cart btn btn-outline-secondary" href="#"
                     style="border-radius: 50%; width: 40px; height: 40px;">
                     <i class="bi bi-cart"></i>
                 </a>
