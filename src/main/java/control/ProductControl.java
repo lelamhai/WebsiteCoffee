@@ -84,7 +84,7 @@ public class ProductControl extends HttpServlet {
                 keyword != null ? keyword : "");
             
             String apiUrl = root + query;
-            String jsonString = sendPostRequest1(apiUrl, request, response);
+            String jsonString = sendPostRequest(apiUrl, request, response);
             
             Gson gson = new Gson();
             ProductResponse model = gson.fromJson(jsonString, models.ProductResponse.class);
@@ -154,35 +154,6 @@ public class ProductControl extends HttpServlet {
     
     private String sendPostRequest(String apiUrl,HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            URL url = new URL(apiUrl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            
-            int responseCode = conn.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                String inputLine;
-                StringBuilder apiResponse = new StringBuilder();
-                
-                while ((inputLine = in.readLine()) != null) {
-                    apiResponse.append(inputLine);
-                }
-                in.close();
-                
-                return apiResponse.toString();
-               
-            } else {
-                response.getWriter().write("API call failed with code: " + responseCode);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "Lỗi";
-    }
-    
-    
-    private String sendPostRequest1(String apiUrl,HttpServletRequest request, HttpServletResponse response) throws IOException {
-         try {
             URL url = new URL(apiUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -292,6 +263,7 @@ public class ProductControl extends HttpServlet {
         Gson gsonString = new GsonBuilder().setPrettyPrinting().create();
         String jsonData = gsonString.toJson(model);
         
+       
         String API_ENDPOINT = "http://localhost:8080/products/";
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();

@@ -143,13 +143,12 @@
           <div class="mb-2">
               <h1 class="h4" style="font-weight: 600">Danh sách</h1>
           </div>
+          <!--<div>${Message}</div>-->
           <div class="d-flex gap-2 flex-wrap">
-              <!--<form action="product"  method="GET">-->
                   <div class="search-container mb-2">
                       <i class="bi bi-search"></i>
                       <input type="text" value="${search}" name="search" class="form-control search-input" placeholder="Tìm kiếm">
                   </div>
-              <!--</form>-->
 
                   <button class="btn btn-outline-secondary mb-2" hidden>
                   Xuất dữ liệu
