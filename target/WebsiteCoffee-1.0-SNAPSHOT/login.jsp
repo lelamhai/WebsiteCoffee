@@ -31,23 +31,20 @@
     <body>
         <div class="container py-5">
             <div class="row justify-content-center align-items-center">
-                <div class="col-lg-8">
+                <div class="col-lg-1">
+                    
+                </div>
+                <div class="col-lg-6">
                     <div class="mb-4">
                         <h1 class="fw-bold fs-2">👋 Mừng bạn đến với Hệ Thống Quản trị viên!</h1>
-                        <p class="text-muted">
-                            Bạn chưa có tài khoản? 
-                            <a href="./register.jsp" class="create-account">Tạo tài khoản</a>
-                        </p>
                     </div>
 
-                    <div class="mt-5">
+                    <div class="mt-5"  style="width: 400px;">
                         <form action="login" method="post">
-                            <!-- Trường nhập tên đang nhập -->
                             <div class="mb-4">
                                 <input type="text" name ="username" class="form-control form-control-lg" placeholder="Tên đăng nhập">
                             </div>
 
-                            <!-- Trường nhập mật khẩu -->
                             <div class="mb-4 password-container-liem">
                                 <input type="text" name ="password" class="form-control form-control-lg" id="password" placeholder="Mật Khẩu">
                                 <span class="toggle-visibility-liem" onclick="toggleVisibilitylogin('password', this)">🚫</span>
@@ -64,6 +61,9 @@
                 </div>
                 <div class="col-lg-3 text-center illustration">
                     <img src="imgs/Cover.png" alt="CMS Illustration" class="img-fluid">
+                </div>
+                <div class="col-lg-1">
+                    
                 </div>
             </div>
         </div>
