@@ -111,7 +111,12 @@
             border: 1px solid #dee2e6;
             color: #212529;
         }
-
+        
+        .d-grid .btn-pay:hover {
+            background-color: #0d6efd;
+            color: white;
+        }
+        
         .btn-pay {
             background-color: #0d6efd;
             color: white;
@@ -304,7 +309,7 @@
 
         <div class="row">
             <!-- Product List -->
-            <div id="cart-region" class="col-md-8">
+            <div id="cart-region" class="col-md-8" style="background-color: #fff">
                 <!-- Product 1 -->
                 <div class="product-card">
                     <div class="row">
@@ -386,9 +391,9 @@
                         <span class="total-price">10.000đ</span>
                     </div>
 
-                    <div class="d-grid gap-2">
-                        <button id="btn-pay" class="btn btn-pay">Thanh toán</button>
-                        <button id="btn-cancel-order" class="btn btn-cancel">Huỷ</button>
+                    <div class="d-grid gap-2" style="display: flex !important;justify-content: center;align-items: center;">
+                        <button id="btn-cancel-order" class="btn btn-cancel" style="width: 20%">Huỷ</button>
+                        <button id="btn-pay" class="btn btn-pay" style="width: 80%">Thanh toán</button>
                     </div>
                 </div>
             </div>
@@ -540,7 +545,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-              <p>Bạn có chắc chắn muốn xóa <span id="span-delete-item" style="font-weight: bold;"></span><b id="ProductNameJquery"></b> không?</p>
+              <p>Bạn có chắc chắn muốn xóa món nước <span id="span-delete-item" style="font-weight: bold;"></span><b id="ProductNameJquery"></b> ra khỏi đơn hàng không?</p>
           </div>
           <div class="modal-footer" style="border: 0">
             <button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Hủy</button>
