@@ -40,20 +40,18 @@
                     </div>
 
                     <div class="mt-5"  style="width: 400px;">
-                        <form action="login" method="post">
                             <div class="mb-4">
-                                <input type="text" name ="username" class="form-control form-control-lg" placeholder="Tên đăng nhập">
+                                <input id="input-username" type="text" name ="username" class="form-control form-control-lg" placeholder="Tên đăng nhập">
                             </div>
 
                             <div class="mb-4 password-container-liem">
-                                <input type="password" name ="password" class="form-control form-control-lg" id="password" placeholder="Mật Khẩu">
+                                <input type="password" name ="password" class="form-control form-control-lg" id="input-password" placeholder="Mật Khẩu">
                                 <span class="toggle-visibility-liem" onclick="toggleVisibilitylogin('password', this)">👁️</span>
                             </div>
 
-                            <button class="btn btn-primary w-100 btn-continue rounded-pill">
+                            <button id="btn-login" class="btn btn-primary w-100 btn-continue rounded-pill">
                                 Tiếp tục
                             </button>
-                        </form>
                     </div>
                 </div>
                 <div class="col-lg-1 text-center illustration">
@@ -70,18 +68,76 @@
 
         <!-- Bootstrap 5 JS Bundle with Popper -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
-            function toggleVisibilitylogin(fieldId, icon) {
-                let inputField = document.getElementById(fieldId);
-                if (inputField.type === "password") {
-                    inputField.type = "text";
-                    icon.innerHTML = "🚫"; // Đổi sang trạng thái hiển thị
-                } else {
-                    inputField.type = "password";
-                icon.innerHTML = "👁"; // Đổi sang trạng thái ẩn
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="js/action.js"></script>
+    <script>
+        $(document).ready(function () {
+            // VÙNG 1: VÙNG KHAI BÁO BIẾN TOÀN CỤC
+            const gBASE_URL = 'http://localhost:8080';
+            // VÙNG 2: VÙNG GÁN VÀ THỰC THI SỰ KIỆN CHO CÁC ELEMENT
+            onPageLoading();
+
+            // Thực thi sự kiện nhấn nút đăng nhập
+            $("#btn-login").on("click", function (e) {
+                e.preventDefault();
+                onBtnLoginClick();
+            });
+
+            // VÙNG 3: VÙNG VIẾT CÁC HÀM XỬ LÝ SỰ KIỆN
+            function onPageLoading() {
+                navigateToCorrectPage();
+            }
+
+            // Hàm xử lý sự kiện nhấn nút login
+            function onBtnLoginClick() {
+                let vLoginData = {
+                    username: $("#input-username").val().trim(),
+                    password: $("#input-password").val()
+                }
+
+                $.ajax({
+                    url: gBASE_URL + "/api/v1/users/login",
+                    method: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(vLoginData),
+                    success: function (response) {
+                        alert("Đăng nhập thành công!");
+                        responseHandler(response);
+                        window.location.href = "order";
+                    },
+                    error: function (error) {
+                        alert("Tên đăng nhập hoặc mật khẩu không chính xác vui lòng thử lại!");
+                    }
+                });
+            }
+
+            function navigateToCorrectPage() {
+                const token = getCookie("token"); // hoặc lấy từ localStorage nếu bạn dùng cái đó
+                if (token && isTokenValid(token)) {
+                    const role = getUserRoleFromToken(token);
+                        
+                    
+                    switch (role) {
+                        case "ADMIN":
+                            window.location.href = "product";
+                            break;
+                        case "STAFF":
+                            window.location.href = "order";
+                            break;
+                        case "MANAGER":
+                            window.location.href = "order";
+                            break;
+                        default:
+                            alert("Không xác định được quyền người dùng!");
+                            window.location.href = "login";
+                    }
                 }
             }
-        </script>
+
+
+        });
+    </script>
+
         
     </body>
 </html>
