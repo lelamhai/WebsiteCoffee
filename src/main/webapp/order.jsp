@@ -613,6 +613,7 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="js/action.js"></script>
 <script>
     $(document).ready(function () {
         // VÙNG 1: VÙNG KHAI BÁO BIẾN TOÀN CỤC
@@ -725,9 +726,13 @@
         // VÙNG 4: VÙNG VIẾT CÁC HÀM DÙNG CHUNG
 
         function callApiToGetDetailsProduct(productId) {
+            let vHeaders = {
+                    Authorization: "Token " + getCookie("token")
+            };
             $.ajax({
                 url: BASE_URL + "/products/" + productId + "/details",
                 method: "GET",
+                headers: vHeaders,
                 success: function (response) {
                     loadDetailProductToPopupOrder(response);
                 },
@@ -785,11 +790,14 @@
             currentCategoryId = categoryId;
 
             let vSearchValue = $("#input-search").val();
-
+            let vHeaders = {
+                    Authorization: "Token " + getCookie("token")
+            };
 
             $.ajax({
                 url: BASE_URL + "/categories/" + categoryId + "/products?page=" + gPage + "&size=" + gSize + "&keyword=" + vSearchValue,
                 method: "GET",
+                headers: vHeaders,
                 success: function (response) {
                     if (gPage === 1) {
                         $('#product-list').empty();
@@ -845,9 +853,13 @@
 
         // Hàm gọi API để load category vào thanh tag
         function callApiToLoadCategories() {
+            let vHeaders = {
+                    Authorization: "Token " + getCookie("token")
+            };
             $.ajax({
                 url: BASE_URL + "/categories/",
                 method: "GET",
+                headers: vHeaders,
                 success: function (data) {
                     loadResponseCategory(data);
 
@@ -946,6 +958,28 @@
 
             return product;
         }
+        
+        function navigateToCorrectPage() {
+            const token = getCookie("token");
+            if (token && isTokenValid(token)) {
+                const role = getUserRoleFromToken(token);
+                    
+                switch (role) {
+                    case "ADMIN":
+                        break;
+                    case "STAFF":
+                        break;
+                    case "MANAGER":
+                        break;
+                    default:
+                        alert("Không xác định được quyền người dùng!");
+                        window.location.href = "login";
+                    }
+                }
+                else {
+                    window.location.href = "login";
+                }
+            }
     });
 </script>
 

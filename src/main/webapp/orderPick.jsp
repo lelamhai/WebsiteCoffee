@@ -564,6 +564,7 @@
     <!-- Bootstrap 5 JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/action.js"></script>
     <!-- Custom JavaScript -->
     <script>
         $(document).ready(function () {
@@ -648,6 +649,7 @@
 
             // VÙNG 3: VÙNG VIẾT CÁC HÀM XỬ LÝ SỰ KIỆN
             function onPageLoading() {
+                navigateToCorrectPage();
                 let cart = JSON.parse(localStorage.getItem('cart')) || [];
                 if(cart.length == 0) {
                     window.location.href = "order";
@@ -664,11 +666,13 @@
                 let vOrderData = {
                     orderProducts: vOrderList
                 };
-                console.log(vOrderData);
-
+                let vHeaders = {
+                    Authorization: "Token " + getCookie("token")
+                };
                 $.ajax({
                     url: BASE_URL + "/orders/",
                     method: "POST",
+                    headers: vHeaders,
                     contentType: "application/json",
                     data: JSON.stringify(vOrderData),
                     success: function(response) {
@@ -795,9 +799,14 @@
 
             // Call Api to get product data by variantID
             function callApiToGetDetailsProduct(variantId) {
+                let vHeaders = {
+                    Authorization: "Token " + getCookie("token")
+                };
+                
                 $.ajax({
                     url: BASE_URL + "/products/findby?variantId=" + variantId,
                     method: "GET",
+                    headers: vHeaders,
                     success: function (response) {
                         loadDetailProductToPopupUpdate(response);
                     },
@@ -947,7 +956,6 @@
             // Function get order data
             function getOrderData() {
                 let cart = JSON.parse(localStorage.getItem('cart')) || [];
-                console.log(cart);
                 if (cart.length == 0) {
                     return null;
                 }
@@ -978,7 +986,29 @@
                         console.log(error);
                     }
                 });
-            };
+            }
+            
+            function navigateToCorrectPage() {
+                const token = getCookie("token");
+                if (token && isTokenValid(token)) {
+                    const role = getUserRoleFromToken(token);
+                    
+                    switch (role) {
+                        case "ADMIN":
+                            break;
+                        case "STAFF":
+                            break;
+                        case "MANAGER":
+                            break;
+                        default:
+                            alert("Không xác định được quyền người dùng!");
+                            window.location.href = "login";
+                    }
+                }
+                else {
+                    window.location.href = "login";
+                }
+            }
         });
     </script>
 </body>

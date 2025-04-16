@@ -198,8 +198,9 @@
                     <thead class="table-header">
                         <tr>
                             <th style="width:10%">ID</th>
-                            <th style="width:40%">Tên món</th>
-                            <th style="width:20%">Ngày giờ tạo</th>
+                            <th style="width:30%">Tên món</th>
+                            <th style="width:15%">Ngày giờ tạo</th>
+                            <th style="width:15%">Người tạo</th>
                             <th style="width:15%">Giá</th>
                             <th style="width:15%">Trạng thái</th>
                         </tr>
@@ -209,6 +210,7 @@
                             <td>ID</td>
                             <td>Tên món</td>
                             <td>ngày giờ tạo</td>
+                            <td>người tạo</td>
                             <td>Giá</td>
                             <td>Trạng thái</td>
                         </tr>
@@ -574,7 +576,7 @@
     <!-- Bootstrap 5 JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <script src="js/action.js"></script>
     <!-- Custom JavaScript -->
     <script>
         // Mobile menu toggle
@@ -629,16 +631,20 @@
             // VÙNG 3: VÙNG VIẾT CÁC HÀM XỬ LÝ SỰ KIỆN
             // Hàm xử lý sự kiện tải trang
             function onPageLoading() {
+                navigateToCorrectPage();
                 callApiToLoadListOrders("");
             }
             // VÙNG 4: VÙNG VIẾT CÁC HÀM DÙNG CHUNG
 
             // Hàm gọi API trả ra danh sách đơn hàng
             function callApiToLoadListOrders(keyword) {
-
+                let vHeaders = {
+                    Authorization: "Token " + getCookie("token")
+                };
                 $.ajax({
                     url: gBASE_URL + "/orders/?keyword=" + keyword + "&page=" + gPage + "&size=" + gSize,
                     method: "GET",
+                    headers: vHeaders,
                     success: function (response) {
                         loadListOrdersToPage(response);
                         console.log(response);
@@ -646,6 +652,7 @@
                     error: function (error) {
                         console.error("Error loading products:", error);
                     }
+                    
                 });
             }
 
@@ -686,6 +693,7 @@
                     <td>`+ order.orderCode + `</td>
                     <td>`+ tenMonHtml + `</td>
                     <td>`+ order.timeCreated + `</td>
+                    <td>`+ order.createdBy + `</td>
                     <td>`+ formattedTotalPrice + `đ</td>
                     <td>`+ mapStatus(order.status) + `</td>
                 </tr>`;
@@ -734,6 +742,29 @@
                     $("#btn-next-page").prop("disabled", true);
                 } else {
                     $("#btn-next-page").prop("disabled", false);
+                }
+            }
+            
+            function navigateToCorrectPage() {
+                const token = getCookie("token"); console.log(token);
+                if (token && isTokenValid(token)) {
+                    const role = getUserRoleFromToken(token);
+                    
+                    console.log(role);
+                    switch (role) {
+                        case "ADMIN":
+                            break;
+                        case "STAFF":
+                            break;
+                        case "MANAGER":
+                            break;
+                        default:
+                            alert("Không xác định được quyền người dùng!");
+                            window.location.href = "login";
+                    }
+                }
+                else {
+                    window.location.href = "login";
                 }
             }
 
