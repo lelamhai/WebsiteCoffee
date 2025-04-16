@@ -286,13 +286,15 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <input type="text" placeholder="Tên đăng nhập" name="productName" class="form-control"
-                                id="input-username-create" value="">
+                                id="input-username-create" value="" autocomplete="off">
+                            <small id="username-error" style="color: red; display: none;"></small>
                         </div>
                         <div class="mb-3">
                             <label for="size" class="form-label">Mật khẩu</label>
                             <div class="input-group">
-                                <input type="password" name="productPrice" class="form-control" id="input-password-create"
-                                    value="" style="width: 100%">
+                                <input type="password" placeholder="Mật khẩu" class="form-control" id="input-password-create"
+                                    value="" style="width: 100%" autocomplete="new-password">
+                                <small id="password-error" style="color: red; display: none;"></small>
                             </div>
                         </div>
                         <div class="mb-3">
@@ -341,7 +343,8 @@
                             <label for="size" class="form-label">Mật khẩu</label>
                             <div class="input-group">
                                 <input type="password" name="productPrice" class="form-control" id="input-password-update"
-                                    value="" style="width: 100%">
+                                    value="" style="width: 100%" autocomplete="off">
+                                <small id="password-error-update" style="color: red; display: none;"></small>
                             </div>
                         </div>
                         <div class="mb-3">
@@ -354,7 +357,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" id="btn-update-user" class="btn btn-secondary" data-bs-dismiss="modal"
+                        <button type="submit" id="btn-update-user" class="btn btn-secondary"
                             style="background-color: #1F75FF">Cập nhật</button>
                     </div>
             </div>
@@ -366,6 +369,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="js/action.js"></script>
 
     <!-- Custom JavaScript -->
     <script>
@@ -418,7 +422,7 @@
                 callApiToGetListUser(vKeyword);
             });
 
-
+            
             //Thực thi sự kiện nhấn nút tạo tài khoản
             $("#btn-create-user").on("click", function() {
                 callApiToCreateUser();
@@ -447,13 +451,19 @@
 
             // VÙNG 3: VÙNG VIẾT CÁC HÀM XỬ LÝ SỰ KIỆN
             function onPageLoading() {
+                resetFormCreateAccount();
+                navigateToCorrectPage();
                 callApiToGetListUser("");
             }
 
             function onBtnConfirmDeleteClick() {
+                let vHeaders = {
+                    Authorization: "Token " + getCookie("token")
+                };
                 $.ajax({
                     url: gBASE_URL + "/users/" + gUsername,
                     method: "DELETE",
+                    headers: vHeaders,
                     success: function(response) {
                         $("#modal-delete").modal("hide");
                         let vKeyword = $("#input-search").val();
@@ -467,9 +477,13 @@
 
             // VÙNG 4: VÙNG VIẾT CÁC HÀM DÙNG CHUNG
             function callApiToGetListUser(keyword) {
+                let vHeaders = {
+                    Authorization: "Token " + getCookie("token")
+                };
                 $.ajax({
                     url: gBASE_URL + "/users/?keyword=" + keyword + "&page=" + gPage + "&size=" + gSize,
                     method: "GET",
+                    headers: vHeaders,
                     success: function(response) {
                         loadUserDataToTable(response);
                     },
@@ -481,18 +495,23 @@
 
             // Hàm call Api để tạo mới user
             function callApiToCreateUser() {
+                let vHeaders = {
+                    Authorization: "Token " + getCookie("token")
+                };
                 let vUserCreateData = getUserCreateData();
+                
+                if(!validateFormCreateAccount(vUserCreateData)) {
+                    return;
+                }
                 $.ajax({
                     url: gBASE_URL + "/users/",
                     method: "POST",
-                    headers: {
-                        "Authorization": "Token eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NDQ2ODg0MTAsInVzZXIiOnsicGFzc3dvcmQiOiIkMmEkMTAkeEdZVzVtdEcuaTQyTTc0THFESjN4T3QwXC9BdlZkRzNFSDJPVWg4OFoxSDdOaFl3ZVFsSHphIiwicm9sZSI6IkFETUlOIiwiZGVsZXRlZCI6ZmFsc2UsInVzZXJJZCI6MzAsImVtYWlsIjpudWxsLCJ1c2VybmFtZSI6Imtob2F2ZDIifX0.p0RBBtRSNaEQG2fUyTb04MM6ExfCSyGxlb7jI_OD_cI" 
-                    },
+                    headers: vHeaders,
                     contentType: "application/json",
                     data: JSON.stringify(vUserCreateData),
                     success: function(response) {
-                        console.log(response);
-                        $("#modal-create").modal("hide");
+                        $("#create-modal").modal("hide");
+                        resetFormCreateAccount();
                         callApiToGetListUser("");
                     },
                     error: function(error) {
@@ -511,7 +530,6 @@
                 }
                 let vStartNum = (responseUserData.pageNumber - 1) * 10 + 1; 
                 vTBody.empty();
-                console.log(responseUserData);
                 $.each(responseUserData.contents, function(index, user) {
                     let vRow = `<tr>
                             <td>`+ (vStartNum++) +`</td>
@@ -540,7 +558,6 @@
             
             // Hàm hiển thị phân trang
             function displayPagination(responseUserData) {
-                console.log(responseUserData);
                 let vPageDisplay = $("#page-display");
                 let vStartNum = (responseUserData.pageNumber - 1) * responseUserData.pageSize + 1;
                 let vEndNum = vStartNum + responseUserData.numberOfElements - 1;
@@ -553,7 +570,6 @@
                     $("#btn-prev-page").prop("disabled", false);
                 }
 
-                console.log(responseUserData.totalPages);
                 if (gPage >= responseUserData.totalPages) {
                     $("#btn-next-page").prop("disabled", true);
                 } else {
@@ -572,7 +588,7 @@
                     username: $("#input-username-create").val().trim(),
                     password: $("#input-password-create").val(),
                     role: $("#select-role-create").val()
-                }
+                };
                 return vUserCreateData;
             }
 
@@ -611,9 +627,17 @@
             // Function confirm update data
             function onBtnConfirmUpdateUserClick() {
                 let vUserDataUpdate = getUserDataToUpdate();
+                
+                if(!validatePasswordAndShowError(vUserDataUpdate.password)) {
+                    return;
+                }
+                let vHeaders = {
+                    Authorization: "Token " + getCookie("token")
+                };
                 $.ajax({
                     url: gBASE_URL + "/users/",
                     method: "PUT",
+                    headers: vHeaders,
                     contentType: "application/json",
                     data: JSON.stringify(vUserDataUpdate),
                     success: function(response) {
@@ -627,7 +651,105 @@
                 });
             }
 
+            function navigateToCorrectPage() {
+                const token = getCookie("token"); 
+                if (token && isTokenValid(token)) {
+                    const role = getUserRoleFromToken(token);
+                        
+                    
+                    switch (role) {
+                        case "ADMIN":
+                            break;
+                        case "STAFF":
+                            window.location.href = "order";
+                            break;
+                        case "MANAGER":
+                            window.location.href = "processing";
+                            break;
+                        default:
+                            alert("Không xác định được quyền người dùng!");
+                            window.location.href = "login";
+                    }
+                }
+            }
             
+            function resetFormCreateAccount() {
+                $("#input-username-create").val("");
+                $("#input-password-create").val("");
+                $("#select-role-create").val("STAFF");
+            }
+        
+              function validateFormCreateAccount(userAccountData) {
+                let isValid = true;
+
+                // Validate username
+                const usernamePattern = /^[a-z0-9]{5,}$/;
+                if (!usernamePattern.test(userAccountData.username)) {
+                  $("#username-error")
+                    .text("Tên đăng nhập phải có ít nhất 5 ký tự, chỉ gồm chữ thường và số.")
+                    .show();
+                  isValid = false;
+                } else {
+                  $("#username-error").hide();
+                }
+
+                // Validate password
+                const minLength = /.{8,}/;
+                const hasLowerCase = /[a-z]/;
+                const hasUpperCase = /[A-Z]/;
+                const hasNumber = /[0-9]/;
+
+                let passwordError = "";
+                if (!minLength.test(userAccountData.password)) {
+                  passwordError = "Mật khẩu phải có ít nhất 8 ký tự.";
+                } else if (!hasLowerCase.test(userAccountData.password)) {
+                  passwordError = "Mật khẩu phải có ít nhất một chữ thường.";
+                } else if (!hasUpperCase.test(userAccountData.password)) {
+                  passwordError = "Mật khẩu phải có ít nhất một chữ in hoa.";
+                } else if (!hasNumber.test(userAccountData.password)) {
+                  passwordError = "Mật khẩu phải có ít nhất một chữ số.";
+                }
+
+                if (passwordError !== "") {
+                  $("#password-error").text(passwordError).show();
+                  isValid = false;
+                } else {
+                  $("#password-error").hide();
+                }
+
+                return isValid;
+              }
+              
+            function validatePasswordAndShowError(password) {
+                if(password.trim() == "") return true;
+                const $errorEl = $("#password-error-update");
+
+                const minLength = /.{8,}/;
+                const hasLowerCase = /[a-z]/;
+                const hasUpperCase = /[A-Z]/;
+                const hasNumber = /[0-9]/;
+
+                let error = "";
+
+                if (!minLength.test(password)) {
+                    error = "Mật khẩu phải có ít nhất 8 ký tự.";
+                } else if (!hasLowerCase.test(password)) {
+                    error = "Mật khẩu phải có ít nhất một chữ thường.";
+                } else if (!hasUpperCase.test(password)) {
+                    error = "Mật khẩu phải có ít nhất một chữ in hoa.";
+                } else if (!hasNumber.test(password)) {
+                    error = "Mật khẩu phải có ít nhất một chữ số.";
+                }
+
+                if (error !== "") {
+                    $errorEl.text(error).show();
+                    return false;
+                } else {
+                    $errorEl.text("").hide();
+                    return true;
+                }
+            }
+
         });
     </script>
 

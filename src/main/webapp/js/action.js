@@ -35,22 +35,44 @@ function getCookie(cname) {
 
 function getUserRoleFromToken(token) {
   try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.user.role || "CLIENT"; // fallback là USER nếu không có role
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.user.role || "CLIENT"; // fallback là USER nếu không có role
   } catch (e) {
-      console.error("Không lấy được role từ token:", e);
-      return "CLIENT";
+    console.error("Không lấy được role từ token:", e);
+    return "CLIENT";
   }
 }
 
 function isTokenValid(token) {
   try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      const now = Math.floor(Date.now() / 1000);
-      return payload.exp && payload.exp > now;
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const now = Math.floor(Date.now() / 1000);
+    return payload.exp && payload.exp > now;
   } catch (e) {
-      console.error("Token không hợp lệ:", e);
-      return false;
+    console.error("Token không hợp lệ:", e);
+    return false;
   }
+}
+
+function validatePassword(password) {
+  const minLength = /.{8,}/;
+  const hasLowerCase = /[a-z]/;
+  const hasUpperCase = /[A-Z]/;
+  const hasNumber = /[0-9]/;
+
+  if (!minLength.test(password)) {
+    return "Mật khẩu phải có ít nhất 8 ký tự.";
+  }
+  if (!hasLowerCase.test(password)) {
+    return "Mật khẩu phải có ít nhất một chữ thường.";
+  }
+  if (!hasUpperCase.test(password)) {
+    return "Mật khẩu phải có ít nhất một chữ in hoa.";
+  }
+  if (!hasNumber.test(password)) {
+    return "Mật khẩu phải có ít nhất một chữ số.";
+  }
+
+  return ""; // ✅ Trả về chuỗi rỗng nếu hợp lệ
 }
 
