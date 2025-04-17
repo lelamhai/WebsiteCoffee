@@ -691,7 +691,7 @@
                          var available = response.isAvailable? "Còn":"Hết";
                          $('.detail-title').html(title);
                          $('.detail-categoryName').html(response.categoryName);
-                         $('.detail-baseprice').html(response.basePrice);
+                         $('.detail-baseprice').html(formatMoney(response.basePrice) + " đ");
                          $('.detail-available').html(available);
                          
                          var type = "";
