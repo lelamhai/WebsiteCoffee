@@ -128,7 +128,7 @@
         <span class="fw-medium">Sản Phẩm</span>
         
         
-        <!--<button onclick="showToast()">Hiển thị Toast</button>-->
+        <button onclick="showToast()">Hiển thị Toast</button>
         
         
         
