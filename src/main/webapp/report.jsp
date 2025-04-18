@@ -388,8 +388,8 @@
             const formatCurrency = value => value.toLocaleString('vi-VN');
 
             $("#total-order-quantity").text(formatCurrency(reportData.totalOrderQuantity));
-            $("#revenue").text(formatCurrency(reportData.revenue) + `đ`);
-            $("#profit").text(formatCurrency(reportData.profit) + `đ`);
+            $("#revenue").text(formatCurrency(Math.round(reportData.revenue)) + `đ`);
+            $("#profit").text(formatCurrency(Math.round(reportData.profit)) + `đ`);
             $("#avg-price").text(formatCurrency(Math.round(reportData.avgOrderValue)) + `đ`);
         }
 

@@ -350,20 +350,6 @@
     <div class="container-fluid py-3">
         <div class="wrap-orderpick">
             <!-- Pagination Info -->
-            <div class="d-flex align-items-center mb-3 gap-2" style="justify-content: flex-end;">
-                <div class="page-info">1 - 2 trong số 10</div>
-                <div class="d-flex gap-2 align-items-center" ">
-                    <input class="page-previous" value="${PagePrevious}" name="page" hidden/>
-                    <button class="btn btn-sm btn-light">
-                        <i class="bi bi-chevron-left"></i>
-                    </button>
-                    <input  class="page-next" value="${PageNext}" name="page" hidden/>
-                    <button class="btn btn-sm btn-light">
-                        <i class="bi bi-chevron-right"></i>
-                    </button>
-
-                </div>
-            </div>
 
             <!-- Product Grid -->
             <div id="product-list" class="row g-4">
@@ -620,7 +606,7 @@
         // VÙNG 1: VÙNG KHAI BÁO BIẾN TOÀN CỤC
         const BASE_URL = "http://localhost:8080";
         let gPage = 1;
-        let gSize = 8;
+        let gSize = 12;
         let gTotalPage = null;
         let gIsLoading = false;
         let currentCategoryId = null;
@@ -680,6 +666,11 @@
                 callAPIToloadProductByCategory(currentCategoryId);
             }, 400); // chờ 400ms sau khi ngừng gõ
         });
+        
+        $("#input-search").on("click", function () {
+            $(this).val("");
+        });
+
 
         $(".btn-cart").on("click", function () {
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
