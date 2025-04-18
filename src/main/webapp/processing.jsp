@@ -85,14 +85,14 @@
         </div>
         <div class="wrap-nav">
             <div class="nav-item ">
-                <a href="menu.jsp">
+                <a href="product">
                     <i class="bi bi-cup-straw"></i>
                     Sản phẩm
                 </a>
             </div>
 
             <div class="nav-item active">
-                <a href="processing.jsp">
+                <a href="#">
                     <i class="bi bi-cart"></i>
                     Đơn hàng
                 </a>
@@ -100,13 +100,13 @@
             </div>
 
             <div class="nav-item">
-                <a href="report.jsp">
+                <a href="report">
                     <i class="bi bi-bar-chart"></i>
                     Báo cáo
                 </a>
             </div>
             <div class="nav-item">
-                <a href="account.jsp">
+                <a href="account">
                     <i class="bi bi-people"></i>
                     Tai Khoản
                 </a>
@@ -647,7 +647,6 @@
                     headers: vHeaders,
                     success: function (response) {
                         loadListOrdersToPage(response);
-                        console.log(response);
                     },
                     error: function (error) {
                         console.error("Error loading products:", error);
@@ -724,7 +723,6 @@
             }
 
             function displayPagination(responseOrderData) {
-                console.log(responseOrderData);
                 let vPageDisplay = $("#page-display");
                 let vStartNum = (responseOrderData.pageNumber - 1) * responseOrderData.pageSize + 1;
                 let vEndNum = vStartNum + responseOrderData.numberOfElements - 1;
@@ -737,7 +735,6 @@
                     $("#btn-prev-page").prop("disabled", false);
                 }
 
-                console.log(responseOrderData.totalPages);
                 if (gPage >= responseOrderData.totalPages) {
                     $("#btn-next-page").prop("disabled", true);
                 } else {
@@ -746,11 +743,10 @@
             }
             
             function navigateToCorrectPage() {
-                const token = getCookie("token"); console.log(token);
+                const token = getCookie("token");
                 if (token && isTokenValid(token)) {
                     const role = getUserRoleFromToken(token);
                     
-                    console.log(role);
                     switch (role) {
                         case "ADMIN":
                             break;

@@ -736,8 +736,11 @@
                 success: function (response) {
                     loadDetailProductToPopupOrder(response);
                 },
-                error: function (error) {
+                error: function (xhr, status, error) {
                     console.error("Error loading products:", error);
+                    if (xhr.status === 403) {
+                        window.location.href = "login";
+                    }
                 }
             });
         }
@@ -760,7 +763,7 @@
                                 <input variant-id="`+ size.variantId + `" type="radio" name="size" value="` + size.sizeName + `" class="size me-2" ` + checked + `/>
                                 <label for="size`+ size.sizeName + `" class="me-2">` + size.sizeName + `</label>
                                 <span class="size-price" data-size="`+ size.sizeName + `">` + price + `</span>
-                            </div>`
+                            </div>`;
                 vSizeContainer.append(vSize);
             });
 
@@ -810,9 +813,12 @@
                     }
                     gIsLoading = false;
                 },
-                error: function (error) {
+                error: function (xhr, status, error) {
                     console.error("Error loading products:", error);
                     gIsLoading = false;
+                    if (xhr.status === 403) {
+                        window.location.href = "login";
+                    }
                 }
             });
         }
@@ -864,10 +870,13 @@
                     loadResponseCategory(data);
 
                 },
-                error: function () {
+                error: function (xhr, status, error) {
                     console.error("Không thể tải danh sách danh mục!");
+                    if (xhr.status === 403) {
+                        window.location.href = "login";
+                    }
                 }
-            })
+            });
         }
 
         function loadResponseCategory(response) {
