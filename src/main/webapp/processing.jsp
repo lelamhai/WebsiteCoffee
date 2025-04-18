@@ -68,6 +68,52 @@
             top: -10px;
             right: 0;
         }
+        .select-container {
+      position: relative;
+    }
+    
+    .custom-select {
+      width: 100%;
+      padding: 6px 10px;
+      font-size: 16px;
+      border: 1px solid #e0e0e0;
+      border-radius: 25px;
+      appearance: none;
+      background-color: white;
+      cursor: pointer;
+      text-align: center;
+      outline: none;
+      transition: color 0.3s;
+    }
+    
+    .select-arrow {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+    
+    .arrow-path {
+      transition: stroke 0.3s;
+    }
+    
+    /* Colored options in dropdown */
+    option[value="received"] {
+      color: #000000;
+    }
+    
+    option[value="processing"] {
+      color: #0066FF;
+    }
+    
+    option[value="completed"] {
+      color: #00A651;
+    }
+    
+    option[value="cancelled"] {
+      color: #FF0000;
+    }
     </style>
 </head>
 
@@ -109,13 +155,6 @@
                 <a href="account">
                     <i class="bi bi-people"></i>
                     Tai Khoản
-                </a>
-            </div>
-
-            <div class="nav-item">
-                <a href="#">
-                    <i class="bi bi-box"></i>
-                    Nguyên liệu
                 </a>
             </div>
         </div>
@@ -202,7 +241,7 @@
                             <th style="width:15%">Ngày giờ tạo</th>
                             <th style="width:15%">Người tạo</th>
                             <th style="width:15%">Giá</th>
-                            <th style="width:15%">Trạng thái</th>
+                            <th style="width:15%; text-align: center; vertical-align: middle;">Trạng thái</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -313,7 +352,27 @@
             height: 46px;
         }
     </style>
-
+    <!--Modals delete-->
+    <div class="modal fade" id="modal-cancel" tabindex="-1" aria-labelledby="confirmationModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Xóa tài khoản</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn hủy đơn hàng này không? </p>
+                </div>
+                <div class="modal-footer" >
+                    
+                    <button id="btn-confirm-cancel" type="button" class="btn btn-confirm" style="background-color: #1F75FF; color: #fff;">Xác
+                        nhận</button>
+                    <button id="btn-hide-modal" type="button" class="btn btn-cancel me-2">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--Modals create-->
     <div class="modal fade right" id="create-modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
@@ -597,6 +656,7 @@
             let gPage = 1;
             let gSize = 10;
             let debounceTimer;
+            let gElementSelected = null;
 
             // VÙNG 2: VÙNG GÁN VÀ THỰC THI SỰ KIỆN CHO CÁC ELEMENT
             onPageLoading();
@@ -628,6 +688,26 @@
                 callApiToLoadListOrders(vKeyword);
             });
 
+            // Xử lý sự kiện thay đổi status của đơn hàng
+            $("#table-orders").on("change", ".status-select", function() {
+                gElementSelected = this;
+                onChangeOrderStatus(this); 
+            });
+            
+            // Xử lý sự kiện nhấn nút xác nhận hủy đơn hàng
+            $("#btn-confirm-cancel").on("click", function() {
+               let vRow = $(gElementSelected).closest('tr');
+               let orderCode = vRow.find('td:eq(0)').text();
+               callApiToChangeOrderStatus(orderCode, "cancelled"); 
+               $("#modal-cancel").modal("hide");
+            });
+            
+            // Xử lý sự kiện nhấn nút xác nhận hủy đơn hàng
+            $("#btn-hide-modal").on("click", function() {
+                let vKeyword = ($("#input-search").val() || "").trim();
+                callApiToLoadListOrders(vKeyword);
+                $("#modal-cancel").modal("hide");
+            });
             // VÙNG 3: VÙNG VIẾT CÁC HÀM XỬ LÝ SỰ KIỆN
             // Hàm xử lý sự kiện tải trang
             function onPageLoading() {
@@ -694,7 +774,7 @@
                     <td>`+ order.timeCreated + `</td>
                     <td>`+ order.createdBy + `</td>
                     <td>`+ formattedTotalPrice + `đ</td>
-                    <td>`+ mapStatus(order.status) + `</td>
+                    <td>`+ getHtmlForSelectStatus(order.status) + `</td>
                 </tr>`;
                     $tbody.append(vRow);
                 });
@@ -763,10 +843,83 @@
                     window.location.href = "login";
                 }
             }
+            
+            function getHtmlForSelectStatus(status) {
+            let vBeginTagSelect = `<div class="select-container">
+          <select class="custom-select status-select">`;
+            let vOptionTagSelect = "";
+            switch (status) {
+              case 'pending':
+                vOptionTagSelect = `
+                <option value="pending" data-color="#000000" selected>Đã tiếp nhận</option>
+                <option value="processing" data-color="#0066FF">Đang xử lý</option>
+                <option value="completed" data-color="#00A651">Hoàn tất</option>
+                <option value="cancelled" data-color="#FF0000">Huỷ</option>`;
+                break;
+              case 'processing':
+                vOptionTagSelect = `
+                <option value="pending" data-color="#000000">Đã tiếp nhận</option>
+                <option value="processing" data-color="#0066FF" selected>Đang xử lý</option>
+                <option value="completed" data-color="#00A651">Hoàn tất</option>`;
+                break;
+              case 'completed':
+                vOptionTagSelect = `<option value="completed" data-color="#00A651" selected>Hoàn tất</option>`;
+                break;
+              case 'cancelled':
+                vOptionTagSelect = `
+                <option value="cancelled" data-color="#FF0000" selected>Huỷ</option>`;
+                break;
+              default:
+                break;
+            }
+            let vEndTagSelect = `
+            </select>
+            <div class="select-arrow">
+            <svg width="12" height="6" viewBox="0 0 12 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path id="arrow-path" class="arrow-path" d="M1 1L6 5L11 1" stroke="#000000" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            </div>
+            </div>`;
 
+            return vBeginTagSelect + vOptionTagSelect + vEndTagSelect;
+          }
+
+
+           function onChangeOrderStatus(element) {
+               let vRow = $(element).closest('tr');
+               let orderCode = vRow.find('td:eq(0)').text();
+               let vNewStatus = $(element).val();
+               if(vNewStatus == 'cancelled') {
+                   $("#modal-cancel").modal("show");
+                   return;
+               }
+               callApiToChangeOrderStatus(orderCode, vNewStatus);
+           }
+           
+           
+           async function callApiToChangeOrderStatus(orderCode, newStatus) {
+               let vHeaders = {
+                    Authorization: "Token " + getCookie("token")
+                };
+               await $.ajax({
+                   url: gBASE_URL + "/orders/" + orderCode + "/?status=" + newStatus.toUpperCase(),
+                   method: "PATCH",
+                   headers: vHeaders,
+                   success: function(response) {
+                       alert("Thay đổi trạng thái đơn hàng thành công!");
+             
+                   },
+                   error: function(xhr, status, error) {
+                       console.log(error);
+                   }
+                   
+               });
+               let vKeyword = ($("#input-search").val() || "").trim();
+                callApiToLoadListOrders(vKeyword);
+           }
         });
     </script>
-
 </body>
 
 </html>
