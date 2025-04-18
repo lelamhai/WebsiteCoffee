@@ -6,8 +6,8 @@ function responseHandler(data) {
   setCookie("token", data, 1);
   setTimeout(function () {
     // Navigate to index.html
-    window.location.href = "index.html";
-  }, 1000);
+    window.location.href = "order";
+  }, 1250);
 }
 
 //Hàm setCookie đã giới thiệu ở bài trước

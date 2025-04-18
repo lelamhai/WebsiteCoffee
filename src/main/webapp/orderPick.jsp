@@ -680,7 +680,7 @@
                         localStorage.clear();
                         setTimeout(function() {
                             window.location.href = "order";
-                        }, 2000);
+                        }, 1250);
                     },
                     error: function (error) {
                         showToast("Tạo đơn hàng thất bại, vui lòng thử lại!", "error");

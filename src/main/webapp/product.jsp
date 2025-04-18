@@ -80,40 +80,33 @@
         </div>
     </div>
     <div class="wrap-nav">
-        <div class="nav-item active">
-            <a href="product">
-                <i class="bi bi-cup-straw"></i>
-                Sản phẩm
-            </a>
-        </div>
+        <div class="nav-item nav-product active">
+                <a href="product">
+                    <i class="bi bi-cup-straw"></i>
+                    Sản phẩm
+                </a>
+            </div>
 
-        <div class="nav-item">
-            <a href="processing">
-                <i class="bi bi-cart"></i>
-                Đơn hàng
-            </a>
+            <div class="nav-item nav-order ">
+                <a href="processing">
+                    <i class="bi bi-cart"></i>
+                    Đơn hàng
+                </a>
 
-        </div>
+            </div>
 
-        <div class="nav-item">
-            <a href="report">
-                <i class="bi bi-bar-chart"></i>
-                Tài chính
-            </a>
-        </div>
-        <div class="nav-item">
-            <a href="account">
-                <i class="bi bi-people"></i>
-                Tài Khoản
-            </a>
-        </div>
-
-        <div class="nav-item">
-            <a href="#">
-                <i class="bi bi-box"></i>
-                Nguyên liệu
-            </a>
-        </div>
+            <div class="nav-item nav-report">
+                <a href="report">
+                    <i class="bi bi-bar-chart"></i>
+                    Báo cáo
+                </a>
+            </div>
+            <div class="nav-item nav-account" hidden>
+                <a href="account">
+                    <i class="bi bi-people"></i>
+                    Tài Khoản
+                </a>
+            </div>
     </div>
 </div>
     
@@ -604,6 +597,7 @@
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
   crossorigin="anonymous"></script>
+  <script src="js/action.js"></script>
   
   <!-- Custom JavaScript -->
   <script>
@@ -938,11 +932,39 @@
   </script>
   
   <script>
+      
   function showToast() {
     var toastEl = document.getElementById('myToast');
     var toast = new bootstrap.Toast(toastEl);
     toast.show();
   }
+          
+            function navigateToCorrectPage() {
+                const token = getCookie("token");
+                if (token && isTokenValid(token)) {
+                    const role = getUserRoleFromToken(token);
+                    
+                    switch (role) {
+                        case "ADMIN":
+                            $(".nav-account").attr("hidden", false);
+                            break;
+                        case "STAFF":
+                            window.location.href = "order";
+                            break;
+                        case "MANAGER":
+                            break;
+                        default:
+                            alert("Không xác định được quyền người dùng!");
+                            window.location.href = "login";
+                    }
+                }
+                else {
+                    window.location.href = "login";
+                }
+            }
+  $(document).ready(function() {
+      navigateToCorrectPage();
+  });
 </script>
 </body>
 </html>
