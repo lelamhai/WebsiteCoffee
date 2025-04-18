@@ -1,3 +1,5 @@
+const gBASE_URL = "http://localhost:8080";
+
 //Xử lý object trả về khi login thành công
 function responseHandler(data) {
   //Lưu token vào cookie trong 1 ngày
