@@ -65,7 +65,7 @@
                 </div>
             </div>
         </div>
-
+        <%@ include file="toast.jsp" %>
         <!-- Bootstrap 5 JS Bundle with Popper -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -101,12 +101,12 @@
                     contentType: "application/json",
                     data: JSON.stringify(vLoginData),
                     success: function (response) {
-                        alert("Đăng nhập thành công!");
+                        showToast("Đăng nhập thành công!", "success");
                         responseHandler(response);
                         window.location.href = "order";
                     },
                     error: function (error) {
-                        alert("Tên đăng nhập hoặc mật khẩu không chính xác vui lòng thử lại!");
+                        showToast("Tên đăng nhập hoặc mật khẩu sai!", "success");
                     }
                 });
             }
@@ -119,7 +119,7 @@
                     
                     switch (role) {
                         case "ADMIN":
-                            window.location.href = "product";
+                            window.location.href = "report";
                             break;
                         case "STAFF":
                             window.location.href = "order";

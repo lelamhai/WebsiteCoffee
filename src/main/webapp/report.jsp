@@ -92,14 +92,14 @@
             </div>
         </div>
         <div class="wrap-nav">
-            <div class="nav-item">
+            <div class="nav-item nav-product">
                 <a href="product">
                     <i class="bi bi-cup-straw"></i>
                     Sản phẩm
                 </a>
             </div>
 
-            <div class="nav-item">
+            <div class="nav-item nav-order">
                 <a href="processing">
                     <i class="bi bi-cart"></i>
                     Đơn hàng
@@ -107,13 +107,13 @@
 
             </div>
 
-            <div class="nav-item active">
+            <div class="nav-item active nav-report">
                 <a href="report">
                     <i class="bi bi-bar-chart"></i>
                     Báo cáo
                 </a>
             </div>
-            <div class="nav-item nav-account">
+            <div class="nav-item nav-account" hidden>
                 <a href="account">
                     <i class="bi bi-people"></i>
                     Tài Khoản
@@ -295,7 +295,6 @@
 
     <script>
         // VÙNG 1: KHAI BÁO BIẾN & CẤU HÌNH
-        const gBASE_URL = "http://localhost:8080";
         const REPORT_TYPE = {
             DAILY: 'daily',
             WEEKLY: 'weekly',
@@ -357,6 +356,10 @@
                 .then(updateStatistics)
                 .catch(error => {
                     console.error('Lỗi khi tải thống kê báo cáo:', error);
+                    if (error.status === 403) {
+                        deleteToken("token");
+                        window.location.href = "login";
+                    }
                 });
         }
 
@@ -373,7 +376,10 @@
             })
                 .then(updateChart)
                 .catch(error => {
-                    console.error('Lỗi khi tải dữ liệu biểu đồ:', error);
+                    if (error.status === 403) {
+                        deleteToken("token");
+                        window.location.href = "login";
+                    }
                 });
         }
 
@@ -444,12 +450,12 @@
                     
                     switch (role) {
                         case "ADMIN":
+                            $(".nav-account").attr("hidden", false);
                             break;
                         case "STAFF":
                             window.location.href = "order";
                             break;
                         case "MANAGER":
-                            $(".nav-account").attr("hidden", true);
                             break;
                         default:
                             alert("Không xác định được quyền người dùng!");
@@ -459,6 +465,10 @@
                 else {
                     window.location.href = "login";
                 }
+            }
+            
+            function deleteCookie(name) {
+                document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             }
     </script>
 

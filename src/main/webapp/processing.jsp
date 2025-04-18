@@ -14,7 +14,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>JSP Page</title>
-    <title>Danh sách Menu</title>
+    <title>Quản lý đơn hàng</title>
     <link rel="stylesheet" href="css/style_menu.css" />
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -130,31 +130,31 @@
             </div>
         </div>
         <div class="wrap-nav">
-            <div class="nav-item ">
+            <div class="nav-item nav-product" hidden>
                 <a href="product">
                     <i class="bi bi-cup-straw"></i>
                     Sản phẩm
                 </a>
             </div>
 
-            <div class="nav-item active">
-                <a href="#">
+            <div class="nav-item nav-order active">
+                <a href="processing">
                     <i class="bi bi-cart"></i>
                     Đơn hàng
                 </a>
 
             </div>
 
-            <div class="nav-item">
+            <div class="nav-item nav-report" hidden>
                 <a href="report">
                     <i class="bi bi-bar-chart"></i>
                     Báo cáo
                 </a>
             </div>
-            <div class="nav-item">
+            <div class="nav-item nav-account" hidden>
                 <a href="account">
                     <i class="bi bi-people"></i>
-                    Tai Khoản
+                    Tài Khoản
                 </a>
             </div>
         </div>
@@ -208,10 +208,6 @@
         <div class="content-area">
             <div class="d-flex justify-content-between mb-4 flex-wrap">
                 <div class="mb-2">
-                    <button class="btn btn-outline-secondary sort-button">
-                        Sắp xếp: Danh mục
-                        <span class="sort-icon"><img src="imgs/arrows-down.png" alt="alt" />️</span>
-                    </button>
                 </div>
 
                 <div class="d-flex gap-2 flex-wrap" style="align-items: center;">
@@ -630,8 +626,8 @@
             </div>
         </div>
     </div>
-
-
+                            
+    <%@ include file="toast.jsp" %>     
     <!-- Bootstrap 5 JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -652,7 +648,6 @@
     <script>
         $(document).ready(function () {
             // VÙNG 1: VÙNG KHAI BÁO BIẾN TOÀN CỤC
-            const gBASE_URL = "http://localhost:8080";
             let gPage = 1;
             let gSize = 10;
             let debounceTimer;
@@ -730,6 +725,10 @@
                     },
                     error: function (error) {
                         console.error("Error loading products:", error);
+                        if (error.status === 403) {
+                            deleteCookie("token");
+                            window.location.href = "login";
+                        }
                     }
                     
                 });
@@ -829,13 +828,18 @@
                     
                     switch (role) {
                         case "ADMIN":
+                            $(".nav-account").attr("hidden", false);
+                            $(".nav-product").attr("hidden", false);
+                            $(".nav-report").attr("hidden", false);
                             break;
                         case "STAFF":
                             break;
                         case "MANAGER":
+                            $(".nav-product").attr("hidden", false);
+                            $(".nav-report").attr("hidden", false);
                             break;
                         default:
-                            alert("Không xác định được quyền người dùng!");
+                            showToast("Không xác định được quyền người dùng!", "error");
                             window.location.href = "login";
                     }
                 }
@@ -907,17 +911,67 @@
                    method: "PATCH",
                    headers: vHeaders,
                    success: function(response) {
-                       alert("Thay đổi trạng thái đơn hàng thành công!");
+                       showToast("Trạng thái đơn hàng đã được thay đổi!", "success");
              
                    },
                    error: function(xhr, status, error) {
-                       console.log(error);
+                       showToast("Thay đổi trạng thái thất bại!", "error");
                    }
                    
                });
                let vKeyword = ($("#input-search").val() || "").trim();
                 callApiToLoadListOrders(vKeyword);
            }
+           
+           
+           function showToast(message, type) {
+                // Lấy phần tử Toast và toast-content
+                var toastEl = document.getElementById('myToast');
+                var toastContent = toastEl.querySelector('#toast-content');
+                var iconToast = toastEl.querySelector('.icon-toast i');
+                var zoneIcon = toastEl.querySelector('.icon-toast');
+
+                // Cập nhật nội dung thông báo
+                if (toastContent) {
+                    toastContent.textContent = message;
+                }
+
+                // Xóa các lớp màu và icon cũ
+                zoneIcon.classList.remove('bg-success', 'bg-danger', 'bg-warning', 'bg-info');
+                if (iconToast) {
+                    iconToast.classList.remove('bi-check-lg', 'bi-exclamation-triangle', 'bi-info-circle');
+                }
+
+                // Cập nhật màu nền và icon dựa trên type
+                if (type === "success") {
+                    if (iconToast) {
+                        iconToast.classList.add('bi-check-lg'); // Icon check cho success
+                    }
+                } else if (type === "error") {
+                    zoneIcon.classList.add('bg-danger');
+                    if (iconToast) {
+                        iconToast.classList.add('bi-x-circle'); // Icon lỗi cho error
+                    }
+                } else if (type === "warning") {
+                    zoneIcon.classList.add('bg-warning');
+                    if (iconToast) {
+                        iconToast.classList.add('bi-exclamation-triangle'); // Icon cảnh báo cho warning
+                    }
+                } else {
+                    zoneIcon.classList.add('bg-info');
+                    if (iconToast) {
+                        iconToast.classList.add('bi-info-circle'); // Icon thông tin cho info
+                    }
+                }
+
+                // Khởi tạo và hiển thị Toast
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            }
+            
+            function deleteCookie(name) {
+                document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            }
         });
     </script>
 </body>

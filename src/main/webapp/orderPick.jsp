@@ -560,7 +560,7 @@
         </div>
       </div>
     </div>
-
+    <%@ include file="toast.jsp" %>
     <!-- Bootstrap 5 JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -676,11 +676,14 @@
                     contentType: "application/json",
                     data: JSON.stringify(vOrderData),
                     success: function(response) {
-                        alert("Tạo đơn hàng thành công!");
+                        showToast("Tạo đơn hàng thành công!", "success");
                         localStorage.clear();
-                        window.location.href = "order";
+                        setTimeout(function() {
+                            window.location.href = "order";
+                        }, 2000);
                     },
                     error: function (error) {
+                        showToast("Tạo đơn hàng thất bại, vui lòng thử lại!", "error");
                         console.error("Error loading products:", error);
                     }
                 });
@@ -811,6 +814,10 @@
                         loadDetailProductToPopupUpdate(response);
                     },
                     error: function (error) {
+                        if (xhr.status === 403) {
+                            deleteToken("token");
+                            window.location.href = "login";
+                        }
                         console.error("Error loading products:", error);
                     }
                 });
@@ -1001,7 +1008,7 @@
                         case "MANAGER":
                             break;
                         default:
-                            alert("Không xác định được quyền người dùng!");
+                            showToast("Không xác định được quyền người dùng!", "error");
                             window.location.href = "login";
                     }
                 }
@@ -1009,6 +1016,56 @@
                     window.location.href = "login";
                 }
             }
+            
+              function showToast(message, type) {
+                // Lấy phần tử Toast và toast-content
+                var toastEl = document.getElementById('myToast');
+                var toastContent = toastEl.querySelector('#toast-content');
+                var iconToast = toastEl.querySelector('.icon-toast i');
+                var zoneIcon = toastEl.querySelector('.icon-toast');
+
+                // Cập nhật nội dung thông báo
+                if (toastContent) {
+                    toastContent.textContent = message;
+                }
+
+                // Xóa các lớp màu và icon cũ
+                zoneIcon.classList.remove('bg-success', 'bg-danger', 'bg-warning', 'bg-info');
+                if (iconToast) {
+                    iconToast.classList.remove('bi-check-lg', 'bi-exclamation-triangle', 'bi-info-circle');
+                }
+
+                // Cập nhật màu nền và icon dựa trên type
+                if (type === "success") {
+                    if (iconToast) {
+                        iconToast.classList.add('bi-check-lg'); // Icon check cho success
+                    }
+                } else if (type === "error") {
+                    zoneIcon.classList.add('bg-danger');
+                    if (iconToast) {
+                        iconToast.classList.add('bi-x-circle'); // Icon lỗi cho error
+                    }
+                } else if (type === "warning") {
+                    zoneIcon.classList.add('bg-warning');
+                    if (iconToast) {
+                        iconToast.classList.add('bi-exclamation-triangle'); // Icon cảnh báo cho warning
+                    }
+                } else {
+                    zoneIcon.classList.add('bg-info');
+                    if (iconToast) {
+                        iconToast.classList.add('bi-info-circle'); // Icon thông tin cho info
+                    }
+                }
+
+                // Khởi tạo và hiển thị Toast
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            }
+            
+            function deleteCookie(name) {
+                document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            }
+
         });
     </script>
 </body>

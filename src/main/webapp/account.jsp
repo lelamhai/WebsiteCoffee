@@ -86,14 +86,14 @@
             </div>
         </div>
         <div class="wrap-nav">
-            <div class="nav-item">
+            <div class="nav-item nav-product">
                 <a href="product">
                     <i class="bi bi-cup-straw"></i>
                     Sản phẩm
                 </a>
             </div>
 
-            <div class="nav-item">
+            <div class="nav-item nav-order">
                 <a href="processing">
                     <i class="bi bi-cart"></i>
                     Đơn hàng
@@ -101,23 +101,16 @@
 
             </div>
 
-            <div class="nav-item">
+            <div class="nav-item  nav-report">
                 <a href="report">
                     <i class="bi bi-bar-chart"></i>
-                    Tài chính
+                    Báo cáo
                 </a>
             </div>
-            <div class="nav-item active">
+            <div class="nav-item nav-account active">
                 <a href="account">
                     <i class="bi bi-people"></i>
                     Tài Khoản
-                </a>
-            </div>
-
-            <div class="nav-item">
-                <a href="#">
-                    <i class="bi bi-box"></i>
-                    Nguyên liệu
                 </a>
             </div>
         </div>
@@ -174,10 +167,6 @@
         <div class="content-area">
             <div class="d-flex justify-content-between mb-4 flex-wrap">
                 <div class="mb-2">
-                    <button class="btn btn-outline-secondary sort-button">
-                        Sắp xếp: Danh mục
-                        <span class="sort-icon"><img src="imgs/arrows-down.png" alt="alt" />️</span>
-                    </button>
                 </div>
 
                 <div class="d-flex gap-2 flex-wrap" style="align-items: center;">
@@ -364,7 +353,7 @@
         </div>
     </div>
 
-
+     <%@ include file="toast.jsp" %>
     <!-- Bootstrap 5 JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -383,7 +372,7 @@
             }
         });
     </script>
-
+    
     <script>
         $(document).ready(function() {
             // VÙNG 1: VÙNG KHAI BÁO BIẾN TOÀN CỤC
@@ -488,7 +477,10 @@
                         loadUserDataToTable(response);
                     },
                     error: function(error) {
-                        console.log(error);
+                        if (error.status === 403) {
+                            deleteCookie("token");
+                            window.location.href = "login";
+                        }
                     }
                 });
             }
@@ -513,9 +505,11 @@
                         $("#create-modal").modal("hide");
                         resetFormCreateAccount();
                         callApiToGetListUser("");
+                        showToast("Tạo tài khoản thành công!", "success");
                     },
                     error: function(error) {
                         console.log(error);
+                        showToast("Có lỗi xảy ra, vui lòng thử tại!", "error");
                     }
                 });
             }
@@ -641,14 +635,19 @@
                     contentType: "application/json",
                     data: JSON.stringify(vUserDataUpdate),
                     success: function(response) {
-                        $("#edit-modal").modal("hide");
                         let vKeyword = $("#input-search").val();
                         callApiToGetListUser(vKeyword);
+                        showToast("Cập nhật tài khoản thành công!", "success");
+                        $("#input-password-update").val("");
                     },
                     error: function(error) {
                         console.log(error);
+                        showToast("Cập nhật tài khoản thất bại!", "error");
+                        
                     }  
+
                 });
+                $("#edit-modal").modal("hide");
             }
 
             function navigateToCorrectPage() {
@@ -752,7 +751,10 @@
                     return true;
                 }
             }
-
+            
+            function deleteCookie(name) {
+                document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            }
         });
     </script>
 

@@ -1,5 +1,5 @@
 <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11">
-    <div id="myToast" class="toast text-white" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+    <div id="myToast" class="toast text-white" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
         <div class="d-flex">
             <div class="toast-body">
                 <div class="icon-toast">

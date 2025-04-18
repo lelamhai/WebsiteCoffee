@@ -295,7 +295,7 @@
         <div class="wrap-orderpick">
               <!-- Header -->
               <div class="d-flex justify-content-between align-items-center mb-3">
-                  <a href="product" class="back-button">
+                  <a href="processing" class="back-button">
                       <i class="bi bi-arrow-left me-2"></i>
                       <span class="fw-medium">Đặt hàng</span>
                   </a>
@@ -611,6 +611,7 @@
     </div>
 
 </body>
+<%@ include file="toast.jsp" %>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="js/action.js"></script>
@@ -685,7 +686,7 @@
             if (cart.length > 0) {
                 window.location.href = "orderpick";
             } else {
-                alert("Giỏ hàng trống!");
+                showToast("Giỏ hàng trống!", "warning");
             }
         });
 
@@ -739,6 +740,7 @@
                 error: function (xhr, status, error) {
                     console.error("Error loading products:", error);
                     if (xhr.status === 403) {
+                        deleteToken("token");
                         window.location.href = "login";
                     }
                 }
@@ -817,6 +819,7 @@
                     console.error("Error loading products:", error);
                     gIsLoading = false;
                     if (xhr.status === 403) {
+                        deleteToken("token");
                         window.location.href = "login";
                     }
                 }
@@ -873,6 +876,7 @@
                 error: function (xhr, status, error) {
                     console.error("Không thể tải danh sách danh mục!");
                     if (xhr.status === 403) {
+                        deleteToken("token");
                         window.location.href = "login";
                     }
                 }
@@ -981,7 +985,7 @@
                     case "MANAGER":
                         break;
                     default:
-                        alert("Không xác định được quyền người dùng!");
+                        showToast("Không xác định được quyền người dùng!", "error");
                         window.location.href = "login";
                     }
                 }
@@ -989,7 +993,57 @@
                     window.location.href = "login";
                 }
             }
-    });
+        
+        
+            function showToast(message, type) {
+                // Lấy phần tử Toast và toast-content
+                var toastEl = document.getElementById('myToast');
+                var toastContent = toastEl.querySelector('#toast-content');
+                var iconToast = toastEl.querySelector('.icon-toast i');
+                var zoneIcon = toastEl.querySelector('.icon-toast');
+
+                // Cập nhật nội dung thông báo
+                if (toastContent) {
+                    toastContent.textContent = message;
+                }
+
+                // Xóa các lớp màu và icon cũ
+                zoneIcon.classList.remove('bg-success', 'bg-danger', 'bg-warning', 'bg-info');
+                if (iconToast) {
+                    iconToast.classList.remove('bi-check-lg', 'bi-exclamation-triangle', 'bi-info-circle');
+                }
+
+                // Cập nhật màu nền và icon dựa trên type
+                if (type === "success") {
+                    if (iconToast) {
+                        iconToast.classList.add('bi-check-lg'); // Icon check cho success
+                    }
+                } else if (type === "error") {
+                    zoneIcon.classList.add('bg-danger');
+                    if (iconToast) {
+                        iconToast.classList.add('bi-x-circle'); // Icon lỗi cho error
+                    }
+                } else if (type === "warning") {
+                    zoneIcon.classList.add('bg-warning');
+                    if (iconToast) {
+                        iconToast.classList.add('bi-exclamation-triangle'); // Icon cảnh báo cho warning
+                    }
+                } else {
+                    zoneIcon.classList.add('bg-info');
+                    if (iconToast) {
+                        iconToast.classList.add('bi-info-circle'); // Icon thông tin cho info
+                    }
+                }
+
+                // Khởi tạo và hiển thị Toast
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            }
+            
+            function deleteCookie(name) {
+                document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            }
+        });
 </script>
 
 </html>
