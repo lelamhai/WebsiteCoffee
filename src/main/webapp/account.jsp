@@ -4,10 +4,6 @@
     Author     : ADMIN
 --%>
 
-<%@page import="models.Category"%>
-<%@page import="models.CategoryModel"%>
-<%@page import="models.Product"%>
-<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -477,10 +473,12 @@
                         loadUserDataToTable(response);
                     },
                     error: function(error) {
+                    
                         if (error.status === 403) {
                             deleteCookie("token");
                             window.location.href = "login";
                         }
+                        showToast(error.responseText, "error");
                     }
                 });
             }
@@ -509,7 +507,7 @@
                     },
                     error: function(error) {
                         console.log(error);
-                        showToast("Có lỗi xảy ra, vui lòng thử tại!", "error");
+                        showToast(error.responseText, "error");
                     }
                 });
             }

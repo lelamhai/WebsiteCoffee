@@ -1,13 +1,3 @@
-<%-- 
-    Document   : MenuAdmin
-    Created on : Mar 28, 2025, 11:07:42 AM
-    Author     : ADMIN
---%>
-
-<%@page import="models.Category"%>
-<%@page import="models.CategoryModel"%>
-<%@page import="models.Product"%>
-<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -357,7 +347,7 @@
                 .catch(error => {
                     console.error('Lỗi khi tải thống kê báo cáo:', error);
                     if (error.status === 403) {
-                        deleteToken("token");
+                        deleteCookie("token");
                         window.location.href = "login";
                     }
                 });

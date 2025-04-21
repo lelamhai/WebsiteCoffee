@@ -4,10 +4,6 @@
     Author     : ADMIN
 --%>
 
-<%@page import="models.Category"%>
-<%@page import="models.CategoryModel"%>
-<%@page import="models.Product"%>
-<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
@@ -125,7 +121,7 @@
 
         <div class="wrap-order-button" style="display: flex; justify-content: center;">
             <div class="order-button">
-                <a href="order.jsp" style="text-decoration: none;">Đặt hàng</a>
+                <a href="order" style="text-decoration: none;">Đặt hàng</a>
             </div>
         </div>
         <div class="wrap-nav">
@@ -387,16 +383,6 @@
                                 id="productName" value="">
                         </div>
                         <div class="mb-3">
-                            <select class="form-select" id="category" name="category">
-                                <option value="-1" selected>Danh mục</option>
-                                <% List<Category> categries = (List<Category>) request.getAttribute("categries");
-                                        %>
-                                        <% if (categries !=null) { for (Category c : categries) { %>
-                                            <option value="<%= c.getId()%>">
-                                                <%= c.getCategoryName()%>
-                                            </option>
-                                            <% } }%>
-                            </select>
                         </div>
                         <div class="mb-3">
                             <div class="input-group">
@@ -518,15 +504,6 @@
                         </div>
                         <div class="mb-3">
                             <label for="size" class="form-label">Danh mục</label>
-                            <select class="form-select" id="edit-category" name="category">
-                                <% List<Category> editCategries = (List<Category>) request.getAttribute("categries");
-                                        %>
-                                        <% if (categries !=null) { for (Category c : editCategries) { %>
-                                            <option value="<%= c.getId()%>">
-                                                <%= c.getCategoryName()%>
-                                            </option>
-                                            <% } }%>
-                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="size" class="form-label">Giá gốc</label>
