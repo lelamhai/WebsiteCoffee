@@ -253,9 +253,30 @@
                 <canvas id="myChart"></canvas>
             </div>
         </div>
-
-
-
+        
+        <div class="content-area">
+            <div style="width: 100%;">
+                <h5>Top 10 sản phẩm bán chạy</h5>
+                <table class="warp-table">
+                    <thead class="table-header">
+                        <tr>
+                            <th>Cot1</th>
+                            <th>Cot2</th>
+                            <th>Cot3</th>
+                            <th>Cot4</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Nội dung 1</td>
+                            <td>Nội dung 2</td>
+                            <td>Nội dung 3</td>
+                            <td>Nội dung 4</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 
