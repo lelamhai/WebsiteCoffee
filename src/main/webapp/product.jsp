@@ -244,7 +244,7 @@
                         </div>
                         <button id="btn-close-modal-create" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" style="overflow: auto;">
                         <div class="mb-3">
                             <input type="text" placeholder="Tên" name="productName" class="form-control"
                                 id="productName" autocomplete="off">
@@ -258,7 +258,7 @@
                             <div class="input-group">
                                 <input type="text" placeholder="Giá gốc" name="productPrice" class="form-control"
                                     id="price" autocomplete="off">
-                                <span style="position: fixed; right: 7%; padding-top: 10px; z-index: 99;">đ</span>
+                                 <span style="position: absolute;top: 10px;right: 15px;">đ</span>
                             </div>
                         </div>
                         <div class="mb-3">
@@ -268,16 +268,29 @@
                                 <option value="1">Nóng</option>
                             </select>
                         </div>
+                        
+                        <style>
+                            
+                            #wrap-productsize-create .row span {
+                                position: absolute;
+                                top: 10px; 
+                                right: -90%;
+                            }
+                            
+                            #wrap-productsize-create .row {
+                                position: relative;
+                            }
+                        </style>
+                        
                         <div class="">
                             <label for="size" class="form-label">Kích cỡ</label>
                             <div id="wrap-productsize-create" class="wrap-productsize">
-                                
                                 <div class="row" style="padding: 0 15px; padding-bottom: 15px;">
                                     <input type="text"  name="size-create" class="form-control col-md-6"
                                         value="" style="width: 48%; margin-right: 2%">
                                     <input type="text" name="productPriceOfSizeM" class="form-control col-md-6"
                                         style="width: 48%; margin-left: 2%">
-                                    <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
+                                    <span>đ</span>
                                 </div>
                             </div>
                         </div>
@@ -343,7 +356,7 @@
                         </div>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" style="overflow: auto;">
                         <div class="mb-3">
                             <label for="size" class="form-label">Tên</label>
                             <input type="text" name="productName" class="form-control edit-productname">
@@ -356,7 +369,7 @@
                             <label for="size" class="form-label">Giá gốc</label>
                             <div class="input-group">
                                 <input type="number" name="productPrice" class="form-control edit-baseprice">
-                                <span style="position: fixed; right: 7%; padding-top: 10px; z-index: 99;">đ</span>
+                                <span style="position: absolute; top: 10px;right: 10px;">đ</span>
                             </div>
                         </div>
                         <div class="mb-3">
@@ -367,6 +380,19 @@
                                 <option value="1">Nóng</option>
                             </select>
                         </div>
+                        
+                        <style>
+                            #wrap-productsize-edit .row {
+                                position: relative;
+                            }
+                            
+                            #wrap-productsize-edit .row .span {
+                                position: absolute;
+                                top: 10px;
+                                right: -90%;
+                            }
+                        </style>
+                        
                         <div class="mb-3">
                             <label for="size" class="form-label">Kích cỡ</label>
                             <div id="wrap-productsize-edit" class="wrap-productsize">
@@ -376,7 +402,7 @@
                                     <input type="number" name="productPriceOfSizeS"
                                         class="form-control col-md-6 edit-productPriceOfSizeS"
                                         style="width: 48%; margin-left: 2%">
-                                    <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
+                                    <span style="position: absolute;top: 10px;right: -90%;">đ</span>
                                 </div>
                                 <div class="row" style="padding: 0 15px; padding-bottom: 15px;">
                                     <input type="text" readonly name="productSizeM" class="form-control col-md-6"
@@ -384,7 +410,7 @@
                                     <input type="number" name="productPriceOfSizeM"
                                         class="form-control col-md-6 edit-productPriceOfSizeM"
                                         style="width: 48%; margin-left: 2%">
-                                    <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
+                                    <span>đ</span>
                                 </div>
                                 <div class="row" style="padding: 0 15px;">
                                     <input type="text" readonly name="productSizeL" class="form-control col-md-6"
@@ -392,7 +418,7 @@
                                     <input type="number" name="productPriceOfSizeL"
                                         class="form-control col-md-6 edit-productPriceOfSizeL"
                                         style="width: 48%; margin-left: 2%">
-                                    <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
+                                    <span>đ</span>
                                 </div>
                             </div>
                         </div>
@@ -451,7 +477,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-        <script src="js/action.js"></script>
+        <script src="js/action.js?v=" + new Date().getTime()></script>
         <script>
             $(document).ready(function () {
                 // VÙNG 1: VÙNG KHAI BÁO BIẾN TOÀN CỤC
