@@ -340,6 +340,8 @@
                          style="border-radius: 50%; width: 40px; height: 40px;">
                           <i class="bi bi-cart"></i>
                       </a>
+                      
+                      <div style="background-color: red; width: 5px; height: 5px; border-radius: 50%; position: relative; right: 11px; top: -7px;"></div>
                   </div>
               </div>
         </div>
