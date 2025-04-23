@@ -86,6 +86,12 @@
             </div>
         </div>
         <div class="wrap-nav">
+            <div class="nav-item nav-category" hidden>
+                <a href="category">
+                    <i class="bi bi-grid"></i>
+                    Danh mục
+                </a>
+            </div>
             <div class="nav-item nav-product active">
                 <a href="product"><i class="bi bi-cup-straw"></i> Sản phẩm</a>
             </div>
@@ -481,7 +487,6 @@
         <script>
             $(document).ready(function () {
                 // VÙNG 1: VÙNG KHAI BÁO BIẾN TOÀN CỤC
-                const gBASE_URL = "http://localhost:8080";
                 let gPage = 1;
                 let gSize = 10;
                 let gCurrentDeleteId = null;
@@ -933,6 +938,7 @@
                         switch (vRole) {
                             case "ADMIN":
                                 $(".nav-account").attr("hidden", false);
+                                $(".nav-category").attr("hidden", false);
                                 break;
                             case "STAFF":
                                 window.location.href = "order";

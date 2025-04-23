@@ -82,6 +82,12 @@
             </div>
         </div>
         <div class="wrap-nav">
+            <div class="nav-item nav-category" hidden>
+                <a href="category">
+                    <i class="bi bi-grid"></i>
+                    Danh mục
+                </a>
+            </div>
             <div class="nav-item nav-product">
                 <a href="product">
                     <i class="bi bi-cup-straw"></i>
@@ -289,7 +295,7 @@
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.vi.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="<%= request.getContextPath() %>/js/action.js"></script>
+    <script src="js/action.js?v=" + new Date().getTime()></script>
 
     <!-- Custom JavaScript -->
     <script>
@@ -462,6 +468,7 @@
                     switch (role) {
                         case "ADMIN":
                             $(".nav-account").attr("hidden", false);
+                            $(".nav-category").attr("hidden", false);
                             break;
                         case "STAFF":
                             window.location.href = "order";

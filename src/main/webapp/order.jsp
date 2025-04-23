@@ -602,11 +602,10 @@
 <%@ include file="toast.jsp" %>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="js/action.js"></script>
+<script src="js/action.js?v=" + new Date().getTime()></script>
 <script>
     $(document).ready(function () {
         // VÙNG 1: VÙNG KHAI BÁO BIẾN TOÀN CỤC
-        const BASE_URL = "http://localhost:8080";
         let gPage = 1;
         let gSize = 12;
         let gTotalPage = null;
@@ -724,7 +723,7 @@
                     Authorization: "Token " + getCookie("token")
             };
             $.ajax({
-                url: BASE_URL + "/products/" + productId + "/details",
+                url: gBASE_URL + "/products/" + productId + "/details",
                 method: "GET",
                 headers: vHeaders,
                 success: function (response) {
@@ -740,7 +739,7 @@
             $(".product-name").text(responseProductData.productName);
             var productStatus = responseProductData.isAvailable == true ? "còn" : "hết";
             $(".product-status").text(productStatus);
-            var imgUrl = BASE_URL + responseProductData.urlImage;
+            var imgUrl = gBASE_URL + responseProductData.urlImage;
             $(".product-image").attr('src', imgUrl);
 
 
@@ -789,7 +788,7 @@
             };
 
             $.ajax({
-                url: BASE_URL + "/categories/" + categoryId + "/products?page=" + gPage + "&size=" + gSize + "&keyword=" + vSearchValue,
+                url: gBASE_URL + "/categories/" + categoryId + "/products?page=" + gPage + "&size=" + gSize + "&keyword=" + vSearchValue,
                 method: "GET",
                 headers: vHeaders,
                 success: function (response) {
@@ -822,7 +821,7 @@
                 var price = product.listPrice.split(',')[0].trim();
                 var priceNum = Number(price.replace(/\D/g, '')); // bỏ ký tự không phải số
                 var vprice = priceNum.toLocaleString('vi-VN') + ' đ';
-                var urlImage = BASE_URL + product.urlImage;
+                var urlImage = gBASE_URL + product.urlImage;
                 var status = product.isAvailable === true ? "còn" : "hết";
                 var productCard = `
                         <div class="col-6 col-md-4 col-lg-3">
@@ -855,7 +854,7 @@
                     Authorization: "Token " + getCookie("token")
             };
             $.ajax({
-                url: BASE_URL + "/categories/",
+                url: gBASE_URL + "/categories/",
                 method: "GET",
                 headers: vHeaders,
                 success: function (data) {

@@ -125,6 +125,12 @@
             </div>
         </div>
         <div class="wrap-nav">
+            <div class="nav-item nav-category">
+                <a href="category">
+                    <i class="bi bi-grid"></i>
+                    Danh mục
+                </a>
+            </div>
             <div class="nav-item nav-product" hidden>
                 <a href="product">
                     <i class="bi bi-cup-straw"></i>
@@ -607,7 +613,7 @@
     <!-- Bootstrap 5 JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="js/action.js"></script>
+    <script src="js/action.js?v=" + new Date().getTime()></script>
     <!-- Custom JavaScript -->
     <script>
         // Mobile menu toggle

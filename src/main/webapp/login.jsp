@@ -72,7 +72,7 @@
     <script>
         $(document).ready(function () {
             // VÙNG 1: VÙNG KHAI BÁO BIẾN TOÀN CỤC
-            const gBASE_URL = 'http://localhost:8080';
+            // 
             // VÙNG 2: VÙNG GÁN VÀ THỰC THI SỰ KIỆN CHO CÁC ELEMENT
             onPageLoading();
 
