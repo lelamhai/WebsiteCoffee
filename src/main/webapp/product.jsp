@@ -1106,8 +1106,8 @@
                                         value="" style="width: 48%; margin-right: 2%">
                                     <input type="text" name="productPriceOfSizeM" class="form-control col-md-6"
                                         style="width: 48%; margin-left: 2%">
-                                    <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
-                                </div>`
+                                    <span>đ</span>
+                                </div>`;
                     vWrapProductSize.append(vSize);
                     gNumberSize ++;
                     if(gNumberSize == 3 ) {
@@ -1115,10 +1115,10 @@
                     }
                 }
 
-                function resetFormCreate() {
+                async function resetFormCreate() {
                     $("#wrap-productsize-create").empty();
                     gNumberSize = 0;
-                    onBtnAddSizeCreateClick();     
+                    await onBtnAddSizeCreateClick();     
                     $('#create-productImage').val('');
                     $(".preview-image").attr("src", "").hide();
                     $(".wrap-upload").css("display", "none");

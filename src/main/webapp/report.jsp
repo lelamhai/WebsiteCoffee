@@ -262,14 +262,14 @@
         
         <div class="content-area">
             <div style="width: 100%;">
-                <h5>Top 10 sản phẩm bán chạy</h5>
-                <table class="warp-table">
+                <h5>Top sản phẩm bán chạy</h5>
+                <table id="table-top-selling-product" class="warp-table">
                     <thead class="table-header">
                         <tr>
-                            <th>Cot1</th>
-                            <th>Cot2</th>
-                            <th>Cot3</th>
-                            <th>Cot4</th>
+                            <th>Xếp hạng</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng đã bán</th>
+                            <th>Doanh thu</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -353,7 +353,8 @@
 
             Promise.all([
                 fetchReportStatistics(selectedDate, reportType),
-                fetchChartData(selectedDate, reportType)
+                fetchChartData(selectedDate, reportType),
+                fetchTopSellingProduct(selectedDate, reportType)
             ]).catch(error => {
                 console.error('Đã xảy ra lỗi khi tải báo cáo:', error);
             });
@@ -399,6 +400,68 @@
                     }
                 });
         }
+        
+        function fetchTopSellingProduct(dataview, type) {
+            let vHeaders = {
+                Authorization: "Token " + getCookie("token")
+            };
+             const [day, month, year] = dataview.split("/").map(Number);
+            const date = new Date(year, month - 1, day);
+
+            let startDate, endDate;
+
+            switch (type) {
+                case 'daily':
+                    startDate = dataview;
+                    endDate = dataview;
+                    break;
+
+                case 'weekly':
+                    const dayOfWeek = date.getDay(); // 0 (CN) đến 6 (T7)
+                    const diffToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+                    const monday = new Date(date);
+                    monday.setDate(date.getDate() + diffToMonday);
+
+                    const sunday = new Date(monday);
+                    sunday.setDate(monday.getDate() + 6);
+
+                    startDate = formatDateToDDMMYYYY(monday);
+                    endDate = formatDateToDDMMYYYY(sunday);
+                    break;
+
+                case 'monthly':
+                    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+                    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+                    startDate = formatDateToDDMMYYYY(firstDay);
+                    endDate = formatDateToDDMMYYYY(lastDay);
+                    break;
+
+                case 'yearly':
+                    const startOfYear = new Date(date.getFullYear(), 0, 1);
+                    const endOfYear = new Date(date.getFullYear(), 11, 31);
+
+                    startDate = formatDateToDDMMYYYY(startOfYear);
+                    endDate = formatDateToDDMMYYYY(endOfYear);
+                    break;
+
+                default:
+                    console.error("Invalid typeDate");
+                    return;
+            }
+            console.log(startDate);
+            console.log(endDate);
+            $.ajax({
+                url: gBASE_URL + `/statistics/top-selling-products?startDate=` + startDate + `&endDate=` + endDate + `&sortType=QUANTITY`,
+                method: 'GET',
+                success: function(response) {
+                    loadTopSellingProductToTable(response);
+                },
+                error: function(error) {
+                    console.log(error.responseText);
+                } 
+            })
+        }
 
         // VÙNG 5: CÁC HÀM TIỆN ÍCH & CẬP NHẬT GIAO DIỆN
         function updateStatistics(reportData) {
@@ -409,7 +472,7 @@
             $("#profit").text(formatCurrency(Math.round(reportData.profit)) + `đ`);
             $("#avg-price").text(formatCurrency(Math.round(reportData.avgOrderValue)) + `đ`);
         }
-
+        
         function initializeChart() {
             const ctx = document.getElementById('myChart').getContext('2d');
 
@@ -487,6 +550,27 @@
             
             function deleteCookie(name) {
                 document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            }
+            
+            function loadTopSellingProductToTable(topProductData) {
+                let vTableBody = $("#table-top-selling-product tbody");
+                vTableBody.empty();
+                if (topProductData.length == 0) {
+                    vTableBody.empty().append('<tr><td colspan="5">Chưa có sản phẩm nào được bán ra</td></tr>');
+                    return;
+                }
+                
+                $.each(topProductData, function(index, product) {
+                    let formattedTotalRevenue = Number(product.productRevenue).toLocaleString('vi-VN');
+                    let vRow = `
+                    <tr>
+                        <td>`+ (index + 1) + `</td>
+                        <td>`+ product.productName + `</td>
+                        <td>`+ product.quantitySold + ` sản phẩm</td>
+                        <td>`+ formattedTotalRevenue + `đ</td>
+                    </tr>`;
+                    vTableBody.append(vRow);
+                });
             }
     </script>
 

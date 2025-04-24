@@ -813,6 +813,7 @@
                             $(".nav-account").attr("hidden", false);
                             $(".nav-product").attr("hidden", false);
                             $(".nav-report").attr("hidden", false);
+                            $(".nav-category").attr("hidden", false);
                             break;
                         case "STAFF":
                             break;

@@ -670,7 +670,7 @@
                     Authorization: "Token " + getCookie("token")
                 };
                 $.ajax({
-                    url: BASE_URL + "/orders/",
+                    url: gBASE_URL + "/orders/",
                     method: "POST",
                     headers: vHeaders,
                     contentType: "application/json",
@@ -807,7 +807,7 @@
                 };
                 
                 $.ajax({
-                    url: BASE_URL + "/products/findby?variantId=" + variantId,
+                    url: gBASE_URL + "/products/findby?variantId=" + variantId,
                     method: "GET",
                     headers: vHeaders,
                     success: function (response) {
@@ -827,7 +827,7 @@
                 $(".product-name").text(responseProductData.productName);
                 var productStatus = responseProductData.isAvailable == true ? "còn" : "hết";
                 $(".product-status").text(productStatus);
-                var imgUrl = BASE_URL + responseProductData.urlImage;
+                var imgUrl = gBASE_URL + responseProductData.urlImage;
                 $(".product-image").attr('src', imgUrl);
 
                 var vSizeContainer = $(".size-container");
@@ -984,7 +984,7 @@
             // Hàm gọi APi để lấy next ordercode
             function callApiToGetNextOrderCode() {
                 $.ajax({
-                    url: BASE_URL + "/orders/next-order-code",
+                    url: gBASE_URL + "/orders/next-order-code",
                     method: "GET",
                     success: function(response) {
                         $("#order-code").html("#" + response);
