@@ -341,7 +341,7 @@
                           <i class="bi bi-cart"></i>
                       </a>
                       
-                      <div style="background-color: red; width: 5px; height: 5px; border-radius: 50%; position: relative; right: 11px; top: -7px;"></div>
+                      <div id="div-have-item" style="background-color: red; width: 5px; height: 5px; border-radius: 50%; position: relative; right: 11px; top: -7px;"></div>
                   </div>
               </div>
         </div>
@@ -683,9 +683,10 @@
         });
 
         // VÙNG 3: VÙNG VIẾT CÁC HÀM XỬ LÝ SỰ KIỆN
-        function onPageLoading() {
+        async function onPageLoading() {
             callAPIToloadProductByCategory(1);
             callApiToLoadCategories();
+            await changeCartDisplay();
         }
 
         function onChangeQuantityClick(element) {
@@ -711,8 +712,9 @@
             } else {
                 cart.push(product);
             }
-
+            
             localStorage.setItem('cart', JSON.stringify(cart));
+            changeCartDisplay();
 
             $("#create-modal").modal("hide");
         }
@@ -1030,6 +1032,15 @@
             
             function deleteCookie(name) {
                 document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            }
+            
+            function changeCartDisplay() {
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                if(cart.length) {
+                    $("#div-have-item").show();
+                } else {
+                    $("#div-have-item").hide();
+                }
             }
         });
 </script>

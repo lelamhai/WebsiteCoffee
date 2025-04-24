@@ -1112,6 +1112,8 @@
                     gNumberSize ++;
                     if(gNumberSize == 3 ) {
                         $("#add-size-create").hide();
+                    } else if(gNumberSize < 3) {
+                        $("#add-size-create").show();
                     }
                 }
 

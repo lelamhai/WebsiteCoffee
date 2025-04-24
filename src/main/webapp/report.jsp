@@ -126,7 +126,7 @@
                 <button class="btn btn-sm d-none mobile-menu-toggle">
                     <i class="bi bi-list"></i>
                 </button>
-                <span class="fw-medium">Tài chính</span>
+                <span class="fw-medium">Báo cáo</span>
             </div>
 
             <div class="d-flex align-items-center">
@@ -532,6 +532,7 @@
                         case "ADMIN":
                             $(".nav-account").attr("hidden", false);
                             $(".nav-category").attr("hidden", false);
+
                             break;
                         case "STAFF":
                             window.location.href = "order";

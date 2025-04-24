@@ -125,7 +125,7 @@
             </div>
         </div>
         <div class="wrap-nav">
-            <div class="nav-item nav-category">
+            <div class="nav-item nav-category" hidden>
                 <a href="category">
                     <i class="bi bi-grid"></i>
                     Danh mục
@@ -171,7 +171,7 @@
                 <button class="btn btn-sm d-none mobile-menu-toggle">
                     <i class="bi bi-list"></i>
                 </button>
-                <span class="fw-medium">Menu</span>
+                <span class="fw-medium">Đơn hàng</span>
             </div>
 
             <div class="d-flex align-items-center">
