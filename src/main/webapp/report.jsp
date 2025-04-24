@@ -129,12 +129,51 @@
                 <span class="fw-medium">Báo cáo</span>
             </div>
 
-            <div class="d-flex align-items-center">
+            <style>
+                    .wrap-info-person {
+                        color: #fff;
+                        background-color: #79bdff;
+                        padding: 0;
+                    }
+                    
+                    .wrap-info-person li {
+                        padding: 10px 15px;
+                        background-color: #79bdff;
+                    }
+                    
+                    .item-info {
+                        padding: 10px 15px;
+                    }
+                    
+                    .wrap-info-person .item-info-active {
+                       background-color: #2994ff;
+                    }
+                    
+                    
+                    .wrap-info-person li:hover {
+                        background-color: #2994ff;
+                    }
+                    
+                </style>
+            
+             <div class="d-flex align-items-center" style="position: relative;">
                 <div class="notification-icon">
                     <i class="bi bi-bell small"></i>
                 </div>
-                <div class="user-avatar">
-                    <img src="imgs/Avatar.png" alt="User" class="w-100 h-100">
+                <div class="user-avatar dropdown">
+                    <div class="dropdown-toggle" data-bs-toggle="dropdown">
+                        <img src="imgs/Avatar.png" alt="User" class="w-100 h-100">
+                    </div>
+                    <ul class="dropdown-menu wrap-info-person">
+                        <li class="item-info-active">
+                            <span><i class="bi bi-box-arrow-right"></i></span>
+                            <span>Đăng xuất</span>
+                        </li>
+                        <li>
+                            <span><i class="bi bi-box-arrow-right"></i></span>
+                            <span>Đăng xuất</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
