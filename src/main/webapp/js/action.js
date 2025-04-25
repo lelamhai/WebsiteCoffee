@@ -45,6 +45,17 @@ function getUserRoleFromToken(token) {
   }
 }
 
+function getUsernameFromToken(token) {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.user.username || "unknown"; // fallback nếu không có username
+  } catch (e) {
+    console.error("Không lấy được username từ token:", e);
+    return "unknown";
+  }
+}
+
+
 function isTokenValid(token) {
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
@@ -149,3 +160,156 @@ function navigateToCorrectPage() {
     }
   }
 }
+
+
+function convertToGMT7(inputStr) {
+                const [time, date] = inputStr.split(" ");
+                const [hour, minute, second] = time.split(":").map(Number);
+                const [day, month, year] = date.split("/").map(Number);
+
+                const utcDate = new Date(Date.UTC(year, month - 1, day, hour, minute, second));
+                const gmt7Date = new Date(utcDate.getTime() + 7 * 3600 * 1000);
+
+                return (
+                  gmt7Date.getUTCHours().toString().padStart(2, "0") + ":" +
+                  gmt7Date.getUTCMinutes().toString().padStart(2, "0") + ":" +
+                  gmt7Date.getUTCSeconds().toString().padStart(2, "0") + " " +
+                  gmt7Date.getUTCDate().toString().padStart(2, "0") + "/" +
+                  (gmt7Date.getUTCMonth() + 1).toString().padStart(2, "0") + "/" +
+                  gmt7Date.getUTCFullYear()
+                );
+              }
+              
+              
+              
+    // Function to validate password
+    function validatePasswordAndShowErrorChangePass(password, errorElementId) {
+        if (password.trim() === "") {
+            $('#' + errorElementId).text("Vui lòng nhập mật khẩu").show();
+            return false;
+        }
+        var $errorEl = $('#' + errorElementId);
+
+        var minLength = /.{8,}/;
+        var hasLowerCase = /[a-z]/;
+        var hasUpperCase = /[A-Z]/;
+        var hasNumber = /[0-9]/;
+
+        var error = "";
+
+        if (!minLength.test(password)) {
+            error = "Mật khẩu phải có ít nhất 8 ký tự.";
+        } else if (!hasLowerCase.test(password)) {
+            error = "Mật khẩu phải có ít nhất một chữ thường.";
+        } else if (!hasUpperCase.test(password)) {
+            error = "Mật khẩu phải có ít nhất một chữ in hoa.";
+        } else if (!hasNumber.test(password)) {
+            error = "Mật khẩu phải có ít nhất một chữ số.";
+        }
+
+        if (error !== "") {
+            $errorEl.text(error).show();
+            return false;
+        } else {
+            $errorEl.text("").hide();
+            return true;
+        }
+    }
+
+    // Function to validate input data
+    function validateDataChangePass(data) {
+        // Reset error messages
+        $('#password-error-current').hide().text('');
+        $('#password-error-new').hide().text('');
+        $('#password-error-confirm').hide().text('');
+
+        var isValid = true;
+
+        // Validate current password
+        if (!data.currentPassword) {
+            $('#password-error-current').text('Vui lòng nhập mật khẩu hiện tại').show();
+            isValid = false;
+        }
+
+        // Validate new password with strict rules
+        if (!validatePasswordAndShowErrorChangePass(data.newPassword, 'password-error-new')) {
+            isValid = false;
+        }
+
+        // Validate confirm new password
+        if (data.newPassword !== data.confirmNewPassword) {
+            $('#password-error-confirm').text('Mật khẩu xác nhận không khớp').show();
+            isValid = false;
+        }
+
+        return isValid;
+    }
+    
+    function getDataChangePass() {
+        return {
+            username: $('#input-username-change').val(),
+            currentPassword: $('#input-current-pass').val(),
+            newPassword: $('#input-new-pass').val(),
+            confirmNewPassword: $('#input-confirm-new-pass').val()
+        };
+    }
+
+    // Function to reset form and error messages
+    function resetFormChangePass() {
+        $('#input-current-pass').val('');
+        $('#input-new-pass').val('');
+        $('#input-confirm-new-pass').val('');
+        $('#password-error-current').hide().text('');
+        $('#password-error-new').hide().text('');
+        $('#password-error-confirm').hide().text('');
+    }
+    
+                // Hàm xử lý sự kiện nhấn nút xác nhận đổi mật khẩu
+            function onBtnConfirmChangePassClick() {
+                let data = getDataChangePass();
+                
+                if (!validateDataChangePass(data)) {
+                    return;
+                }
+                $.ajax({
+                    url: gBASE_URL + '/api/v1/users/change-password', // Replace with your actual API endpoint
+                    type: 'PUT',
+                    data: JSON.stringify({
+                        username: data.username,
+                        oldPassword: data.currentPassword,
+                        newPassword: data.newPassword
+                    }),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        // Handle success
+                        showToast('Đổi mật khẩu thành công!', "success");
+                        resetFormChangePass();
+                        $('#modal-change-pass').modal('hide');
+                    },
+                    error: function(xhr) {
+                        // Handle error
+                        resetFormChangePass();
+                        showToast('Mật khẩu hiện tại không chính xác!', "error");
+                        $('#modal-change-pass').modal('hide');
+                    }
+                });
+            }
+            
+            
+function callApiToLogOut() {
+                let vHeaders = {
+                    Authorization: "Bearer " + getCookie("token")
+                };
+               $.ajax({
+                    url: gBASE_URL + "/api/v1/users/logout",
+                    method: "POST",
+                    headers: vHeaders,
+                    success: function(response) {
+                        deleteCookie("token");
+                        window.location.href = "login";
+                    },
+                    error: function(error) {
+                        console.log(error.responseText);
+                    }
+               });
+           }

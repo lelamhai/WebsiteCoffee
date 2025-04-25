@@ -1,0 +1,76 @@
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .header-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .notification-icon {
+            font-size: 1.2rem;
+            color: #666;
+        }
+        
+        .account-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+        
+        .dropdown-menu {
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: none;
+            width: 220px;
+        }
+        
+        .dropdown-item {
+            padding: 12px 16px;
+        }
+        
+        .dropdown-item i {
+            margin-right: 12px;
+            color: #666;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .add-button {
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-weight: 500;
+        }
+        
+        .add-button i {
+            margin-right: 5px;
+        }
+        
+        .pagination-container {
+            margin-top: 20px;
+        }
+        
+        .tab-container {
+            margin-top: 20px;
+        }
+        
+        .tab-custom {
+            padding: 12px 24px;
+            background-color: #e4e6eb;
+            color: #65676b;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            border: none;
+        }
+        
+        .tab-custom.active {
+            background-color: #4c5b76;
+            color: white;
+        }

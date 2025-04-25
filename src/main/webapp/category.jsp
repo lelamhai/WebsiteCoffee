@@ -16,6 +16,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/style_account.css">
     <style>
         .modal.right .modal-dialog {
             position: fixed;
@@ -130,11 +131,28 @@
             </div>
 
             <div class="d-flex align-items-center">
-                <div class="notification-icon">
-                    <i class="bi bi-bell small"></i>
-                </div>
                 <div class="user-avatar">
-                    <img src="imgs/Avatar.png" alt="User" class="w-100 h-100">
+                    
+                    <div class="dropdown">
+                            <button class="btn btn-link p-0 dropdown-toggle d-flex align-items-center" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none;">
+                                <img src="imgs/Avatar.png" alt="User" class="w-100 h-100">
+                            </button>
+                            
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+                                <li>
+                                    <a id="btn-change-pass" class="dropdown-item" href="#">
+                                        <i class="bi bi-lock"></i>
+                                        Đổi mật khẩu
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="btn-log-out" class="dropdown-item" href="#">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        Đăng xuất
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                 </div>
             </div>
         </div>
@@ -247,6 +265,54 @@
                         nhận</button>
                     <button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Hủy</button>
                 </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="modal-change-pass" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="height: 100%;">
+                    <div class="modal-header">
+                        <div class="wrap-header-modal">
+                            <div style="font-size: 20px; font-weight: 500">Đổi mật khẩu</div>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="size" class="form-label" style="font-size:16px">Tên đăng nhập</label>
+                            <input id="input-username-change" type="text" name="username" class="form-control edit-productname" value="" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="size" class="form-label" style="font-size:16px">Mật khẩu hiện tại</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="input-current-pass"
+                                    value="" style="width: 100%" autocomplete="off">
+                                <small id="password-error-current" style="color: red; display: none;"></small>
+                            </div>
+                            
+                        </div>
+                        <div class="mb-3">
+                            <label for="size" class="form-label" style="font-size:16px">Mật khẩu mới</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="input-new-pass"
+                                    value="" style="width: 100%" autocomplete="off">
+                                <small id="password-error-new" style="color: red; display: none;"></small>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="size" class="form-label" style="font-size:16px">Xác nhận mật khẩu mới</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="input-confirm-new-pass"
+                                    value="" style="width: 100%" autocomplete="off">
+                                <small id="password-error-confirm" style="color: red; display: none;"></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btn-confirm-change-pass" class="btn btn-primary">Xác nhận</button>
+                            <button id="btn-close-change-pass" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                    </div>
             </div>
         </div>
     </div>
@@ -402,7 +468,24 @@
             $("#btn-confirm-delete").on("click", function() {
                 onBtnConfirmDeleteClick();
             });
-
+            
+            $("#btn-change-pass").on("click", function() {
+                $("#modal-change-pass").modal("show");
+            });
+            
+            $("#btn-confirm-change-pass").on("click", function() {
+                onBtnConfirmChangePassClick();
+            });
+            
+            $("#btn-close-change-pass").on("click", function() {
+                $("#modal-change-pass").modal("hide");
+                resetFormChangePass();
+            });
+            
+            $("#btn-log-out").on("click", function() {
+               callApiToLogOut(); 
+            });
+            
             // VÙNG 3: VÙNG VIẾT CÁC HÀM XỬ LÝ SỰ KIỆN
             function onPageLoading() {
                 navigateToCorrectPage();
@@ -496,7 +579,7 @@
                             <td id=`+ category.categoryId +`>`+ (vStartNum++) +`</td>
                             <td>`+ category.categoryName +`</td>
                             <td>`+ category.numberProduct +` sản phẩm</td>
-                            <td>`+ category.timeUpdated +`</td>
+                            <td>`+ convertToGMT7(category.timeUpdated) +`</td>
                             <td>`+ category.updatedBy+`</td>
                             <td>
                                 <button class="action-button edit-btn" data-bs-toggle="modal"
@@ -622,6 +705,8 @@
                             alert("Không xác định được quyền người dùng!");
                             window.location.href = "login";
                     }
+                    const username = getUsernameFromToken(token);
+                    $("#input-username-change").val(username);
                 }
                 else {
                     window.location.href = "login";
