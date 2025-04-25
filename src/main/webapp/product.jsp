@@ -435,7 +435,7 @@
                     <div class="modal-body" style="overflow: auto;">
                         <div class="mb-3">
                             <label for="size" class="form-label">Tên</label>
-                            <input type="text" name="productName" class="form-control edit-productname">
+                            <input id="edit-productname" type="text" name="productName" class="form-control edit-productname">
                         </div>
                         <div class="mb-3">
                             <label for="size" class="form-label">Danh mục</label>
@@ -690,6 +690,7 @@
                         $.ajax({
                             url: gBASE_URL + `/products/` + gCurrentDeleteId,
                             type: "DELETE",
+                            headers: vHeaders,
                             success: function (response) {
                                     $("#confirmationModal").modal("hide");
                                     callApiToLoadProducts(($("#input-search").val() || "").trim());
@@ -967,7 +968,7 @@
                         headers: vHeaders,
                         success: function (response) {
                             $(".edit-productid").val(response.productId);
-                            $(".edit-productname").val(response.productName);
+                            $("#edit-productname").val(response.productName);
                             $(".edit-baseprice").val(response.basePrice);
                             $("#edit-category").val(response.categoryId);
                             $("#edit-haveType").val(response.haveType);
@@ -981,12 +982,11 @@
                             let vWrapProductSize = $("#wrap-productsize-edit");
                             vWrapProductSize.empty();
                             $.each(response.variants, function (index, variant) {
-                                console.log(response.variants);
                                 let vSizeHtml = `<div class="row" style="padding: 0 15px; padding-bottom: 15px;">
                                     <input type="text" name="size" class="form-control col-md-6" value="`+ variant.sizeName + `" style="width: 48%; margin-right: 2%">
                                     <input type="text" name="price" value="`+ variant.price + `"class="form-control col-md-6" style="width: 48%; margin-left: 2%">
                                     <span style="position: fixed; right: -88%; padding-top: 10px;">đ</span>
-                                </div>`
+                                </div>`;
                                 vWrapProductSize.append(vSizeHtml);
                             });
                         },
@@ -1057,7 +1057,7 @@
                     }
 
                     const productData = {
-                        productName: $(".edit-productname").val().trim(),
+                        productName: $("#edit-productname").val().trim(),
                         categoryId: $("#edit-category").val(),
                         basePrice: parseFloat($(".edit-baseprice").val()) || 0,
                         haveType: $("#edit-haveType").val(),
@@ -1085,12 +1085,13 @@
                             return false;
                         }
                         productData.productVariants.push({ size, price });
+                        
                     });
                     // If there was an error in variants, return null
                     if (hasError) {
                         return null;
                     }
-
+                    console.log(productData);
                     formData.append("data", JSON.stringify(productData));
                     return formData;
                 }
@@ -1137,7 +1138,7 @@
                         const price = parseFloat($(this).find('input:not([name="size-create"])').val()) || 0;
                         const variantpass = validateVariantData({ size, price }, productData.basePrice);
                         if (!variantpass) {
-                            hasError = true
+                            hasError = true;
                             return false;
                         }
                         productData.productVariants.push({ size, price });
