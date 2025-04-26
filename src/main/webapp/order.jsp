@@ -331,18 +331,7 @@
               <div class="wrap-control" style="display: flex; flex-wrap: nowrap; justify-content: space-between;">
                   <div class="wrap-tabs">
                       <ul class="nav nav-tabs border-0 mb-4" id="categoryTabs" style="margin-bottom: 0!important;">
-                          <li class="nav-item">
-                              <a class="nav-link active" href="#">Cà phê</a>
-                          </li>
-                          <li class="nav-item">
-                              <a class="nav-link" href="#">Trà sữa & Trà trái cây</a>
-                          </li>
-                          <li class="nav-item">
-                              <a class="nav-link" href="#">Sinh tố & nước ép</a>
-                          </li>
-                          <li class="nav-item">
-                              <a class="nav-link" href="#">Đồ uống đá xay</a>
-                          </li>
+
                       </ul>
                   </div>
 
@@ -373,110 +362,7 @@
 
             <!-- Product Grid -->
             <div id="product-list" class="row g-4">
-                <!-- Product 1 -->
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="product-card">
-                        <div class="product-img-container">
-                            <img src="imgs/Head.png" alt="Cà phê đen(Nóng)" class="product-img">
-                        </div>
-                        <div class=" product-info">
-                            <div class="badge-container">Còn</div>
-                            <h5 class="product-title">Cà phê đen(Nóng)</h5>
-                            <div class="d-flex justify-content-end">
-                                <div class="product-price">10.000đ</div>
-                            </div>
-                            <div class="quantity-control">
-                                <button class="quantity-btn">−</button>
-                                <div class="quantity-display">0</div>
-                                <button class="quantity-btn">+</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Product 2 -->
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="product-card">
-                        <div class="product-img-container">
-                            <img src="imgs/Head.png" alt="Cà phê đen(Lạnh)" class="product-img">
-                        </div>
-                        <div class="product-info">
-                            <div class="badge-container">Còn</div>
-                            <h5 class="product-title">Cà phê đen(Lạnh)</h5>
-                            <div class="d-flex justify-content-end">
-                                <div class="product-price">15.000đ</div>
-                            </div>
-                            <div class="quantity-control">
-                                <button class="quantity-btn">−</button>
-                                <div class="quantity-display">0</div>
-                                <button class="quantity-btn">+</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 3 -->
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="product-card">
-                        <div class="product-img-container">
-                            <img src="imgs/Head.png" alt="Cà phê sữa(Lạnh)" class="product-img">
-                        </div>
-                        <div class="product-info">
-                            <div class="badge-container">Còn</div>
-                            <h5 class="product-title">Cà phê sữa(Lạnh)</h5>
-                            <div class="d-flex justify-content-end">
-                                <div class="product-price">15.000đ</div>
-                            </div>
-                            <div class="quantity-control">
-                                <button class="quantity-btn">−</button>
-                                <div class="quantity-display">0</div>
-                                <button class="quantity-btn">+</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 4 -->
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="product-card">
-                        <div class="product-img-container">
-                            <img src="imgs/Head.png" alt="Cà phê sữa(Nóng)" class="product-img">
-                        </div>
-                        <div class="product-info">
-                            <div class="badge-container">Còn</div>
-                            <h5 class="product-title">Cà phê sữa(Nóng)</h5>
-                            <div class="d-flex justify-content-end">
-                                <div class="product-price">30.000đ</div>
-                            </div>
-                            <div class="quantity-control">
-                                <button class="quantity-btn">−</button>
-                                <div class="quantity-display">0</div>
-                                <button class="quantity-btn">+</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 5 -->
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="product-card">
-                        <div class="product-img-container">
-                            <img src="imgs/Head.png" alt="Cà phê dừa" class="product-img">
-                        </div>
-                        <div class="product-info">
-                            <div class="badge-container">Còn</div>
-                            <h5 class="product-title">Cà phê dừa</h5>
-                            <div class="d-flex justify-content-end">
-                                <div class="product-price">30.000đ</div>
-                            </div>
-                            <div class="quantity-control">
-                                <button class="quantity-btn">−</button>
-                                <div class="quantity-display">0</div>
-                                <button class="quantity-btn">+</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
