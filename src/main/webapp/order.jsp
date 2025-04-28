@@ -654,8 +654,8 @@
         // VÙNG 3: VÙNG VIẾT CÁC HÀM XỬ LÝ SỰ KIỆN
         async function onPageLoading() {
             navigateToCorrectPage();
-            callAPIToloadProductByCategory(1);
-            callApiToLoadCategories();
+            await callApiToLoadCategories();
+            await callAPIToloadProductByCategory(currentCategoryId);
             await changeCartDisplay();
         }
 
@@ -825,21 +825,25 @@
             let vHeaders = {
                     Authorization: "Token " + getCookie("token")
             };
-            $.ajax({
-                url: gBASE_URL + "/categories/",
-                method: "GET",
-                headers: vHeaders,
-                success: function (data) {
-                    loadResponseCategory(data);
-
-                },
-                error: function (error) {
-                    console.error("Không thể tải danh sách danh mục!");
-                    if (error.status === 403) {
-                        deleteCookie("token");
-                        window.location.href = "login";
+            return new Promise((resolve, reject) => { 
+                $.ajax({
+                    url: gBASE_URL + "/categories/all?page=1&size=8",
+                    method: "GET",
+                    headers: vHeaders,
+                    success: function (data) {
+                        currentCategoryId = data.contents[0]?.categoryId;
+                        loadResponseCategory(data);
+                        resolve();
+                    },
+                    error: function (error) {
+                        console.error("Không thể tải danh sách danh mục!", error);
+                        if (error.status === 403) {
+                            deleteCookie("token");
+                            window.location.href = "login";
+                        }
+                        reject(error); 
                     }
-                }
+                });
             });
         }
 
@@ -847,11 +851,11 @@
             const $tabs = $('#categoryTabs');
             $tabs.empty();
 
-            $.each(response.data, function (index, category) {
+            $.each(response.contents, function (index, category) {
                 const activeClass = index === 0 ? 'active' : '';
                 const tab = `
                     <li class="nav-item">
-                        <a class="nav-link `+ activeClass + `" href="#" data-id="` + category.id + `">` + category.categoryName + `</a>
+                        <a class="nav-link `+ activeClass + `" href="#" data-id="` + category.categoryId + `">` + category.categoryName + `</a>
                     </li>
                 `;
                 $tabs.append(tab);
